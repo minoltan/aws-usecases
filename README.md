@@ -100,3 +100,4 @@ This repo will demonstrae the aws services feature
 - **Get inside of the folder**  ```cd sqs-patters```
 - **Install required dependencies**
 npm install @aws-cdk/aws-sqs @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-dynamodb @aws-cdk/aws-lambda-event-sources
+- ** For SQS details, visit sqs-patterns/src/README.md 
