@@ -1,0 +1,19 @@
+{
+  "name": "order",
+  "version": "1.0.0",
+  "description": "",
+  "main": "order-processor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.848.0",
+    "@aws-sdk/client-sqs": "^3.848.0",
+    "@aws-sdk/util-dynamodb": "^3.848.0",
+    "uuid": "^11.1.0"
+  }
+}

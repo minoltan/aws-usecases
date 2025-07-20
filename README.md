@@ -3,8 +3,9 @@ This repo will demonstrae the aws services feature
 
 ## TABLE OF CONTENTS
 1. [Setup](#SETUP)
-2. [Deployment](#DEPLOYMENT)  
-3. [Author](#AUTHOR)
+2. [Deployment](#DEPLOYMENT)
+3. [SQS](#SQS)  
+4. [Author](#AUTHOR)
 
 ## SETUP
 
@@ -72,6 +73,19 @@ This repo will demonstrae the aws services feature
 - ```package.json```: Node.js project configuration, including scripts and dependencies.
 - ```package-lock.json```: Locks the exact versions of dependencies used in your project.
 
+5. **Each microservice folder creation**
+# Create directory and initialize package.json
+- ```mkdir -p src/handlers/order-submit```
+- ```cd src/handlers/order-submit```
+- ```npm init -y```
+
+6. **Install Docker and Ensure It's Running:**
+- ```sudo apt-get update```
+- ```sudo apt-get install docker.io```
+- ```sudo systemctl start docker```
+- ```sudo systemctl enable docker```
+- ```sudo usermod -aG docker $USER```
+
 ### CDK Commands
 - **```cdk verion```** Show the version
 - **```cdk init```** Initializes a new CDK project.
@@ -81,3 +95,8 @@ This repo will demonstrae the aws services feature
 - **```cdk bootstrap```** Initializes the AWS CDK toolkit in your AWS account.
 - **```cdk deploy```** Deploys the synthesized CloudFormation template to AWS.
 - **```cdk destroy```** Destroys the AWS resources created by the CDK.
+
+## SQS
+- **Get inside of the folder**  ```cd sqs-patters```
+- **Install required dependencies**
+npm install @aws-cdk/aws-sqs @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-dynamodb @aws-cdk/aws-lambda-event-sources
