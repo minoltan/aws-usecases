@@ -6,6 +6,7 @@ import { Construct } from "constructs";
 import { join } from "path";
 import { IQueue } from "aws-cdk-lib/aws-sqs";
 import { Duration } from "aws-cdk-lib";
+import { IBucket } from 'aws-cdk-lib/aws-s3';
 
 interface EcommerceMicroservicesProps {
     orderTable: ITable;
@@ -14,6 +15,7 @@ interface EcommerceMicroservicesProps {
     orderQueue: IQueue;
     paymentQueue: IQueue;
     imageProcessingQueue: IQueue;
+    uploadBucket: IBucket;
 }
 
 export class EcommerceMicroservices extends Construct {
@@ -30,12 +32,17 @@ export class EcommerceMicroservices extends Construct {
         // Handlers that write to SQS
         this.orderSubmitHandler = this.createOrderSubmitHandler(props.orderQueue);
         this.paymentSubmitHandler = this.createPaymentSubmitHandler(props.paymentQueue);
-        this.imageUploadHandler = this.createImageUploadHandler(props.imageProcessingQueue);
+        this.imageUploadHandler = this.createImageUploadHandler(props.imageProcessingQueue,props.uploadBucket);
 
         // Processors that read from SQS
         this.orderProcessor = this.createOrderProcessor(props.orderQueue, props.orderTable);
         this.paymentProcessor = this.createPaymentProcessor(props.paymentQueue, props.paymentTable);
         this.imageProcessor = this.createImageProcessor(props.imageProcessingQueue, props.productTable);
+
+        // Grant permissions to the specific handler functions
+        props.orderQueue.grantSendMessages(this.orderSubmitHandler);
+        props.paymentQueue.grantSendMessages(this.paymentSubmitHandler);
+        props.imageProcessingQueue.grantSendMessages(this.imageUploadHandler);
     }
 
     private createOrderSubmitHandler(orderQueue: IQueue): NodejsFunction {
@@ -60,16 +67,21 @@ export class EcommerceMicroservices extends Construct {
         });
     }
 
-    private createImageUploadHandler(imageQueue: IQueue): NodejsFunction {
-        return new NodejsFunction(this, 'ImageUploadHandler', {
+    private createImageUploadHandler(imageQueue: IQueue, uploadBucket: IBucket): NodejsFunction {
+       const fn = new NodejsFunction(this, 'ImageUploadHandler', {
             runtime: Runtime.NODEJS_20_X,
             entry: join(__dirname, "../src/image/image-upload.js"),
             environment: {
-                IMAGE_QUEUE_URL: imageQueue.queueUrl
+                IMAGE_QUEUE_URL: imageQueue.queueUrl,
+                UPLOAD_BUCKET: uploadBucket.bucketName
             },
             timeout: Duration.seconds(30),
             memorySize: 512
         });
+
+        imageQueue.grantSendMessages(fn);
+        uploadBucket.grantPut(fn);
+        return fn;
     }
 
     private createOrderProcessor(orderQueue: IQueue, orderTable: ITable): NodejsFunction {
@@ -114,18 +126,6 @@ export class EcommerceMicroservices extends Construct {
             },
             timeout: Duration.minutes(5),
             memorySize: 2048
-            // bundling: {
-            //     nodeModules: ['sharp'],
-            //     commandHooks: {
-            //     beforeInstall: () => [],
-            //     beforeBundling: () => [],
-            //     afterBundling: (inputDir, outputDir) => [
-            //         // Install sharp with platform-specific binaries
-            //         `npm install --prefix ${outputDir} --platform=linux --arch=x64 sharp`
-            //     ]
-            // },
-            // forceDockerBundling: true
-            // }
         });
 
         imageQueue.grantConsumeMessages(fn);

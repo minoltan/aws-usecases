@@ -14,3 +14,7 @@
 ## 3. Image Processing (Decoupled Heavy Workloads)
 ![Image Processing Flow](public/imageProcessing.png)<br />
 **Use Case: Async image resizing without blocking user requests**
+
+## S3 Bucket creation
+## Give permission to access queue and s3
+## First Dummy Queue created then added url to lambda, then real queue added in lambda, so need to remove dummy queue from lambda 

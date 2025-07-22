@@ -1,22 +1,22 @@
 // lib/queue.ts
 import { Duration } from "aws-cdk-lib";
 import { IFunction } from "aws-cdk-lib/aws-lambda";
-import { IQueue, Queue, QueueProps } from "aws-cdk-lib/aws-sqs";
+import { IQueue, Queue } from "aws-cdk-lib/aws-sqs";
 import { Construct } from "constructs";
 import { SqsEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 
-interface EcommerceQueueProps {
+interface QueueConsumers {
     orderConsumer: IFunction;
     paymentConsumer: IFunction;
     imageProcessor: IFunction;
 }
 
 export class EcommerceQueue extends Construct {
-    public readonly orderQueue: IQueue;
-    public readonly paymentQueue: IQueue;
-    public readonly imageProcessingQueue: IQueue;
+    public readonly orderQueue: Queue;
+    public readonly paymentQueue: Queue;
+    public readonly imageProcessingQueue: Queue;
 
-    constructor(scope: Construct, id: string, props: EcommerceQueueProps) {
+    constructor(scope: Construct, id: string) {
         super(scope, id);
 
         // Standard Queue for Order Processing (DB Write Buffer)
@@ -40,18 +40,22 @@ export class EcommerceQueue extends Construct {
             visibilityTimeout: Duration.minutes(30),
             retentionPeriod: Duration.days(2)
         });
+    }
 
-        // Configure event sources
-        props.orderConsumer.addEventSource(new SqsEventSource(this.orderQueue, {
+    public configureConsumers(consumers: QueueConsumers) {
+        // Configure event sources for order processing
+        consumers.orderConsumer.addEventSource(new SqsEventSource(this.orderQueue, {
             batchSize: 5,
             reportBatchItemFailures: true
         }));
 
-        props.paymentConsumer.addEventSource(new SqsEventSource(this.paymentQueue, {
+        // Configure event sources for payment processing
+        consumers.paymentConsumer.addEventSource(new SqsEventSource(this.paymentQueue, {
             batchSize: 1
         }));
 
-        props.imageProcessor.addEventSource(new SqsEventSource(this.imageProcessingQueue, {
+        // Configure event sources for image processing
+        consumers.imageProcessor.addEventSource(new SqsEventSource(this.imageProcessingQueue, {
             batchSize: 1
         }));
     }
