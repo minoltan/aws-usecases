@@ -101,3 +101,11 @@ This repo will demonstrae the aws services feature
 - **Install required dependencies**
 npm install @aws-cdk/aws-sqs @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-dynamodb @aws-cdk/aws-lambda-event-sources
 - **For SQS details, visit sqs-patterns/src/README.md** 
+
+## STREAK
+- **Create a new directory named** ```streak-system``` using the command: ```mkdir streak-system```.
+- **Get inside of the folder**  ```cd streak-system```
+- **Inside the hello-cdk directory, run the CDK initialization command:** ```cdk init app --language typescript```
+- **Install required dependencies**
+
+- **For STREAK details, visit streak-sytem/src/README.md** 
