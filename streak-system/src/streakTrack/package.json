@@ -1,0 +1,26 @@
+{
+  "name": "streakTrack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild your-entry-file.js --bundle --platform=node --target=node20 --outfile=dist/index.js --external:@aws-sdk/* --external:@smithy/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.848.0",
+    "@aws-sdk/client-sns": "^3.848.0",
+    "@aws-sdk/util-dynamodb": "^3.848.0",
+    "moment-timezone": "^0.6.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.2",
+    "@types/node": "^20.x",
+    "aws-cdk": "^2.x",
+    "aws-cdk-lib": "^2.x"
+  }
+}

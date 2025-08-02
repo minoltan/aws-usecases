@@ -3,7 +3,6 @@ import { Construct } from 'constructs';
 import { StreakApiGateway } from './apigateway';
 import { StreakMicroservices } from './microservice';
 import { StreakDatabase } from './database';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class StreakSystemStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -14,22 +13,26 @@ export class StreakSystemStack extends Stack {
 
     // Microservices
     const microservices = new StreakMicroservices(this, 'StreakMicroservices', {
-      streakTable: database.streakTable,
-      rewardTable: database.rewardTable
+      streakTable: database.streakTable
     });
 
 
    // API Gateway
     new StreakApiGateway(this, 'StreakApiGateway', {
-      streakUpdateHandler: microservices.streakUpdateHandler,
-      milestoneChoiceHandler: microservices.milestoneChoiceHandler,
-      freezePurchaseHandler: microservices.freezePurchaseHandler
+      streakTrackHandler: microservices.streakTrackHandler,
+      streakFreezeHandler: microservices.streakFreezeHandler,
+      streakGamePlayHandler: microservices.streakGamePlayHandler
     });
 
      // Outputs
-    new CfnOutput(this, 'StreakApiUrl', {
-      value: microservices.streakUpdateHandler.functionArn,
-      description: 'Streak API Endpoint'
+    new CfnOutput(this, 'StreakTrackApiUrl', {
+      value: microservices.streakTrackHandler.functionArn,
+      description: 'Streak Track API Endpoint'
+    });
+
+     new CfnOutput(this, 'StreakFreezeApiUrl', {
+      value: microservices.streakFreezeHandler.functionArn,
+      description: 'Streak Freeze API Endpoint'
     });
   }
 }
