@@ -12,7 +12,7 @@ interface SpinWheelMicroservicesProps {
 export class SpinWheelMicroservices extends Construct {
   public readonly claimSpinWheelHandler: NodejsFunction;
   public readonly createSpinWheelPrizeHandler: NodejsFunction;
-  public readonly getSpinWheelPrizeHandler: NodejsFunction;
+  public readonly getAllSpinWheelPrizeHandler: NodejsFunction;
 
   constructor(scope: Construct, id: string, props: SpinWheelMicroservicesProps) {
     super(scope, id);
@@ -20,14 +20,14 @@ export class SpinWheelMicroservices extends Construct {
     // Lambdas
     this.claimSpinWheelHandler = this.createClaimSpinWheelLambda(props.spinWheelTable);
     this.createSpinWheelPrizeHandler = this.createSpinWheelPrizeLambda(props.spinWheelTable);
-    this.getSpinWheelPrizeHandler = this.createGetSpinWheelPrizeLambda(props.spinWheelTable);
+    this.getAllSpinWheelPrizeHandler = this.createGetAllSpinWheelPrizeLambda(props.spinWheelTable);
 
   }
 
   private createClaimSpinWheelLambda(spinWheelTable: ITable): NodejsFunction {
     const fn = new NodejsFunction(this, 'claimSpinWheel', {
       runtime: Runtime.NODEJS_20_X,
-      entry: join(__dirname, "../src/spin/claimSpinWheelPrize/index.js"),
+      entry: join(__dirname, "../src/spin/claimSpinWheel/index.js"),
       environment: {
         DYNAMO_TABLE_NAME: spinWheelTable.tableName
       },
@@ -54,7 +54,7 @@ export class SpinWheelMicroservices extends Construct {
     return fn;
   }
 
-  private createGetSpinWheelPrizeLambda(spinWheelTable: ITable): NodejsFunction {
+  private createGetAllSpinWheelPrizeLambda(spinWheelTable: ITable): NodejsFunction {
     const fn = new NodejsFunction(this, 'getAllSpinWheelPrizes', {
       runtime: Runtime.NODEJS_20_X,
       entry: join(__dirname, "../src/prize/getAllSpinWheelPrizes/index.js"),
