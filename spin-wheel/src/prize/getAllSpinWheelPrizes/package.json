@@ -1,0 +1,26 @@
+{
+  "name": "getallspinwheelprizes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Minoltan Issack",
+   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IMI-SPIN-MODULE/getAllSpinWheelPrizes.git"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.716.0",
+    "@aws-sdk/util-dynamodb": "^3.716.0",
+    "kuuid": "^1.0.3"
+  }
+  
+ 
+  
+  
+}
