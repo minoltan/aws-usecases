@@ -10,7 +10,10 @@ This repo will demonstrae the aws services feature
 ## SETUP
 
 ### AWS Cost Management & Good Practices
-1. Use the AWS Free Tier Wisely: AWS gives you many services for free up to certain limits (some forever, some for 12 months). This is great for learning and building small apps without paying. Always check your usage to stay within these free limits using tools like the Cost Management Dashboard.
+1. Use the AWS Free Tier Wisely: 
+   1.1 For new users who have signed up after the July 15 update, your AWS Free Tier is now a credit-based system. Instead of the old 12-month free limits, you get up to $200 in credits to explore over 30 services for six months. This new model helps prevent surprise bills by automatically closing your account if you run out of credits or hit the six-month limit. Use the Cost Management Dashboard to track your credit balance and the remaining time.
+
+   1.2 For existing users who signed up before July 15, your account remains under the original AWS Free Tier, which includes 12-month free and always-free offers. The new credit-based system does not apply to you. Continue to use the Cost Management Dashboard and set up billing alerts to monitor your usage and avoid unexpected charges after your 12-month free period ends. Remember that the "always-free" services will continue to be free regardless of your account's age.
 
 2. "Turn Off the Lights": If you're not using AWS resources (like servers or databases), shut them down or delete them. Just like turning off lights when you leave a room, this saves money. The AWS CDK helps a lot: cdk deploy builds your app, and cdk destroy easily removes everything, preventing unexpected costs.
 
