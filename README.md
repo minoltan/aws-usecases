@@ -5,6 +5,8 @@ This repo will demonstrae the aws services feature
 1. [Setup](#SETUP)
 2. [Deployment](#DEPLOYMENT)
 3. [SQS](#SQS)  
+4. [STREAK-SYSTEM](#STREAK-SYSTEM)
+5. [SPIN-WHEEL](#SPIN-WHEEL)    
 4. [Author](#AUTHOR)
 
 ## SETUP
@@ -107,10 +109,18 @@ This repo will demonstrae the aws services feature
 npm install @aws-cdk/aws-sqs @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-dynamodb @aws-cdk/aws-lambda-event-sources
 - **For SQS details, visit sqs-patterns/src/README.md** 
 
-## STREAK
+## STREAK-SYSTEM
 - **Create a new directory named** ```streak-system``` using the command: ```mkdir streak-system```.
 - **Get inside of the folder**  ```cd streak-system```
-- **Inside the hello-cdk directory, run the CDK initialization command:** ```cdk init app --language typescript```
+- **Inside the streak-system directory, run the CDK initialization command:** ```cdk init app --language typescript```
 - **Install required dependencies**
 
 - **For STREAK details, visit streak-sytem/src/README.md** 
+
+## SPIN-WHEEL
+- **Create a new directory named** ```spin-wheel``` using the command: ```mkdir spin-wheel```.
+- **Get inside of the folder**  ```cd spin-wheel```
+- **Inside the spin-wheel directory, run the CDK initialization command:** ```cdk init app --language typescript```
+- **Install required dependencies**
+
+- **For SPIN WHEEL details, visit streak-sytem/src/README.md** 

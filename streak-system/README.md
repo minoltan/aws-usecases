@@ -4,3 +4,6 @@
 
 # Add Region
 - /bin/streak-sysem.ts
+
+# For Detail
+- **[visit my medium blog]()** 

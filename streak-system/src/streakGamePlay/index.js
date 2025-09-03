@@ -12,6 +12,8 @@ export const handler = async (event) => {
       return formatResponse(400, { error: "userId and won (true/false) are required" });
     }
 
+    // Timezone Handling Solution
+
     const today = new Date().toISOString().split("T")[0];
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
