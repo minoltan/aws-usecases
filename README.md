@@ -83,6 +83,8 @@ This repo will demonstrae the aws services feature
 - ```mkdir -p src/handlers/order-submit```
 - ```cd src/handlers/order-submit```
 - ```npm init -y```
+- ```npm pkg set type=module```
+- ```npm install @aws-sdk/client-dynamodb@^3.873.0 @aws-sdk/util-dynamodb@^3.751.0 jwt-decode@^4.0.0``` **Example dependencies**
 
 6. **Install Docker and Ensure It's Running:**
 - ```sudo apt-get update```
