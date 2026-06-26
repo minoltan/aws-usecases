@@ -1,0 +1,69 @@
+sequenceDiagram
+    participant Client
+    participant APIGW as API Gateway
+    participant ApiHandler as order-api-handler
+    participant DDB as orders (DynamoDB)
+    participant OrderProc as order-processor
+    participant PayProc as payment-processor
+    participant Bedrock as Amazon Nova Lite
+    participant SNS as order-status-topic
+    participant DLQ as order-processor-dlq
+
+    rect rgb(230, 245, 255)
+    Note over Client,DLQ: Flow 1 — POST /orders (submit order)
+    Client->>APIGW: POST /orders {customerId, amount}
+    APIGW->>ApiHandler: invoke (proxy)
+    ApiHandler->>DDB: PutItem createOrderRecord<br/>condition: orderId not exists
+    alt orderId already exists
+        DDB-->>ApiHandler: ConditionalCheckFailedException
+        ApiHandler->>DDB: GetItem existing record
+        ApiHandler-->>APIGW: 409 Conflict
+    else created
+        ApiHandler->>OrderProc: InvokeCommand Event,<br/>DurableExecutionName=order-id
+        OrderProc-->>ApiHandler: DurableExecutionArn
+        ApiHandler->>DDB: UpdateItem executionArn
+        ApiHandler-->>APIGW: 202 Accepted
+    end
+    APIGW-->>Client: 202 Accepted orderId, status, executionArn
+
+    Note over OrderProc,DLQ: order-processor continues asynchronously (durable execution)
+    OrderProc->>Bedrock: InvokeModel Nova Lite - order validation
+    OrderProc->>PayProc: invoke
+    PayProc->>DDB: UpdateItem status=AWAITING_APPROVAL, callbackId<br/>via waitForCallback
+    OrderProc->>DDB: write status
+    OrderProc->>SNS: publish status
+    opt invocation fails after retries
+        OrderProc--xDLQ: failed event payload
+    end
+    end
+
+    rect rgb(255, 245, 230)
+    Note over Client,DDB: Flow 2 — GET /orders/{orderId} (check status)
+    Client->>APIGW: GET /orders/{orderId}
+    APIGW->>ApiHandler: invoke (proxy)
+    ApiHandler->>DDB: GetItem orderId
+    alt not found
+        DDB-->>ApiHandler: undefined
+        ApiHandler-->>APIGW: 404 Not Found
+    else found
+        DDB-->>ApiHandler: order record
+        ApiHandler-->>APIGW: 200 OK record
+    end
+    APIGW-->>Client: response
+    end
+
+    rect rgb(235, 255, 235)
+    Note over Client,PayProc: Flow 3 — POST /orders/{orderId}/approval (approve or reject)
+    Client->>APIGW: POST /orders/{orderId}/approval {approved, reason}
+    APIGW->>ApiHandler: invoke (proxy)
+    ApiHandler->>DDB: GetItem orderId
+    alt status not AWAITING_APPROVAL or no callbackId
+        ApiHandler-->>APIGW: 409 Conflict
+    else
+        ApiHandler->>PayProc: SendDurableExecutionCallbackSuccessCommand<br/>CallbackId, Result approved/reason
+        Note over PayProc: resumes waitForCallback,<br/>parses result, builds PaymentResult
+        ApiHandler->>DDB: UpdateItem status=APPROVAL_SUBMITTED
+        ApiHandler-->>APIGW: 200 OK orderId, status
+    end
+    APIGW-->>Client: response
+    end
