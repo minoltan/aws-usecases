@@ -48,10 +48,24 @@ function isValidItems(items: unknown): items is OrderItem[] {
     );
 }
 
+// orderId becomes part of the /orders/{orderId} URL path and a DynamoDB key,
+// so a client-supplied value must be restricted to URL-safe characters with a
+// sane length - it's accepted as a client-chosen idempotency key (matches the
+// pattern of e.g. Stripe's Idempotency-Key), not validated for "real-looking"
+// content.
+const ORDER_ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
+
+function isValidOrderId(orderId: unknown): orderId is string {
+    return typeof orderId === 'string' && ORDER_ID_PATTERN.test(orderId);
+}
+
 async function submitOrder(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
     const body = parseBody<Partial<Order> & { orderId?: string }>(event);
     if (!body || !body.customerId || !isValidItems(body.items)) {
         return jsonResponse(400, { message: 'customerId and a non-empty items array ({ productId, quantity }) are required' });
+    }
+    if (body.orderId !== undefined && !isValidOrderId(body.orderId)) {
+        return jsonResponse(400, { message: 'orderId must match ^[A-Za-z0-9_-]{1,128}$ if provided' });
     }
 
     const orderId = body.orderId || `ORD-${randomUUID()}`;

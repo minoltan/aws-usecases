@@ -221,6 +221,43 @@ export class OrderProcessingStack extends cdk.Stack {
     cancel.addMethod('POST', apiHandlerIntegration);
 
     // ---------------------------------------------------------------------
+    // Docs - Swagger UI + OpenAPI spec describing the 3 routes above
+    // ---------------------------------------------------------------------
+    const docsHandlerLogGroup = new logs.LogGroup(this, 'DocsHandlerLogGroup', {
+      logGroupName: '/aws/lambda/order-docs-handler',
+      retention: logs.RetentionDays.ONE_WEEK,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const docsHandler = new nodejs.NodejsFunction(this, 'DocsHandlerFunction', {
+      functionName: 'order-docs-handler',
+      runtime: lambda.Runtime.NODEJS_22_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'docs-handler.ts'),
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      bundling: {
+        minify: true,
+        sourceMap: true,
+        format: nodejs.OutputFormat.ESM,
+        banner: "import { createRequire } from 'module';const require = createRequire(import.meta.url);",
+        externalModules: [],
+      },
+      environment: {
+        NODE_OPTIONS: '--enable-source-maps',
+      },
+      logGroup: docsHandlerLogGroup,
+    });
+
+    const docsHandlerIntegration = new apigateway.LambdaIntegration(docsHandler);
+
+    const docs = restApi.root.addResource('docs');
+    docs.addMethod('GET', docsHandlerIntegration);
+
+    const openapiSpecResource = docs.addResource('openapi.json');
+    openapiSpecResource.addMethod('GET', docsHandlerIntegration);
+
+    // ---------------------------------------------------------------------
     // Notifications - forwards every OrderStatusTopic message as an email via
     // SES. AWS emails a verification link to NOTIFICATION_EMAIL after deploy;
     // it must be clicked once before sends succeed (SES sandbox mode).
@@ -331,6 +368,11 @@ export class OrderProcessingStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'OrderApiUrl', {
       value: restApi.url,
       description: 'Base URL of the order processing REST API',
+    });
+
+    new cdk.CfnOutput(this, 'ApiDocsUrl', {
+      value: `${restApi.url}docs`,
+      description: 'Swagger UI for the order processing REST API',
     });
 
     new cdk.CfnOutput(this, 'OrdersTableName', {

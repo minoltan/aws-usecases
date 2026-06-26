@@ -103,6 +103,19 @@ describe('api-handler', () => {
             expect(mockSend).not.toHaveBeenCalled();
         });
 
+        it('returns 400 when orderId contains characters unsafe for the URL path', async () => {
+            const event = makeEvent('POST', '/orders', {
+                orderId: 'ORD/1 bad',
+                customerId: 'CUST-1',
+                items: [{ productId: 'PROD-1', quantity: 1 }],
+            });
+            const response = (await handler(event)) as { statusCode: number };
+
+            expect(response.statusCode).toBe(400);
+            expect(mockedOrderStore.createOrderRecord).not.toHaveBeenCalled();
+            expect(mockSend).not.toHaveBeenCalled();
+        });
+
         it('returns 409 when orderId already exists, without invoking order-processor', async () => {
             const conflictError = Object.assign(new Error('conditional check failed'), {
                 name: 'ConditionalCheckFailedException',

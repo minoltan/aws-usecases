@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Order Processing API",
+    "version": "1.0.0",
+    "description": "REST API fronting the durable order-processing workflow: submit orders, check status, and request cancellation. Pricing is computed server-side from the inventory catalog - clients never supply an amount."
+  },
+  "paths": {
+    "/orders": {
+      "post": {
+        "summary": "Submit a new order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OrderSubmission" }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Order accepted; the durable order-processor execution has started",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/OrderSubmissionResponse" } }
+            }
+          },
+          "400": {
+            "description": "customerId and a non-empty items array are required",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          },
+          "409": {
+            "description": "orderId already exists",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "summary": "Check order status",
+        "parameters": [
+          { "name": "orderId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order record",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrderRecord" } } }
+          },
+          "404": {
+            "description": "No order found with that orderId",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/cancel": {
+      "post": {
+        "summary": "Request cancellation",
+        "description": "Only takes effect while the order is still in PROCESSING - the workflow's cancellation check runs once, early, before reserving inventory or charging payment.",
+        "parameters": [
+          { "name": "orderId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancellation requested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": { "type": "string" },
+                    "message": { "type": "string", "example": "Cancellation requested" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No order found with that orderId",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          },
+          "409": {
+            "description": "Order has moved past PROCESSING and can no longer be cancelled",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderItem": {
+        "type": "object",
+        "required": ["productId", "quantity"],
+        "properties": {
+          "productId": { "type": "string", "example": "PROD-001" },
+          "quantity": { "type": "integer", "minimum": 1, "example": 2 }
+        }
+      },
+      "OrderSubmission": {
+        "type": "object",
+        "required": ["customerId", "items"],
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,128}$",
+            "description": "Optional - auto-generated as ORD-<uuid> if omitted. Acts as a client idempotency key: resubmitting the same orderId returns 409 instead of creating a duplicate.",
+            "example": "ORD-CLIENT-001"
+          },
+          "customerId": { "type": "string", "example": "CUST-1" },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/components/schemas/OrderItem" }
+          }
+        }
+      },
+      "OrderSubmissionResponse": {
+        "type": "object",
+        "properties": {
+          "orderId": { "type": "string" },
+          "status": { "type": "string", "example": "PROCESSING" },
+          "executionArn": { "type": "string" }
+        }
+      },
+      "OrderRecord": {
+        "type": "object",
+        "properties": {
+          "orderId": { "type": "string" },
+          "customerId": { "type": "string" },
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/OrderItem" } },
+          "amount": {
+            "type": "number",
+            "nullable": true,
+            "description": "Server-computed total from the inventory catalog; absent until the reserve-inventory step prices the order"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PROCESSING", "PAYMENT_PENDING", "PAYMENT_COMPLETED", "PAYMENT_FAILED", "CANCELLED", "VALIDATION_FAILED", "PROCESSING_FAILED"]
+          },
+          "executionArn": { "type": "string" },
+          "cancelRequested": { "type": "boolean" },
+          "reservationId": { "type": "string" },
+          "message": { "type": "string" },
+          "validationResult": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

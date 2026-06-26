@@ -36,6 +36,7 @@ graph LR
 - **Durable Invocation** — `context.invoke()` calls the payment processor and durably waits for its result
 - **Email Notifications** — SNS topic fans out to a Lambda subscriber that emails order status via SES
 - **Cancellation API** — `POST /orders/{orderId}/cancel` flags an order while it's still early in the workflow
+- **API Docs** — `GET /docs` serves a Swagger UI for the REST API, backed by the OpenAPI spec at `GET /docs/openapi.json`
 - **Wait Operations** — 10-second cancellation window using `context.wait()`
 - **No Billing During Waits** — On-demand functions incur no compute charges during `context.wait()` and `context.invoke()` wait periods
 - **Step Retry** — Each step retries up to 10 times with exponential backoff (the validation step includes simulated 50% flakiness to demonstrate this — see `validation.ts`)
@@ -77,6 +78,8 @@ aws dynamodb put-item --table-name inventory --region $AWS_REGION \
 ```
 
 ### Try It
+
+> 📘 **Explore the API interactively**: open the `ApiDocsUrl` CDK output in a browser for a Swagger UI you can submit/check/cancel orders from directly.
 
 **1. Submit an order and capture the execution ARN:**
 

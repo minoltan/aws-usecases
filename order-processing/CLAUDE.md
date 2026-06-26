@@ -29,14 +29,15 @@ There is no lint script configured.
 
 ## Architecture
 
-This is a CDK app demonstrating **AWS Lambda Durable Functions** (`@aws/durable-execution-sdk-js`) for an order-processing saga. The interesting logic is the orchestration in `lib/lambda/order-processor.ts` and how it relates to the other three Lambdas — reading any one file in isolation won't explain the workflow.
+This is a CDK app demonstrating **AWS Lambda Durable Functions** (`@aws/durable-execution-sdk-js`) for an order-processing saga. The interesting logic is the orchestration in `lib/lambda/order-processor.ts` and how it relates to the other Lambdas — reading any one file in isolation won't explain the workflow.
 
-### The four Lambdas
+### The five Lambdas
 
 - **`order-processor.ts`** (durable) — the orchestrator. `withDurableExecution(...)` wraps a single async function; each side effect is wrapped in `context.step(name, fn)`, which checkpoints the result so replays don't re-run it. Flow: validate (Bedrock) → `context.wait()` 10s cancellation window → check cancellation (DB read) → price + reserve inventory → `context.invoke()` the payment processor → finalize. `context.invoke()` is a *durable* cross-function call — the caller suspends (no compute billed) until the callee's durable execution completes.
 - **`payment-processor.ts`** (durable) — currently a mock that always approves; invoked via `context.invoke()` from order-processor. This is intentionally a stand-in for a real payment gateway (tracked in the README's "Known Limitations").
 - **`api-handler.ts`** (plain Lambda, API Gateway proxy) — `POST /orders`, `GET /orders/{orderId}`, `POST /orders/{orderId}/cancel`. Fronts the durable workflow: claims the orderId in DynamoDB (conditional `PutItem`, so a resubmitted orderId 409s instead of double-starting a durable execution), then invokes `order-processor` asynchronously (`InvocationType: 'Event'`, `DurableExecutionName: order-${orderId}` for idempotency).
 - **`notification-emailer.ts`** (plain Lambda, SNS-triggered) — subscribed to the `OrderStatusTopic`; forwards every published `OrderResult` as an email via SES `SendEmail`. SES is in sandbox mode for this stack, so both sender and recipient must be the same verified identity (`NOTIFICATION_EMAIL` constant in the stack).
+- **`docs-handler.ts`** (plain Lambda, API Gateway proxy) — `GET /docs` (Swagger UI HTML) and `GET /docs/openapi.json` (the spec, imported directly from `openapi.json` via `resolveJsonModule`). Swagger UI's static assets load from a CDN at runtime, not bundled, so this function stays tiny. The spec URL is computed client-side from `window.location.pathname` so it works under any stage prefix without hardcoding it.
 
 ### Saga compensation pattern
 
