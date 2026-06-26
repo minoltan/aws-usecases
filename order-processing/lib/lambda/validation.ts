@@ -6,6 +6,7 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { DurableContextLogger, DurableLogger } from '@aws/durable-execution-sdk-js';
 import { Order, ValidationResult } from './types';
 import { BEDROCK_CONFIG } from './config';
+import { getOrderRecord } from './order-store';
 
 const bedrockClient = new BedrockRuntimeClient({ region: BEDROCK_CONFIG.region });
 
@@ -94,23 +95,21 @@ export async function validateOrderWithBedrock(
 }
 
 /**
- * Checks if an order has been cancelled (mock implementation)
- * In production, this would query a database or cache
- * 
+ * Checks if an order has been cancelled, by reading the cancelRequested flag
+ * set via POST /orders/{orderId}/cancel.
+ *
  * @param order - The order to check
  * @param stepCtx - Step context logger for scoped logging
  * @returns Cancellation status
  */
-export function checkOrderCancellation(
+export async function checkOrderCancellation(
     order: Order,
     stepCtx: DurableContextLogger<DurableLogger>
-): { isCancelled: boolean; timestamp: string } {
+): Promise<{ isCancelled: boolean; timestamp: string }> {
     stepCtx.info('Checking if order was cancelled', { orderId: order.orderId });
 
-    // Mock cancellation check - in a real system, this would check a database
-    // For demo purposes, we'll always return false (not cancelled)
-    // You can modify this to return true to test the cancellation flow
-    const isCancelled = false; // Change to true to test cancellation
+    const record = await getOrderRecord(order.orderId);
+    const isCancelled = record?.cancelRequested === true;
 
     const timestamp = new Date().toISOString();
     stepCtx.info('Cancellation check result', { isCancelled, timestamp });

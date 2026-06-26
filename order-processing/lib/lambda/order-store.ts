@@ -9,7 +9,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { DurableContextLogger, DurableLogger } from '@aws/durable-execution-sdk-js';
-import { CompensationAction, OrderRecord, OrderResult, OrderTrackingStatus } from './types';
+import { CompensationAction, OrderItem, OrderRecord, OrderResult, OrderTrackingStatus } from './types';
 
 const ddbClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(ddbClient);
@@ -33,14 +33,14 @@ function tableName(): string {
 export async function createOrderRecord(
     orderId: string,
     customerId: string,
-    amount: number,
+    items: OrderItem[],
     executionArn: string | undefined
 ): Promise<OrderRecord> {
     const now = new Date().toISOString();
     const record: OrderRecord = {
         orderId,
         customerId,
-        amount,
+        items,
         status: 'PROCESSING',
         executionArn,
         createdAt: now,
@@ -58,12 +58,12 @@ export async function createOrderRecord(
 
 /**
  * Applies a partial, intermediate update to an order record (e.g. moving to
- * PAYMENT_PENDING after inventory reservation, or AWAITING_APPROVAL once the
- * payment processor opens its callback).
+ * PAYMENT_PENDING with the server-computed amount after inventory reservation,
+ * or flagging cancelRequested when the cancel API is called).
  */
 export async function updateOrderProgress(
     orderId: string,
-    fields: Partial<Pick<OrderRecord, 'status' | 'callbackId' | 'reservationId' | 'executionArn'>>,
+    fields: Partial<Pick<OrderRecord, 'status' | 'reservationId' | 'executionArn' | 'amount' | 'cancelRequested'>>,
     stepCtx?: DurableContextLogger<DurableLogger>
 ): Promise<void> {
     const updatedAt = new Date().toISOString();

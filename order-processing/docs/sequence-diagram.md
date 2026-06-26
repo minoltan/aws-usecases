@@ -1,6 +1,6 @@
 # Order Processing - Sequence Diagram
 
-Covers all three API routes: submit order, check status, submit approval.
+Covers all three API routes: submit order, check status, request cancellation.
 
 ```mermaid
 sequenceDiagram
@@ -9,15 +9,18 @@ sequenceDiagram
     participant ApiHandler as order-api-handler
     participant DDB as orders (DynamoDB)
     participant OrderProc as order-processor
-    participant PayProc as payment-processor
     participant Bedrock as Amazon Nova Lite
+    participant Inv as inventory (DynamoDB)
+    participant PayProc as payment-processor
     participant SNS as order-status-topic
+    participant Emailer as notification-emailer
+    participant SES as Amazon SES
     participant DLQ as order-processor-dlq
 
     Note over Client,DLQ: Flow 1: POST /orders (submit order)
-    Client->>APIGW: POST /orders
+    Client->>APIGW: POST /orders { customerId, items }
     APIGW->>ApiHandler: invoke
-    ApiHandler->>DDB: PutItem createOrderRecord
+    ApiHandler->>DDB: PutItem createOrderRecord (no amount yet)
     alt orderId already exists
         DDB-->>ApiHandler: ConditionalCheckFailedException
         ApiHandler->>DDB: GetItem existing record
@@ -31,11 +34,21 @@ sequenceDiagram
     APIGW-->>Client: 202 Accepted
 
     Note over OrderProc,DLQ: order-processor continues asynchronously
-    OrderProc->>Bedrock: InvokeModel Nova Lite
-    OrderProc->>PayProc: invoke
-    PayProc->>DDB: UpdateItem AWAITING_APPROVAL callbackId
-    OrderProc->>DDB: write status
+    OrderProc->>Bedrock: InvokeModel Nova Lite (validation)
+    Note over OrderProc: 10s cancellation window, then check-cancellation
+    OrderProc->>DDB: GetItem (read cancelRequested)
+    OrderProc->>Inv: GetItem price per line item
+    OrderProc->>Inv: TransactWriteItems decrement quantity (all items atomically)
+    OrderProc->>DDB: UpdateItem PAYMENT_PENDING + computed amount
+    OrderProc->>PayProc: invoke (mock auto-approve)
+    PayProc-->>OrderProc: PaymentResult { paymentApproved: true }
+    opt payment rejected or invocation fails
+        OrderProc->>Inv: TransactWriteItems release (compensation)
+    end
+    OrderProc->>DDB: UpdateItem final status
     OrderProc->>SNS: publish status
+    SNS->>Emailer: invoke (subscription)
+    Emailer->>SES: SendEmail
     opt invocation fails after retries
         OrderProc-xDLQ: failed event payload
     end
@@ -53,16 +66,14 @@ sequenceDiagram
     end
     APIGW-->>Client: response
 
-    Note over Client,PayProc: Flow 3: POST approval decision
-    Client->>APIGW: POST /orders/:orderId/approval
+    Note over Client,DDB: Flow 3: POST cancel request
+    Client->>APIGW: POST /orders/:orderId/cancel
     APIGW->>ApiHandler: invoke
     ApiHandler->>DDB: GetItem orderId
-    alt not awaiting approval
+    alt order not in PROCESSING
         ApiHandler-->>APIGW: 409 Conflict
     else
-        ApiHandler->>PayProc: SendDurableExecutionCallbackSuccess
-        Note over PayProc: resumes waitForCallback
-        ApiHandler->>DDB: UpdateItem APPROVAL_SUBMITTED
+        ApiHandler->>DDB: UpdateItem cancelRequested = true
         ApiHandler-->>APIGW: 200 OK
     end
     APIGW-->>Client: response

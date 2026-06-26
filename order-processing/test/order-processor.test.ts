@@ -6,6 +6,7 @@ import { LocalDurableTestRunner, OperationType } from '@aws/durable-execution-sd
 import { withDurableExecution, DurableContext } from '@aws/durable-execution-sdk-js';
 import { handler as orderProcessor } from '../lib/lambda/order-processor';
 import * as validation from '../lib/lambda/validation';
+import * as inventory from '../lib/lambda/inventory';
 import { Order, PaymentResult } from '../lib/lambda/types';
 
 // Mock the validation module
@@ -16,6 +17,11 @@ const mockedValidation = validation as jest.Mocked<typeof validation>;
 jest.mock('../lib/lambda/order-store');
 jest.mock('../lib/lambda/notifications');
 
+// Mock inventory so no real DynamoDB calls happen - this suite tests the order-processor's
+// saga/compensation control flow, not inventory's DynamoDB conditional-update logic itself.
+jest.mock('../lib/lambda/inventory');
+const mockedInventory = inventory as jest.Mocked<typeof inventory>;
+
 // Create a mock payment processor that returns a PaymentResult
 function createMockPaymentProcessor(paymentApproved: boolean, reason?: string) {
     return withDurableExecution(
@@ -24,7 +30,7 @@ function createMockPaymentProcessor(paymentApproved: boolean, reason?: string) {
                 paymentApproved,
                 orderId: event.orderId,
                 customerId: event.customerId,
-                amount: event.amount,
+                amount: event.amount ?? 0,
                 timestamp: '2025-01-01T00:00:15.000Z',
                 reason
             };
@@ -52,7 +58,7 @@ describe('Order Processor', () => {
     const validOrder = {
         orderId: 'ORD-123',
         customerId: 'CUST-456',
-        amount: 99.99
+        items: [{ productId: 'PROD-1', quantity: 2 }]
     };
 
     /**
@@ -64,9 +70,21 @@ describe('Order Processor', () => {
             message: 'VALID',
             timestamp: '2025-01-01T00:00:00.000Z'
         });
-        mockedValidation.checkOrderCancellation.mockReturnValue({
+        mockedValidation.checkOrderCancellation.mockResolvedValue({
             isCancelled: false,
             timestamp: '2025-01-01T00:00:10.000Z'
+        });
+        mockedInventory.reserveInventory.mockImplementation(async (order) => ({
+            reservationId: `RSV-${order.orderId}`,
+            orderId: order.orderId,
+            items: order.items,
+            amount: 199.98,
+            timestamp: '2025-01-01T00:00:11.000Z'
+        }));
+        mockedInventory.releaseInventory.mockResolvedValue({
+            released: true,
+            reservationId: 'RSV-ORD-123',
+            timestamp: '2025-01-01T00:00:20.000Z'
         });
     }
 
@@ -213,7 +231,7 @@ describe('Order Processor', () => {
                 timestamp: '2025-01-01T00:00:00.000Z'
             });
 
-            mockedValidation.checkOrderCancellation.mockReturnValue({
+            mockedValidation.checkOrderCancellation.mockResolvedValue({
                 isCancelled: true,
                 timestamp: '2025-01-01T00:00:10.000Z'
             });

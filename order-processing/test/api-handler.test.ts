@@ -12,7 +12,6 @@ jest.mock('@aws-sdk/client-lambda', () => {
     return {
         LambdaClient: jest.fn().mockImplementation(() => ({ send: mockSend })),
         InvokeCommand: FakeCommand,
-        SendDurableExecutionCallbackSuccessCommand: FakeCommand,
     };
 });
 
@@ -50,16 +49,17 @@ describe('api-handler', () => {
     describe('POST /orders', () => {
         it('submits an order and creates a DynamoDB record', async () => {
             mockSend.mockResolvedValue({ DurableExecutionArn: 'arn:exec-1' });
+            const items = [{ productId: 'PROD-1', quantity: 2 }];
             mockedOrderStore.createOrderRecord.mockResolvedValue({
                 orderId: 'ORD-1',
                 customerId: 'CUST-1',
-                amount: 10,
+                items,
                 status: 'PROCESSING',
                 createdAt: 'now',
                 updatedAt: 'now',
             });
 
-            const event = makeEvent('POST', '/orders', { customerId: 'CUST-1', amount: 10 });
+            const event = makeEvent('POST', '/orders', { customerId: 'CUST-1', items });
             const response = (await handler(event)) as { statusCode: number; body: string };
 
             expect(response.statusCode).toBe(202);
@@ -71,10 +71,10 @@ describe('api-handler', () => {
             expect(body.orderId).toBe('ORD-1');
 
             // The DynamoDB record is claimed (conditionally) before the Lambda invoke happens
-            const [orderId, customerId, amount, executionArnAtCreate] = mockedOrderStore.createOrderRecord.mock.calls[0];
+            const [orderId, customerId, createdItems, executionArnAtCreate] = mockedOrderStore.createOrderRecord.mock.calls[0];
             expect(orderId).toMatch(/^ORD-/);
             expect(customerId).toBe('CUST-1');
-            expect(amount).toBe(10);
+            expect(createdItems).toEqual(items);
             expect(executionArnAtCreate).toBeUndefined();
 
             expect(mockSend).toHaveBeenCalledTimes(1);
@@ -87,8 +87,16 @@ describe('api-handler', () => {
             expect(mockedOrderStore.updateOrderProgress).toHaveBeenCalledWith(orderId, { executionArn: 'arn:exec-1' });
         });
 
-        it('returns 400 when customerId or amount is missing', async () => {
+        it('returns 400 when customerId or items is missing', async () => {
             const event = makeEvent('POST', '/orders', { customerId: 'CUST-1' });
+            const response = (await handler(event)) as { statusCode: number };
+
+            expect(response.statusCode).toBe(400);
+            expect(mockSend).not.toHaveBeenCalled();
+        });
+
+        it('returns 400 when items is an empty array', async () => {
+            const event = makeEvent('POST', '/orders', { customerId: 'CUST-1', items: [] });
             const response = (await handler(event)) as { statusCode: number };
 
             expect(response.statusCode).toBe(400);
@@ -107,7 +115,11 @@ describe('api-handler', () => {
                 updatedAt: 'b',
             });
 
-            const event = makeEvent('POST', '/orders', { orderId: 'ORD-1', customerId: 'CUST-1', amount: 10 });
+            const event = makeEvent('POST', '/orders', {
+                orderId: 'ORD-1',
+                customerId: 'CUST-1',
+                items: [{ productId: 'PROD-1', quantity: 2 }],
+            });
             const response = (await handler(event)) as { statusCode: number; body: string };
 
             expect(response.statusCode).toBe(409);
@@ -142,28 +154,8 @@ describe('api-handler', () => {
         });
     });
 
-    describe('POST /orders/{orderId}/approval', () => {
-        it('sends the callback and marks the order APPROVAL_SUBMITTED', async () => {
-            mockedOrderStore.getOrderRecord.mockResolvedValue({
-                orderId: 'ORD-1',
-                status: 'AWAITING_APPROVAL',
-                callbackId: 'cb-1',
-                createdAt: 'a',
-                updatedAt: 'b',
-            });
-            mockSend.mockResolvedValue({});
-
-            const event = makeEvent('POST', '/orders/ORD-1/approval', { approved: true }, { orderId: 'ORD-1' });
-            const response = (await handler(event)) as { statusCode: number };
-
-            expect(response.statusCode).toBe(200);
-            expect(mockSend).toHaveBeenCalledTimes(1);
-            const callbackInput = mockSend.mock.calls[0][0].input;
-            expect(callbackInput.CallbackId).toBe('cb-1');
-            expect(mockedOrderStore.updateOrderProgress).toHaveBeenCalledWith('ORD-1', { status: 'APPROVAL_SUBMITTED' });
-        });
-
-        it('returns 409 when the order is not awaiting approval', async () => {
+    describe('POST /orders/{orderId}/cancel', () => {
+        it('flags cancelRequested while the order is still PROCESSING', async () => {
             mockedOrderStore.getOrderRecord.mockResolvedValue({
                 orderId: 'ORD-1',
                 status: 'PROCESSING',
@@ -171,17 +163,32 @@ describe('api-handler', () => {
                 updatedAt: 'b',
             });
 
-            const event = makeEvent('POST', '/orders/ORD-1/approval', { approved: true }, { orderId: 'ORD-1' });
+            const event = makeEvent('POST', '/orders/ORD-1/cancel', undefined, { orderId: 'ORD-1' });
+            const response = (await handler(event)) as { statusCode: number };
+
+            expect(response.statusCode).toBe(200);
+            expect(mockedOrderStore.updateOrderProgress).toHaveBeenCalledWith('ORD-1', { cancelRequested: true });
+        });
+
+        it('returns 409 once the order has moved past PROCESSING', async () => {
+            mockedOrderStore.getOrderRecord.mockResolvedValue({
+                orderId: 'ORD-1',
+                status: 'PAYMENT_PENDING',
+                createdAt: 'a',
+                updatedAt: 'b',
+            });
+
+            const event = makeEvent('POST', '/orders/ORD-1/cancel', undefined, { orderId: 'ORD-1' });
             const response = (await handler(event)) as { statusCode: number };
 
             expect(response.statusCode).toBe(409);
-            expect(mockSend).not.toHaveBeenCalled();
+            expect(mockedOrderStore.updateOrderProgress).not.toHaveBeenCalled();
         });
 
         it('returns 404 when the order does not exist', async () => {
             mockedOrderStore.getOrderRecord.mockResolvedValue(undefined);
 
-            const event = makeEvent('POST', '/orders/missing/approval', { approved: true }, { orderId: 'missing' });
+            const event = makeEvent('POST', '/orders/missing/cancel', undefined, { orderId: 'missing' });
             const response = (await handler(event)) as { statusCode: number };
 
             expect(response.statusCode).toBe(404);

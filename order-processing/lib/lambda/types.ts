@@ -3,12 +3,24 @@
  */
 
 /**
- * Order information passed between functions
+ * A single line item within an order, as submitted by the client. Pricing is
+ * looked up server-side from the inventory table - the client never supplies
+ * a price or total.
+ */
+export interface OrderItem {
+    productId: string;
+    quantity: number;
+}
+
+/**
+ * Order information passed between functions. `amount` starts undefined and
+ * is filled in by the order processor once inventory pricing is resolved.
  */
 export interface Order {
     orderId: string;
     customerId: string;
-    amount: number;
+    items: OrderItem[];
+    amount?: number;
 }
 
 /**
@@ -20,7 +32,7 @@ export type OrderStatus = 'PAYMENT_COMPLETED' | 'PAYMENT_FAILED' | 'CANCELLED' |
  * Live tracking status stored in DynamoDB. Includes the terminal OrderStatus
  * values plus intermediate states observed before the workflow completes.
  */
-export type OrderTrackingStatus = OrderStatus | 'PROCESSING' | 'PAYMENT_PENDING' | 'AWAITING_APPROVAL' | 'APPROVAL_SUBMITTED';
+export type OrderTrackingStatus = OrderStatus | 'PROCESSING' | 'PAYMENT_PENDING';
 
 /**
  * Persistent order record stored in the OrdersTable, surviving past the
@@ -30,9 +42,10 @@ export interface OrderRecord {
     orderId: string;
     customerId?: string;
     amount?: number;
+    items?: OrderItem[];
     status: OrderTrackingStatus;
     executionArn?: string;
-    callbackId?: string;
+    cancelRequested?: boolean;
     reservationId?: string;
     message?: string;
     validationResult?: string;
@@ -42,11 +55,13 @@ export interface OrderRecord {
 }
 
 /**
- * Result from inventory reservation
+ * Result from inventory reservation, including the server-computed total
+ * (sum of each line item's catalog price * quantity).
  */
 export interface ReservationResult {
     reservationId: string;
     orderId: string;
+    items: OrderItem[];
     amount: number;
     timestamp: string;
 }
@@ -68,6 +83,8 @@ export interface OrderResult {
     status: OrderStatus;
     orderId: string;
     message: string;
+    items?: OrderItem[];
+    amount?: number;
     validationResult?: string;
     paymentResult?: PaymentResult;
     reservationId?: string;
@@ -84,7 +101,6 @@ export interface PaymentResult {
     customerId: string;
     amount: number;
     timestamp: string;
-    callbackId?: string;
     reason?: string;
 }
 
@@ -114,12 +130,4 @@ export interface ProcessingTimestamps {
     cancellationChecked?: string;
     paymentCompleted?: string;
     orderCompleted: string;
-}
-
-/**
- * Callback result from payment approval
- */
-export interface PaymentCallbackResult {
-    approved: boolean;
-    reason?: string;
 }

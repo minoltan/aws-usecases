@@ -2,23 +2,28 @@
  * API Handler - HTTP front door for the order processing workflow
  *
  * Routes (REST API, Lambda proxy integration):
- *   POST /orders                    - submit a new order
- *   GET  /orders/{orderId}           - check order status
- *   POST /orders/{orderId}/approval  - approve or reject a pending payment
+ *   POST /orders                   - submit a new order
+ *   GET  /orders/{orderId}          - check order status
+ *   POST /orders/{orderId}/cancel   - request cancellation before processing proceeds
  *
  * This is a plain Lambda (not a durable function) that fronts the durable
- * order-processor/payment-processor workflow: it starts executions, reads
- * order status from DynamoDB, and forwards approval decisions to the
- * payment processor's open callback.
+ * order-processor/payment-processor workflow: it starts executions and
+ * reads/writes order status in DynamoDB.
  */
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { LambdaClient, InvokeCommand, SendDurableExecutionCallbackSuccessCommand } from '@aws-sdk/client-lambda';
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { randomUUID } from 'crypto';
 import { createOrderRecord, getOrderRecord, updateOrderProgress } from './order-store';
-import { Order } from './types';
+import { Order, OrderItem, OrderTrackingStatus } from './types';
 
 const lambdaClient = new LambdaClient({});
+
+// Cancellation only has an effect while the order is still in PROCESSING - the
+// workflow's check-cancellation step runs once, early, before reserving
+// inventory or charging payment. Once it has passed that point, requesting
+// cancellation here wouldn't actually stop anything.
+const CANCELLABLE_STATUSES: OrderTrackingStatus[] = ['PROCESSING'];
 
 function jsonResponse(statusCode: number, body: unknown): APIGatewayProxyResult {
     return {
@@ -37,21 +42,31 @@ function parseBody<T>(event: APIGatewayProxyEvent): T | undefined {
     }
 }
 
+function isValidItems(items: unknown): items is OrderItem[] {
+    return Array.isArray(items) && items.length > 0 && items.every(
+        (item) => item && typeof item.productId === 'string' && typeof item.quantity === 'number' && item.quantity > 0
+    );
+}
+
 async function submitOrder(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    const body = parseBody<Partial<Order>>(event);
-    if (!body || !body.customerId || body.amount === undefined) {
-        return jsonResponse(400, { message: 'customerId and amount are required' });
+    const body = parseBody<Partial<Order> & { orderId?: string }>(event);
+    if (!body || !body.customerId || !isValidItems(body.items)) {
+        return jsonResponse(400, { message: 'customerId and a non-empty items array ({ productId, quantity }) are required' });
     }
 
     const orderId = body.orderId || `ORD-${randomUUID()}`;
-    const order: Order = { orderId, customerId: body.customerId, amount: body.amount };
+    const order: Order = {
+        orderId,
+        customerId: body.customerId,
+        items: body.items,
+    };
 
     // Claim the orderId before starting any execution, so a resubmitted orderId
     // is rejected here instead of silently overwriting the existing record and
     // colliding on DurableExecutionName below.
     let record;
     try {
-        record = await createOrderRecord(orderId, order.customerId, order.amount, undefined);
+        record = await createOrderRecord(orderId, order.customerId, order.items, undefined);
     } catch (error: any) {
         if (error.name === 'ConditionalCheckFailedException') {
             const existing = await getOrderRecord(orderId);
@@ -89,28 +104,18 @@ async function getOrderStatus(orderId: string): Promise<APIGatewayProxyResult> {
     return jsonResponse(200, record);
 }
 
-async function submitApproval(orderId: string, event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    const body = parseBody<{ approved: boolean; reason?: string }>(event);
-    if (!body || typeof body.approved !== 'boolean') {
-        return jsonResponse(400, { message: 'approved (boolean) is required' });
-    }
-
+async function requestCancellation(orderId: string): Promise<APIGatewayProxyResult> {
     const record = await getOrderRecord(orderId);
     if (!record) {
         return jsonResponse(404, { message: `No order found with orderId ${orderId}` });
     }
-    if (record.status !== 'AWAITING_APPROVAL' || !record.callbackId) {
-        return jsonResponse(409, { message: `Order ${orderId} is not awaiting approval (status: ${record.status})` });
+    if (!CANCELLABLE_STATUSES.includes(record.status)) {
+        return jsonResponse(409, { message: `Order ${orderId} can no longer be cancelled (status: ${record.status})` });
     }
 
-    await lambdaClient.send(new SendDurableExecutionCallbackSuccessCommand({
-        CallbackId: record.callbackId,
-        Result: Buffer.from(JSON.stringify({ approved: body.approved, reason: body.reason })),
-    }));
+    await updateOrderProgress(orderId, { cancelRequested: true });
 
-    await updateOrderProgress(orderId, { status: 'APPROVAL_SUBMITTED' });
-
-    return jsonResponse(200, { orderId, status: 'APPROVAL_SUBMITTED' });
+    return jsonResponse(200, { orderId, message: 'Cancellation requested' });
 }
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -124,8 +129,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         if (method === 'GET' && orderId) {
             return await getOrderStatus(orderId);
         }
-        if (method === 'POST' && orderId && event.path.endsWith('/approval')) {
-            return await submitApproval(orderId, event);
+        if (method === 'POST' && orderId && event.path.endsWith('/cancel')) {
+            return await requestCancellation(orderId);
         }
         return jsonResponse(404, { message: 'Not found' });
     } catch (error) {

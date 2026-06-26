@@ -10,12 +10,19 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as cwActions from 'aws-cdk-lib/aws-cloudwatch-actions';
+import * as ses from 'aws-cdk-lib/aws-ses';
+import * as snsSubscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as path from 'path';
 
 // This account has no on-demand throughput quota for Nova Lite in any region (confirmed via
 // Bedrock console > Quotas - On-demand shows 0 TPM/RPM with no increase path). It must be
 // invoked through this US cross-region inference profile instead of the bare model ID.
 const BEDROCK_INFERENCE_PROFILE_ID = 'us.amazon.nova-lite-v1:0';
+
+// SES is in sandbox mode for this account, so both the sender and recipient must be verified
+// identities. This demo uses one verified address as both. Verification requires manually
+// clicking the link AWS emails to this address after `cdk deploy`.
+const NOTIFICATION_EMAIL = 'issackpaul95@gmail.com';
 
 export class OrderProcessingStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -25,6 +32,16 @@ export class OrderProcessingStack extends cdk.Stack {
     const ordersTable = new dynamodb.Table(this, 'OrdersTable', {
       tableName: 'orders',
       partitionKey: { name: 'orderId', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    // Product stock levels. One item per product (partitionKey productId,
+    // attribute quantity) so reservation/release can use a conditional
+    // UpdateItem to atomically check-and-decrement/increment per product.
+    const inventoryTable = new dynamodb.Table(this, 'InventoryTable', {
+      tableName: 'inventory',
+      partitionKey: { name: 'productId', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
@@ -68,7 +85,6 @@ export class OrderProcessingStack extends cdk.Stack {
       },
       environment: {
         NODE_OPTIONS: '--enable-source-maps',
-        ORDERS_TABLE_NAME: ordersTable.tableName,
       },
       logGroup: paymentProcessorLogGroup, // Link to our managed log group
     });
@@ -77,9 +93,6 @@ export class OrderProcessingStack extends cdk.Stack {
     paymentProcessor.role?.addManagedPolicy(
       iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicDurableExecutionRolePolicy')
     );
-
-    // Let payment processor record the callback ID it opens for human approval
-    ordersTable.grantWriteData(paymentProcessor);
 
     const orderProcessorLogGroup = new logs.LogGroup(this, 'OrderProcessorLogGroup', {
       logGroupName: '/aws/lambda/order-processor',
@@ -112,6 +125,7 @@ export class OrderProcessingStack extends cdk.Stack {
         BEDROCK_MODEL_ID: BEDROCK_INFERENCE_PROFILE_ID,
         ORDERS_TABLE_NAME: ordersTable.tableName,
         ORDER_STATUS_TOPIC_ARN: orderStatusTopic.topicArn,
+        INVENTORY_TABLE_NAME: inventoryTable.tableName,
       },
       logGroup: orderProcessorLogGroup, // Link to our managed log group
       deadLetterQueueEnabled: true,
@@ -140,9 +154,21 @@ export class OrderProcessingStack extends cdk.Stack {
       })
     );
 
-    // Let order processor record its own progress/final status and publish notifications
-    ordersTable.grantWriteData(orderProcessor);
+    // Let order processor read the cancelRequested flag (check-cancellation step) and
+    // record its own progress/final status; publish notifications
+    ordersTable.grantReadWriteData(orderProcessor);
     orderStatusTopic.grantPublish(orderProcessor);
+
+    // Let order processor price/reserve/release stock. grantReadWriteData doesn't cover
+    // TransactWriteItems, which reserve/release use to apply every line item atomically.
+    inventoryTable.grantReadWriteData(orderProcessor);
+    orderProcessor.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['dynamodb:TransactWriteItems'],
+        resources: [inventoryTable.tableArn],
+      })
+    );
 
     // ---------------------------------------------------------------------
     // API Handler - HTTP front door for submitting orders, checking status,
@@ -179,19 +205,6 @@ export class OrderProcessingStack extends cdk.Stack {
     ordersTable.grantReadWriteData(apiHandler);
     orderProcessor.grantInvoke(apiHandler);
 
-    // SendDurableExecutionCallbackSuccess isn't covered by grantInvoke - grant it explicitly,
-    // scoped to the payment processor function whose callback the API approves/rejects.
-    // The actual resource checked at call time is qualifier + durable-execution sub-path
-    // (...:$LATEST/durable-execution/{executionId}/{token}), so the bare function ARN alone
-    // doesn't match - it needs the wildcard suffix to cover that.
-    apiHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['lambda:SendDurableExecutionCallbackSuccess'],
-        resources: [`${paymentProcessor.functionArn}:*/durable-execution/*`],
-      })
-    );
-
     const restApi = new apigateway.RestApi(this, 'OrderApi', {
       restApiName: 'order-processing-api',
     });
@@ -204,8 +217,54 @@ export class OrderProcessingStack extends cdk.Stack {
     const order = orders.addResource('{orderId}');
     order.addMethod('GET', apiHandlerIntegration);
 
-    const approval = order.addResource('approval');
-    approval.addMethod('POST', apiHandlerIntegration);
+    const cancel = order.addResource('cancel');
+    cancel.addMethod('POST', apiHandlerIntegration);
+
+    // ---------------------------------------------------------------------
+    // Notifications - forwards every OrderStatusTopic message as an email via
+    // SES. AWS emails a verification link to NOTIFICATION_EMAIL after deploy;
+    // it must be clicked once before sends succeed (SES sandbox mode).
+    // ---------------------------------------------------------------------
+    new ses.EmailIdentity(this, 'NotificationEmailIdentity', {
+      identity: ses.Identity.email(NOTIFICATION_EMAIL),
+    });
+
+    const notificationEmailerLogGroup = new logs.LogGroup(this, 'NotificationEmailerLogGroup', {
+      logGroupName: '/aws/lambda/notification-emailer',
+      retention: logs.RetentionDays.ONE_WEEK,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const notificationEmailer = new nodejs.NodejsFunction(this, 'NotificationEmailerFunction', {
+      functionName: 'notification-emailer',
+      runtime: lambda.Runtime.NODEJS_22_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'notification-emailer.ts'),
+      timeout: cdk.Duration.seconds(15),
+      memorySize: 128,
+      bundling: {
+        minify: true,
+        sourceMap: true,
+        format: nodejs.OutputFormat.ESM,
+        banner: "import { createRequire } from 'module';const require = createRequire(import.meta.url);",
+        externalModules: [], // Bundle all dependencies
+      },
+      environment: {
+        NODE_OPTIONS: '--enable-source-maps',
+        NOTIFICATION_EMAIL: NOTIFICATION_EMAIL,
+      },
+      logGroup: notificationEmailerLogGroup,
+    });
+
+    notificationEmailer.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['ses:SendEmail'],
+        resources: [`arn:aws:ses:${this.region}:${this.account}:identity/${NOTIFICATION_EMAIL}`],
+      })
+    );
+
+    orderStatusTopic.addSubscription(new snsSubscriptions.LambdaSubscription(notificationEmailer));
 
     // ---------------------------------------------------------------------
     // Observability - dashboard summarizing all 3 functions plus alarms for
@@ -277,6 +336,16 @@ export class OrderProcessingStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'OrdersTableName', {
       value: ordersTable.tableName,
       description: 'Name of the DynamoDB table storing order records',
+    });
+
+    new cdk.CfnOutput(this, 'InventoryTableName', {
+      value: inventoryTable.tableName,
+      description: 'Name of the DynamoDB table storing product stock levels',
+    });
+
+    new cdk.CfnOutput(this, 'NotificationEmailAddress', {
+      value: NOTIFICATION_EMAIL,
+      description: 'SES identity for order notifications - check this inbox for the verification email after deploy',
     });
   }
 }

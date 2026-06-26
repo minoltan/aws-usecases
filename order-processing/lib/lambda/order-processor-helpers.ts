@@ -17,6 +17,7 @@ export function buildValidationFailedResponse(
         status: 'VALIDATION_FAILED',
         orderId: order.orderId || 'unknown',
         message: `Order validation failed: ${validationMessage}`,
+        items: order.items,
         validationResult: validationMessage,
         processingTime: {
             orderReceived,
@@ -40,6 +41,7 @@ export function buildCancelledResponse(
         status: 'CANCELLED',
         orderId: order.orderId,
         message: 'Order was cancelled by user before payment processing',
+        items: order.items,
         validationResult: validationMessage,
         processingTime: {
             orderReceived,
@@ -60,7 +62,8 @@ export function buildCompletedResponse(
     orderReceived: string,
     validationTimestamp: string,
     cancellationTimestamp: string,
-    reservationId?: string
+    reservationId: string,
+    amount: number
 ): OrderResult {
     const status: OrderStatus = paymentResult.paymentApproved ? 'PAYMENT_COMPLETED' : 'PAYMENT_FAILED';
 
@@ -68,8 +71,10 @@ export function buildCompletedResponse(
         status,
         orderId: order.orderId,
         message: paymentResult.paymentApproved
-            ? `Order completed successfully. Payment of ${order.amount} approved.`
+            ? `Order completed successfully. Payment of ${amount} approved.`
             : `Order failed. Payment was ${paymentResult.reason || 'rejected'}.`,
+        items: order.items,
+        amount,
         validationResult: validationMessage,
         paymentResult,
         reservationId,
@@ -95,7 +100,8 @@ export function buildCompensatedFailureResponse(
     cancellationTimestamp: string,
     compensationActions: CompensationAction[],
     reservationId?: string,
-    paymentResult?: PaymentResult
+    paymentResult?: PaymentResult,
+    amount?: number
 ): OrderResult {
     const allCompensationsSucceeded = compensationActions.every(c => c.success);
     const compensationSummary = allCompensationsSucceeded
@@ -106,6 +112,8 @@ export function buildCompensatedFailureResponse(
         status: 'PAYMENT_FAILED',
         orderId: order.orderId,
         message: `${errorMessage}. ${compensationSummary}.`,
+        items: order.items,
+        amount,
         validationResult: validationMessage,
         paymentResult,
         reservationId,

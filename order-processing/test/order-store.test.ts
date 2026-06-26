@@ -33,7 +33,8 @@ describe('order-store', () => {
         it('puts a new item with PROCESSING status', async () => {
             mockSend.mockResolvedValue({});
 
-            const record = await createOrderRecord('ORD-1', 'CUST-1', 50, 'arn:aws:lambda:us-east-1:123:execution:exec-1');
+            const items = [{ productId: 'PROD-1', quantity: 2 }];
+            const record = await createOrderRecord('ORD-1', 'CUST-1', items, 'arn:aws:lambda:us-east-1:123:execution:exec-1');
 
             expect(record.status).toBe('PROCESSING');
             expect(record.orderId).toBe('ORD-1');
@@ -44,7 +45,7 @@ describe('order-store', () => {
             expect(input.Item).toMatchObject({
                 orderId: 'ORD-1',
                 customerId: 'CUST-1',
-                amount: 50,
+                items,
                 status: 'PROCESSING',
                 executionArn: 'arn:aws:lambda:us-east-1:123:execution:exec-1',
             });
@@ -75,14 +76,14 @@ describe('order-store', () => {
         it('builds an UpdateExpression covering the provided fields', async () => {
             mockSend.mockResolvedValue({});
 
-            await updateOrderProgress('ORD-1', { status: 'AWAITING_APPROVAL', callbackId: 'cb-1' });
+            await updateOrderProgress('ORD-1', { status: 'PAYMENT_PENDING', amount: 49.99 });
 
             const input = mockSend.mock.calls[0][0].input;
             expect(input.Key).toEqual({ orderId: 'ORD-1' });
-            expect(input.ExpressionAttributeValues[':status']).toBe('AWAITING_APPROVAL');
-            expect(input.ExpressionAttributeValues[':callbackId']).toBe('cb-1');
+            expect(input.ExpressionAttributeValues[':status']).toBe('PAYMENT_PENDING');
+            expect(input.ExpressionAttributeValues[':amount']).toBe(49.99);
             expect(input.UpdateExpression).toContain('#status = :status');
-            expect(input.UpdateExpression).toContain('#callbackId = :callbackId');
+            expect(input.UpdateExpression).toContain('#amount = :amount');
         });
     });
 

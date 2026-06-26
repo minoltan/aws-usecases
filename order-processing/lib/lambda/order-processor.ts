@@ -23,7 +23,7 @@ import {
 } from './order-processor-helpers';
 import { finalizeOrder, updateOrderProgress } from './order-store';
 import { publishOrderStatus } from './notifications';
-import { CompensationAction, Order, OrderResult, PaymentResult } from './types';
+import { CompensationAction, Order, OrderResult, PaymentResult, ReservationResult } from './types';
 import { checkOrderCancellation, validateOrderWithBedrock } from './validation';
 
 /**
@@ -135,19 +135,23 @@ export const handler = withDurableExecution(
         // Saga section: steps that create side effects register compensations
         // -------------------------------------------------------------------
         const compensations: CompensationEntry[] = [];
+        let reservation: ReservationResult | undefined;
 
         try {
-            // Step 3: Reserve inventory
-            const reservation = await context.step('reserve-inventory', async (stepCtx) => {
+            // Step 3: Reserve inventory and price the order from the catalog
+            // (the order's amount is never trusted from the client)
+            reservation = await context.step('reserve-inventory', async (stepCtx) => {
                 return reserveInventory(event, stepCtx.logger);
             }, { retryStrategy: createRetryStrategy() });
+            const { reservationId, items: reservedItems, amount } = reservation;
 
-            context.logger.info('Inventory reserved', { reservationId: reservation.reservationId });
+            context.logger.info('Inventory reserved', { reservationId, amount });
 
             await context.step('record-payment-pending', () =>
                 updateOrderProgress(event.orderId, {
                     status: 'PAYMENT_PENDING',
-                    reservationId: reservation.reservationId,
+                    reservationId,
+                    amount,
                 })
             );
 
@@ -156,20 +160,16 @@ export const handler = withDurableExecution(
                 name: 'release-inventory',
                 fn: async () => {
                     await context.step('compensate-release-inventory', async (stepCtx) => {
-                        return releaseInventory(reservation.reservationId, event.orderId, stepCtx.logger);
+                        return releaseInventory(reservationId, event.orderId, reservedItems, stepCtx.logger);
                     });
                 },
             });
 
-            // Step 4: Invoke payment processor
+            // Step 4: Invoke payment processor with the server-computed amount
             const paymentResult = await context.invoke<Order, PaymentResult>(
                 'process-payment',
                 PAYMENT_PROCESSOR.functionName,
-                {
-                    orderId: event.orderId,
-                    customerId: event.customerId,
-                    amount: event.amount
-                }
+                { ...event, amount }
             );
 
             context.logger.info('Payment processing completed', { paymentResult });
@@ -190,7 +190,8 @@ export const handler = withDurableExecution(
                 orderReceived,
                 validationResult.timestamp,
                 cancellationCheck.timestamp,
-                reservation.reservationId
+                reservationId,
+                amount
             ));
 
         } catch (error: any) {
@@ -229,8 +230,9 @@ export const handler = withDurableExecution(
                 validationResult.timestamp,
                 cancellationCheck.timestamp,
                 compensationActions,
-                undefined,
-                error.paymentResult
+                reservation?.reservationId,
+                error.paymentResult,
+                reservation?.amount
             ));
         }
     }
