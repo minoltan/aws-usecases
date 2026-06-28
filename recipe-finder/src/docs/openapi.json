@@ -1,0 +1,117 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Recipe Finder API",
+    "version": "1.0.0",
+    "description": "RAG API over your own recipes: upload recipe text, then ask natural-language questions answered from a Bedrock Knowledge Base backed by S3 Vectors."
+  },
+  "paths": {
+    "/recipes": {
+      "post": {
+        "summary": "Upload a recipe",
+        "description": "Writes the recipe text to the documents bucket under recipes/<uuid>-<slug>.txt, which triggers an S3 ObjectCreated event that starts a Bedrock Knowledge Base ingestion job.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateRecipeRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recipe stored; ingestion into the Knowledge Base starts asynchronously",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/CreateRecipeResponse" } }
+            }
+          },
+          "400": {
+            "description": "name and content are required, non-empty strings",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          },
+          "500": {
+            "description": "Failed to write the recipe to S3",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/recipes/search": {
+      "post": {
+        "summary": "Ask a question about your recipes",
+        "description": "Calls bedrock:RetrieveAndGenerate against the Knowledge Base: retrieves the most relevant recipe chunks from the vector index and generates an answer with Claude Sonnet 4.6. Each call is a single stateless query - there is no multi-turn session.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FindRecipeRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated answer with source citations",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/FindRecipeResponse" } }
+            }
+          },
+          "400": {
+            "description": "query is required and must be a non-empty string",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          },
+          "500": {
+            "description": "Failed to query the Knowledge Base",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateRecipeRequest": {
+        "type": "object",
+        "required": ["name", "content"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "example": "Any Berry Sauce" },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Ingredients: 4 cups mixed berries, 1 tbsp cornstarch, 2 tbsp sugar. Instructions: simmer berries and sugar for 5 minutes, stir in cornstarch slurry, cook until thickened."
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "recipeId": { "type": "string", "format": "uuid" }
+        }
+      },
+      "FindRecipeRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": { "type": "string", "minLength": 1, "example": "How much cornstarch goes in the Any Berry Sauce?" }
+        },
+        "additionalProperties": false
+      },
+      "FindRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "answer": { "type": "string" },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string", "format": "uri", "example": "s3://recipe-finder-documents/recipes/abc123-any-berry-sauce.txt" }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

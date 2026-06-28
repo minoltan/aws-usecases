@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Online Exam Platform — Exam REST API",
+    "version": "1.0.0",
+    "description": "Student-facing REST API fronting the Exam Service and Submission Service (ECS Fargate). Every route below requires a Cognito access token, validated by a Lambda TOKEN authorizer (`auth-validator`) which also checks for an active exam session in DynamoDB."
+  },
+  "security": [{ "LambdaAuthorizer": [] }],
+  "paths": {
+    "/exams/{examId}/start": {
+      "post": {
+        "summary": "Start an exam session",
+        "description": "Creates the SESSION item in DynamoDB, starts the Exam Lifecycle Step Functions execution, and schedules the auto-submit timer via EventBridge Scheduler.",
+        "parameters": [
+          { "name": "examId", "in": "path", "required": true, "schema": { "type": "string" }, "example": "EXAM-101" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session started",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SessionResponse" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": {
+            "description": "Session already started for this student + exam",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/exams/{examId}/answers": {
+      "post": {
+        "summary": "Auto-save an answer",
+        "description": "Upserts an ANSWER item (`STUDENT#<id>` / `ANSWER#EXAM#<id>#Q<num>`) with optimistic locking on `version`.",
+        "parameters": [
+          { "name": "examId", "in": "path", "required": true, "schema": { "type": "string" }, "example": "EXAM-101" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnswerSubmission" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Answer saved",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnswerResponse" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": {
+            "description": "version conflict — answer was modified since last read",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/exams/{examId}/session": {
+      "get": {
+        "summary": "Get current session state",
+        "description": "Polling fallback for clients that aren't using the AppSync subscription — same SESSION item AppSync's Query.getSession resolves.",
+        "parameters": [
+          { "name": "examId", "in": "path", "required": true, "schema": { "type": "string" }, "example": "EXAM-101" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current session state",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SessionResponse" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": {
+            "description": "No session found for this student + exam",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
+    "/exams/{examId}/submit": {
+      "post": {
+        "summary": "Submit the exam",
+        "description": "Routed to the Submission Service, which enqueues the attempt onto SubmissionQueue (SQS) for result-processor to grade asynchronously. The same path is taken by the auto-submit Lambda when the EventBridge timer fires.",
+        "parameters": [
+          { "name": "examId", "in": "path", "required": true, "schema": { "type": "string" }, "example": "EXAM-101" }
+        ],
+        "responses": {
+          "202": {
+            "description": "Submission accepted for grading",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubmitResponse" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": {
+            "description": "Exam already submitted or expired",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "LambdaAuthorizer": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Cognito access token, validated by the auth-validator Lambda TOKEN authorizer. Send as a bare token (no \"Bearer \" prefix required, but accepted)."
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing/invalid token, or no active session for this student + exam",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": { "message": { "type": "string" } }
+      },
+      "SessionResponse": {
+        "type": "object",
+        "properties": {
+          "studentId": { "type": "string", "example": "student-123" },
+          "examId": { "type": "string", "example": "EXAM-101" },
+          "status": {
+            "type": "string",
+            "enum": ["CREATED", "STARTED", "IN_PROGRESS", "SUBMITTED", "GRADING", "COMPLETED", "EXPIRED"]
+          },
+          "startTime": { "type": "string", "format": "date-time" },
+          "endTime": { "type": "string", "format": "date-time" },
+          "timeRemaining": { "type": "integer", "description": "Seconds remaining", "example": 5400 },
+          "answeredCount": { "type": "integer", "example": 12 }
+        }
+      },
+      "AnswerSubmission": {
+        "type": "object",
+        "required": ["questionId", "answer"],
+        "properties": {
+          "questionId": { "type": "string", "example": "Q12" },
+          "answer": { "type": "string", "example": "B" },
+          "version": { "type": "integer", "description": "Expected current version, for optimistic locking", "example": 0 }
+        }
+      },
+      "AnswerResponse": {
+        "type": "object",
+        "properties": {
+          "questionId": { "type": "string", "example": "Q12" },
+          "answer": { "type": "string", "example": "B" },
+          "autoSaved": { "type": "boolean" },
+          "version": { "type": "integer", "example": 1 },
+          "savedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "SubmitResponse": {
+        "type": "object",
+        "properties": {
+          "studentId": { "type": "string", "example": "student-123" },
+          "examId": { "type": "string", "example": "EXAM-101" },
+          "status": { "type": "string", "example": "SUBMITTED" },
+          "submittedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

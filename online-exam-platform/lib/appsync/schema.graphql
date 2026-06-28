@@ -1,0 +1,30 @@
+type ExamSession {
+  studentId: String!
+  examId: String!
+  status: String
+  timeRemaining: Int
+  answeredCount: Int
+}
+
+input SessionUpdateInput {
+  studentId: String!
+  examId: String!
+  status: String
+  timeRemaining: Int
+  answeredCount: Int
+}
+
+type Query {
+  getSession(studentId: String!, examId: String!): ExamSession
+}
+
+type Mutation {
+  # Not called by GraphQL clients directly — invoked by the DynamoDB Streams
+  # publisher Lambda purely to fan the update out to active subscriptions.
+  publishSessionUpdate(input: SessionUpdateInput!): ExamSession
+}
+
+type Subscription {
+  onSessionUpdated(studentId: String!, examId: String!): ExamSession
+    @aws_subscribe(mutations: ["publishSessionUpdate"])
+}

@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+examplatform:
+  table-name: ${TABLE_NAME}
+  submission-queue-url: ${SUBMISSION_QUEUE_URL}
+  aws-region: ${AWS_REGION:ap-southeast-1}
+
+logging:
+  level:
+    com.examplatform: INFO

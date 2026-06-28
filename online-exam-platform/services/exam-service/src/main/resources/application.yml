@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+examplatform:
+  table-name: ${TABLE_NAME}
+  question-bucket: ${QUESTION_BUCKET}
+  state-machine-arn: ${STATE_MACHINE_ARN}
+  scheduler-execution-role-arn: ${SCHEDULER_EXECUTION_ROLE_ARN}
+  auto-submit-function-arn: ${AUTO_SUBMIT_FUNCTION_ARN}
+  aws-region: ${AWS_REGION:ap-southeast-1}
+  exam-duration-seconds: ${EXAM_DURATION_SECONDS:5400}
+
+logging:
+  level:
+    com.examplatform: INFO
