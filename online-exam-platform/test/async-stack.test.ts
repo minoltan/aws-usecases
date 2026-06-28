@@ -31,11 +31,10 @@ describe('AsyncStack', () => {
     });
   });
 
-  test('result processor is Node.js 20, batches SQS by 10, and is reserved at 100 concurrency', () => {
+  test('result processor is Node.js 20 and batches SQS by 10', () => {
     template.hasResourceProperties('AWS::Lambda::Function', {
       Runtime: 'nodejs20.x',
       Timeout: 300,
-      ReservedConcurrentExecutions: 100,
     });
     template.hasResourceProperties('AWS::Lambda::EventSourceMapping', {
       BatchSize: 10,

@@ -83,7 +83,7 @@ before this could notify an actual student of their result.
 this.resultProcessorFn = new NodejsFunction(this, 'ResultProcessorFunction', {
   timeout: cdk.Duration.minutes(5),
   memorySize: 512,
-  reservedConcurrentExecutions: 100,
+  // no reservedConcurrentExecutions — see note below
   logGroup: new logs.LogGroup(this, 'ResultProcessorLogGroup', {
     logGroupName: '/exam-platform/result-processor',
     retention: logs.RetentionDays.TWO_WEEKS,
@@ -96,11 +96,21 @@ props.table.grantReadWriteData(this.resultProcessorFn);
 this.notificationTopic.grantPublish(this.resultProcessorFn);
 ```
 
-- **`reservedConcurrentExecutions: 100`** caps how many concurrent invocations this function can
-  ever have, independent of how much capacity the account has free — matching `CLAUDE.md`'s
-  explicit rule ("Reserved concurrency required on Result Lambda to prevent runaway costs"). A
-  bug that floods the queue (a retry loop, a misbehaving client hammering `/submit`) gets capped
-  at 100 concurrent grading runs instead of scaling unbounded and turning a bug into a bill.
+- **`reservedConcurrentExecutions` is currently *not* set, despite `CLAUDE.md`'s explicit rule**
+  ("Reserved concurrency required on Result Lambda to prevent runaway costs") — a real account
+  constraint, not an oversight. AWS always keeps a minimum of 10 concurrent executions
+  "unreserved" per account/region for functions with no reservation of their own; setting a
+  reservation of `N` therefore needs the account's *total* concurrency quota to be at least
+  `N + 10`. New/free-tier AWS accounts can start with a quota as low as **10** (Service Quotas →
+  Lambda → "Concurrent executions", code `L-B99A9384`; AWS's documented default is 1000, but
+  that's not what every account actually gets out of the box) — at quota 10, there is zero
+  headroom above the floor, so *any* positive `reservedConcurrentExecutions` value fails to
+  deploy (`...decreases account's UnreservedConcurrentExecution below its minimum value of
+  [10]`). The original intent — capping a queue-flooding bug (a retry loop, a misbehaving client
+  hammering `/submit`) at a fixed number of concurrent grading runs instead of scaling unbounded
+  — still stands; re-add `reservedConcurrentExecutions: 100` (or whatever fits) once the
+  account's quota is raised, which is a free, usually-fast-to-approve Service Quotas request, not
+  a billing change.
 - **`batchSize: 10`** trades a little latency (waiting to either fill a batch of 10 or hit SQS's
   short polling window) for far fewer Lambda invocations than batch size 1 — grading isn't
   latency-critical the way an interactive API call is, so this is a straightforward cost/throughput
@@ -239,7 +249,7 @@ flowchart TB
 
     dlq[("SubmissionDLQ (SQS)<br/>14d retention, KMS")]
     sqs[("SubmissionQueue (SQS)<br/>visibilityTimeout 300s = resultproc timeout<br/>maxReceiveCount 3 → DLQ")]
-    resultproc["result-processor (Lambda)<br/>512MB, 5min, reservedConcurrency 100,<br/>batchSize 10"]
+    resultproc["result-processor (Lambda)<br/>512MB, 5min, batchSize 10<br/>(no reservedConcurrentExecutions — account quota too low, see docs)"]
     sns(["NotificationTopic (SNS)<br/>subscriber: alarmEmail (same as ops topic!)"])
     table[("ExamPlatform Table")]
 
