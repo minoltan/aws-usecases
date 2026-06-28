@@ -160,6 +160,15 @@ cdk-exam-platform/
   the API without fixing the path pattern first — see `docs/api-stack.md`'s "CloudFront: the
   routing gap" section.
 
+### Monitoring
+- **Known gap:** the DynamoDB throttle alarm builds a raw `cloudwatch.Metric` with namespace
+  `AWS/DynamoDB`, metric `ThrottledRequests`, dimension `TableName` only — that's the exact same
+  shape `dynamodb.ITable#metricThrottledRequests()` produces, which CDK itself marks
+  `@deprecated` as "an invalid metric." Avoiding the deprecated *method* didn't avoid the
+  underlying *metric definition* it warns about; the alarm may simply never fire. The documented
+  fix is `metricThrottledRequestsForOperations({ operations: [...] })`. See
+  `docs/monitoring-stack.md`'s alarm section for the full trace.
+
 ### Security
 - All resources in private subnets — no public IPs on ECS tasks or Lambda
 - Least-privilege IAM: each Lambda/ECS task gets its own role with minimal permissions
@@ -281,6 +290,7 @@ git push origin release/v1.0.0
 - ExamStack deep dive (why each ECS/ALB/ECR/auto-scaling setting): `@docs/exam-stack.md`
 - WafStack deep dive (why a separate us-east-1 stack, crossRegionReferences): `@docs/waf-stack.md`
 - ApiStack deep dive (why each REST/AppSync/CloudFront setting — and a real CloudFront routing gap): `@docs/api-stack.md`
+- MonitoringStack deep dive (why each alarm/dashboard setting — and a real invalid-metric gap): `@docs/monitoring-stack.md`
 - Manual testing (Swagger UI, AppSync Console queries/subscriptions): `@docs/testing.md`
 - Building/pushing the Spring Boot service images: `@docs/deploying-services.md`
 - DynamoDB access patterns: `@docs/dynamodb-access-patterns.md`
