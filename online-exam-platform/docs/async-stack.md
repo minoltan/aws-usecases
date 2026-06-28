@@ -152,7 +152,7 @@ stack instead creates the one thing that *can* be known up front: the IAM role a
 will need to assume in order to invoke `auto-submit`. `services/exam-service`'s
 `ExamSessionService.scheduleAutoSubmit` is what actually calls `scheduler:CreateSchedule` at
 runtime (in `ExamStack`, granted `iam:PassRole` on this exact role's ARN — see
-`exam-stack.ts` directly — see its `scheduler:CreateSchedule`/`iam:PassRole` grants), handing AWS this pre-created
+`docs/exam-stack.md`), handing AWS this pre-created
 role's ARN as the new schedule's execution role. `grantInvoke` here is the safe, same-stack
 version of the same `lambda:InvokeFunction` problem `docs/auth-stack.md` describes for the REST
 API authorizer — but because both `autoSubmitFn` and `schedulerExecutionRole` live in this same
@@ -215,7 +215,7 @@ passing `asyncStack.stateMachine` / `.submissionQueue` / `.schedulerExecutionRol
 
 | Consumer | What it gets | Why |
 |---|---|---|
-| `ExamStack` | `stateMachineArn`, `schedulerExecutionRoleArn`, `autoSubmitFunctionArn` (strings) | Exam Service's task role needs `states:StartExecution` + `scheduler:CreateSchedule` + `iam:PassRole` on these ARNs — see `exam-stack.ts` |
+| `ExamStack` | `stateMachineArn`, `schedulerExecutionRoleArn`, `autoSubmitFunctionArn` (strings) | Exam Service's task role needs `states:StartExecution` + `scheduler:CreateSchedule` + `iam:PassRole` on these ARNs — see `docs/exam-stack.md` |
 | `ExamStack` | `submissionQueueUrl`/`Arn` (strings) | Submission Service sends to this queue directly (`sqs:SendMessage`, an explicit narrow grant, not `grantSendMessages` — see `docs/data-stack.md`'s least-privilege theme) |
 | `MonitoringStack` | `submissionQueue`, `submissionDlq`, `resultProcessorFn`, `stateMachine` (live objects) | DLQ depth alarm, ResultProcessor error-rate alarm, Step Functions failed-execution alarm, and dashboard widgets all read CloudWatch metrics off these — no IAM grant needed, same as `docs/data-stack.md`'s MonitoringStack row |
 

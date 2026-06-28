@@ -273,6 +273,7 @@ git push origin release/v1.0.0
 - DataStack deep dive (why each DynamoDB/S3 setting, not just what): `@docs/data-stack.md`
 - AuthStack deep dive (why each Cognito/authorizer setting, not just what): `@docs/auth-stack.md`
 - AsyncStack deep dive (why each SQS/SNS/Lambda/Step Functions setting — and a real race condition in the exam-lifecycle state machine): `@docs/async-stack.md`
+- ExamStack deep dive (why each ECS/ALB/ECR/auto-scaling setting): `@docs/exam-stack.md`
 - Manual testing (Swagger UI, AppSync Console queries/subscriptions): `@docs/testing.md`
 - Building/pushing the Spring Boot service images: `@docs/deploying-services.md`
 - DynamoDB access patterns: `@docs/dynamodb-access-patterns.md`
