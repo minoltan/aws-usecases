@@ -60,7 +60,7 @@ on SubmissionQueue, not a separate box) so the request/data flow reads in one pa
 ```mermaid
 flowchart TB
     client[Student Browser]
-    cloudfront["CloudFront CDN (WAF protected)"]
+    cloudfront["CloudFront CDN (WAF protected)<br/>serves question assets only —<br/>not actually wired to the REST API, see docs/api-stack.md"]
     apigw[Exam REST API — API Gateway]
     appsync[Progress API — AppSync GraphQL]
     auth["Auth (Cognito + Lambda Authorizer)"]
@@ -77,7 +77,7 @@ flowchart TB
     sns([NotificationTopic — SNS])
 
     client -->|HTTPS| cloudfront
-    cloudfront -->|/exams/* behavior| apigw
+    client -.->|"direct (CloudFront's api/* behavior doesn't match /exams/* — see docs/api-stack.md)"| apigw
     client -->|GraphQL + subscriptions, wss| appsync
 
     apigw -.->|authorize| auth
@@ -126,7 +126,7 @@ flowchart TB
 
     client -->|HTTPS| cloudfront
     cloudfront -.->|protected by| waf
-    cloudfront -->|/exams/* behavior| apigw
+    client -.->|"direct (CloudFront's api/* behavior doesn't match /exams/* — see docs/api-stack.md)"| apigw
     cloudfront -->|default behavior, question assets| s3
     client -->|GraphQL + subscriptions, wss| appsync
 

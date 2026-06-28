@@ -73,8 +73,10 @@
                 <mxCell id="e2" value="protected by" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;" parent="1" source="n_cloudfront" target="n_waf" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e3" value="/exams/* behavior" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" parent="1" source="n_cloudfront" target="n_apigw" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="e3" value="direct (not via CloudFront —&#xa;its api/* behavior doesn't match /exams/*)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#B85450;fontColor=#B85450;fontSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="n_client" target="n_apigw" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"><mxPoint x="-160" y="580"/><mxPoint x="499" y="580"/></Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e4" value="default behavior&#xa;(question assets)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_cloudfront" target="n_s3" edge="1">
                     <mxGeometry relative="1" as="geometry">

@@ -1,0 +1,37 @@
+<mxfile host="65bd71144e">
+    <diagram id="wafStackArch1" name="Page-1">
+        <mxGraphModel dx="1036" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="500" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="n_title" value="WafStack — Cross-Region Web ACL for CloudFront" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="170" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_subtitle" value="Full reasoning for every setting: docs/waf-stack.md" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;fontColor=#999999;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="28" width="600" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_useast1_box" value="us-east-1 (required for CLOUDFRONT scope)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;dashed=1;strokeColor=#DD344C;fillColor=#FBEEEE;fontColor=#B85450;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="100" width="280" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_webacl" value="StudentFacingWebAcl (WAFv2)&#xa;scope: CLOUDFRONT&#xa;defaultAction: allow&#xa;+ AWSManagedRulesCommonRuleSet" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.waf;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="181" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_ssm" value="crossRegionReferences: true&#xa;(SSM parameter under the hood)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#666666;fillColor=#F5F5F5;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="180" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_apsoutheast1_box" value="ap-southeast-1 (platform&#39;s home region)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;dashed=1;strokeColor=#147EBA;fillColor=#EAF4FB;fontColor=#147EBA;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="100" width="200" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_cloudfront" value="CloudFront Distribution&#xa;(ApiStack)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="172" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="attrArn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" parent="1" source="n_webacl" target="n_ssm" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="webAclArn prop" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" parent="1" source="n_ssm" target="n_cloudfront" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

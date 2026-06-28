@@ -153,7 +153,12 @@ cdk-exam-platform/
 - REST (API Gateway): student answer saves, exam start/submit endpoints
 - GraphQL (AppSync): real-time session progress via subscriptions
 - AppSync data source: DynamoDB Streams → real-time push to student browser
-- All endpoints require Cognito authorizer — no unauthenticated access
+- All endpoints require Cognito authorizer — no unauthenticated access (except `/docs`, deliberately public)
+- **Known gap:** CloudFront's `additionalBehaviors` key is `'api/*'`, but every real route is
+  under `/exams/*` or `/docs` — neither matches, so the REST API is not actually reachable
+  through `CloudFrontUrl` today, only directly via `ApiGatewayUrl`. Don't assume CloudFront fronts
+  the API without fixing the path pattern first — see `docs/api-stack.md`'s "CloudFront: the
+  routing gap" section.
 
 ### Security
 - All resources in private subnets — no public IPs on ECS tasks or Lambda
@@ -274,6 +279,8 @@ git push origin release/v1.0.0
 - AuthStack deep dive (why each Cognito/authorizer setting, not just what): `@docs/auth-stack.md`
 - AsyncStack deep dive (why each SQS/SNS/Lambda/Step Functions setting — and a real race condition in the exam-lifecycle state machine): `@docs/async-stack.md`
 - ExamStack deep dive (why each ECS/ALB/ECR/auto-scaling setting): `@docs/exam-stack.md`
+- WafStack deep dive (why a separate us-east-1 stack, crossRegionReferences): `@docs/waf-stack.md`
+- ApiStack deep dive (why each REST/AppSync/CloudFront setting — and a real CloudFront routing gap): `@docs/api-stack.md`
 - Manual testing (Swagger UI, AppSync Console queries/subscriptions): `@docs/testing.md`
 - Building/pushing the Spring Boot service images: `@docs/deploying-services.md`
 - DynamoDB access patterns: `@docs/dynamodb-access-patterns.md`
