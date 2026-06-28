@@ -1,0 +1,145 @@
+<mxfile host="65bd71144e">
+    <diagram id="dataStackArch1" name="Page-1">
+        <mxGraphModel dx="2801" dy="752" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="980" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="n_title" value="DataStack — DynamoDB Single Table &amp; Question Bucket" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="420" width="660" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_subtitle" value="Full reasoning for every setting: docs/data-stack.md" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;fontColor=#999999;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="28" width="660" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_auth" value="auth-validator&#xa;(Lambda) — AuthStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="-400" y="760" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_resultproc" value="result-processor&#xa;(Lambda) — AsyncStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="-400" y="200" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_autosubmit" value="auto-submit&#xa;(Lambda) — AsyncStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="-400" y="370" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_examsvc" value="Exam Service&#xa;(ECS Fargate) — ExamStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="108" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_subsvc" value="Submission Service&#xa;(ECS Fargate) — ExamStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" parent="1" vertex="1">
+                    <mxGeometry x="-400" y="570" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_appsync" value="Query.getSession&#xa;(AppSync) — ApiStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.appsync;" parent="1" vertex="1">
+                    <mxGeometry x="-240" y="30" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_streampub" value="session-stream-publisher&#xa;(Lambda) — ApiStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="551" y="270" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_monitoring" value="CloudWatch metrics&#xa;— MonitoringStack" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="240" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_dynamo_box" value="ExamPlatform Table" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;dashed=1;strokeColor=#C925D1;fillColor=#FBF1FC;fontColor=#7A1880;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="420" width="860" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_table" value="ExamPlatform Table&#xa;PAY_PER_REQUEST, AWS_MANAGED,&#xa;PITR on" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="480" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_gsi1" value="GSI1 (dense)&#xa;GSI1PK=EXAM#&lt;id&gt;, GSI1SK=status&#xa;→ AP3: active sessions per exam" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#7A1880;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="480" width="240" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_gsi2" value="GSI2 (sparse — RESULT items only)&#xa;GSI2PK=RESULT#STUDENT#&lt;id&gt;,&#xa;GSI2SK=completedAt → AP5: result history" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#7A1880;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="600" width="240" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_streams" value="DynamoDB Streams&#xa;NEW_AND_OLD_IMAGES" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#7A1880;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="480" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_ttl" value="TTL attribute: ttl&#xa;SESSION items only, 30d post-exam" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#7A1880;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="600" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_removal" value="removalPolicy:&#xa;RETAIN (prod) / DESTROY (else)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#7A1880;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="480" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_s3_box" value="QuestionBucket" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;dashed=1;strokeColor=#7AA116;fillColor=#F4F9EC;fontColor=#586B1F;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="420" width="440" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_bucket" value="QuestionBucket (S3)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="480" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_bucket_notes" value="bucketName includes accountId (global uniqueness)&#xa;versioned: true&#xa;blockPublicAccess: BLOCK_ALL&#xa;enforceSSL: true&#xa;Intelligent-Tiering after 30 days" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#586B1F;fillColor=#FFFFFF;fontColor=#333333;fontSize=11;align=left;spacingLeft=6;" parent="1" vertex="1">
+                    <mxGeometry x="1080" y="480" width="240" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="n_outputs" value="CfnOutputs: TableArn, TableName, TableStreamArn,&#xa;QuestionBucketArn, QuestionBucketName" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#147EBA;fillColor=#EAF4FB;fontColor=#147EBA;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="890" width="660" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="grantReadData" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_auth" target="n_table" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-80" y="799"/>
+                            <mxPoint x="-80" y="550"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e2" value="grantReadWriteData" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_resultproc" target="n_table" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-70" y="219"/>
+                            <mxPoint x="-70" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e3" value="grantReadWriteData" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_autosubmit" target="n_table" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-140" y="409"/>
+                            <mxPoint x="-140" y="500"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e4" value="grantReadWriteData" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_examsvc" target="n_table" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="grantRead" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="n_examsvc" target="n_bucket" edge="1">
+                    <mxGeometry x="-0.4178" y="7" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="999" y="147"/>
+                        </Array>
+                        <mxPoint x="650" y="140" as="sourcePoint"/>
+                        <mxPoint x="1050" y="434" as="targetPoint"/>
+                        <mxPoint x="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e6" value="explicit dynamodb:UpdateItem only&#xa;(narrower than grantReadWriteData)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#B85450;fontColor=#B85450;fontSize=10;curved=0;" parent="1" source="n_subsvc" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-272" y="611" as="sourcePoint"/>
+                        <mxPoint x="60" y="530" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-190" y="611"/>
+                            <mxPoint x="-190" y="530"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e7" value="addDynamoDbDataSource&#xa;(grantReadWriteData by default!)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#B85450;fontColor=#B85450;fontSize=10;curved=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="n_appsync" target="n_table" edge="1">
+                    <mxGeometry x="-0.4273" relative="1" as="geometry">
+                        <mxPoint x="-261" y="73.5" as="sourcePoint"/>
+                        <mxPoint y="484.5" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-162" y="74"/>
+                            <mxPoint x="80" y="74"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e8" value="DynamoEventSource" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" parent="1" source="n_streampub" target="n_streams" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" value="read-only metrics, no IAM grant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;curved=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="n_table" edge="1">
+                    <mxGeometry x="0.0267" y="18" relative="1" as="geometry">
+                        <mxPoint x="272" y="278" as="sourcePoint"/>
+                        <mxPoint x="150" y="518" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="172" y="278"/>
+                            <mxPoint x="172" y="518"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

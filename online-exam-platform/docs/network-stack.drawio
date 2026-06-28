@@ -38,7 +38,7 @@
                     <mxGeometry x="110" y="670" width="78" height="78" as="geometry"/>
                 </mxCell>
                 <mxCell id="n_lambdasg" value="lambda-sg&#xa;no ingress — attached to interface endpoints" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_group;" parent="1" vertex="1">
-                    <mxGeometry x="260" y="670" width="78" height="78" as="geometry"/>
+                    <mxGeometry x="320" y="670" width="78" height="78" as="geometry"/>
                 </mxCell>
                 <mxCell id="n_consumer_note" value="ALB + ECS tasks&#xa;(created in ExamStack, using&#xa;alb-sg / ecs-sg from here)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=#999999;fillColor=#FFFFFF;fontColor=#666666;fontSize=11;fontStyle=2;" parent="1" vertex="1">
                     <mxGeometry x="420" y="630" width="230" height="78" as="geometry"/>
@@ -84,10 +84,16 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e5" value="route table target, no ENI/SG" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;" parent="1" source="n_priv" target="n_gw" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="e5" value="route table target, no ENI/SG" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;exitX=0.997;exitY=0.081;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" parent="1" source="n_priv" target="n_gw" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="700" y="626"/>
+                            <mxPoint x="700" y="590"/>
+                            <mxPoint x="880" y="590"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="e6" value="ENI protected by lambda-sg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;" parent="1" source="n_priv" target="n_ifc" edge="1">
+                <mxCell id="e6" value="ENI protected by lambda-sg" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;curved=0;" parent="1" source="n_priv" target="n_ifc" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e7" value="Id exported" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#999999;fontColor=#999999;fontSize=10;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="n_albsg" target="n_outputs" edge="1">
@@ -108,7 +114,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e9" value="passed as typed props" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" parent="1" source="n_outputs" target="n_consumers" edge="1">
+                <mxCell id="e9" value="passed as typed props" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=11;curved=0;" parent="1" source="n_outputs" target="n_consumers" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1200" y="1025"/>
