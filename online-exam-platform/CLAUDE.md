@@ -141,6 +141,13 @@ cdk-exam-platform/
 - All states must have `Retry` and `Catch` blocks defined
 - State names match the exam lifecycle: `CREATED → STARTED → IN_PROGRESS → SUBMITTED → GRADING → COMPLETED`
 - EventBridge Scheduler triggers auto-submit on exam timeout
+- **Known gap:** the current chain has no `Wait`/task-token pause between states, so all 6 run in
+  one execution within ~1s of `StartExecution` (called immediately after the `SESSION` item is
+  created) — it stamps `status: COMPLETED` on that same item almost instantly, racing the real
+  transitions `services/submission-service`/`auto-submit`/`result-processor` make later, and
+  causing `auth-validator` to deny the student shortly after they start. Don't wire this state
+  machine into a real demo without fixing it first — see `docs/async-stack.md`'s "Exam Lifecycle
+  State Machine" section for the trace and the fix (task-token on the `InProgress` state).
 
 ### API Gateway + AppSync
 - REST (API Gateway): student answer saves, exam start/submit endpoints
@@ -265,6 +272,7 @@ git push origin release/v1.0.0
 - NetworkStack deep dive (why each VPC/SG/endpoint setting, not just what): `@docs/network-stack.md`
 - DataStack deep dive (why each DynamoDB/S3 setting, not just what): `@docs/data-stack.md`
 - AuthStack deep dive (why each Cognito/authorizer setting, not just what): `@docs/auth-stack.md`
+- AsyncStack deep dive (why each SQS/SNS/Lambda/Step Functions setting — and a real race condition in the exam-lifecycle state machine): `@docs/async-stack.md`
 - Manual testing (Swagger UI, AppSync Console queries/subscriptions): `@docs/testing.md`
 - Building/pushing the Spring Boot service images: `@docs/deploying-services.md`
 - DynamoDB access patterns: `@docs/dynamodb-access-patterns.md`
