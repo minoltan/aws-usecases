@@ -1,0 +1,142 @@
+{
+ "Resources": {
+  "CoursePlatformWebAcl": {
+   "Type": "AWS::WAFv2::WebACL",
+   "Properties": {
+    "DefaultAction": {
+     "Allow": {}
+    },
+    "Rules": [
+     {
+      "Name": "AWSManagedRulesCommonRuleSet",
+      "OverrideAction": {
+       "None": {}
+      },
+      "Priority": 0,
+      "Statement": {
+       "ManagedRuleGroupStatement": {
+        "Name": "AWSManagedRulesCommonRuleSet",
+        "VendorName": "AWS"
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "CommonRuleSet",
+       "SampledRequestsEnabled": true
+      }
+     },
+     {
+      "Action": {
+       "Block": {}
+      },
+      "Name": "AWSManagedRulesRateLimit",
+      "Priority": 1,
+      "Statement": {
+       "RateBasedStatement": {
+        "AggregateKeyType": "IP",
+        "Limit": 2000
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "RateLimit",
+       "SampledRequestsEnabled": true
+      }
+     }
+    ],
+    "Scope": "REGIONAL",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "VisibilityConfig": {
+     "CloudWatchMetricsEnabled": true,
+     "MetricName": "course-platform-dev-waf",
+     "SampledRequestsEnabled": true
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Waf/CoursePlatformWebAcl"
+   }
+  },
+  "GraphQLApiWebAclAssociation": {
+   "Type": "AWS::WAFv2::WebACLAssociation",
+   "Properties": {
+    "ResourceArn": {
+     "Fn::ImportValue": "CoursePlatform-dev-AppSync:ExportsOutputFnGetAttCoursePlatformGraphQL3ED2DFE8Arn225416E4"
+    },
+    "WebACLArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformWebAcl",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Waf/GraphQLApiWebAclAssociation"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzIx1jNQTCwv1k1OydbNyUzSqw4uSUzO1kksL44vT0wrM9Krdk7LC09NcnT20YGzHIuL85MzE0sy8/NqQaL+pSUFpSW1Onn5Kal6WcX6ZUZGekZGegaKWcWZmbpFpXklmbmpekEQGgC9wyT5dgAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Waf/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "WebAclArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CoursePlatformWebAcl",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "course-platform-dev-WebAclArn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

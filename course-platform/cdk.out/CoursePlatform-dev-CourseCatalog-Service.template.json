@@ -1,0 +1,1441 @@
+{
+ "Resources": {
+  "CreateCourseFunctionServiceRole45B6B5EE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole/Resource"
+   }
+  },
+  "CreateCourseFunctionServiceRoleDefaultPolicy823E4215": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CreateCourseFunctionServiceRoleDefaultPolicy823E4215",
+    "Roles": [
+     {
+      "Ref": "CreateCourseFunctionServiceRole45B6B5EE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CreateCourseFunction226CB2FD": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "11317327d2f227632489c1017b065b322fd1b05bf115def98c0e324b4d210ddc.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateCourseFunctionServiceRole45B6B5EE",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateCourseFunctionServiceRoleDefaultPolicy823E4215",
+    "CreateCourseFunctionServiceRole45B6B5EE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/Resource",
+    "aws:asset:path": "asset.11317327d2f227632489c1017b065b322fd1b05bf115def98c0e324b4d210ddc",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CreateCourseFunctionLogGroup8CCB6140": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CreateCourseFunction226CB2FD"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/LogGroup/Resource"
+   }
+  },
+  "UpdateCourseFunctionServiceRole786E7F9F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateCourseFunctionServiceRoleDefaultPolicy3E23475F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "UpdateCourseFunctionServiceRoleDefaultPolicy3E23475F",
+    "Roles": [
+     {
+      "Ref": "UpdateCourseFunctionServiceRole786E7F9F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "UpdateCourseFunctionDF28DC34": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "97ac11c0ee85bea7dd6d1ed68f3c2914ace245a73becb40ac88ad64eed958e0b.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateCourseFunctionServiceRole786E7F9F",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateCourseFunctionServiceRoleDefaultPolicy3E23475F",
+    "UpdateCourseFunctionServiceRole786E7F9F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/Resource",
+    "aws:asset:path": "asset.97ac11c0ee85bea7dd6d1ed68f3c2914ace245a73becb40ac88ad64eed958e0b",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateCourseFunctionLogGroup2D1CF62C": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateCourseFunctionDF28DC34"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/LogGroup/Resource"
+   }
+  },
+  "GetCourseFunctionServiceRoleC26E70C4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole/Resource"
+   }
+  },
+  "GetCourseFunctionServiceRoleDefaultPolicy37C60820": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetCourseFunctionServiceRoleDefaultPolicy37C60820",
+    "Roles": [
+     {
+      "Ref": "GetCourseFunctionServiceRoleC26E70C4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetCourseFunctionF7CF980E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "9c851f11fdc251143beb6047d3bdc488a464a2608c70b2b2681fbd70da5088dd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetCourseFunctionServiceRoleC26E70C4",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetCourseFunctionServiceRoleDefaultPolicy37C60820",
+    "GetCourseFunctionServiceRoleC26E70C4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/Resource",
+    "aws:asset:path": "asset.9c851f11fdc251143beb6047d3bdc488a464a2608c70b2b2681fbd70da5088dd",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetCourseFunctionLogGroupBE64B0FD": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetCourseFunctionF7CF980E"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/LogGroup/Resource"
+   }
+  },
+  "ListCoursesFunctionServiceRole90A4862D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole/Resource"
+   }
+  },
+  "ListCoursesFunctionServiceRoleDefaultPolicy36AF71B2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListCoursesFunctionServiceRoleDefaultPolicy36AF71B2",
+    "Roles": [
+     {
+      "Ref": "ListCoursesFunctionServiceRole90A4862D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListCoursesFunction9680EAAC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "96f7c993717f8039c98d116ed55d1e93b7a9f195d9042d545b679a8c9dc27294.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListCoursesFunctionServiceRole90A4862D",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListCoursesFunctionServiceRoleDefaultPolicy36AF71B2",
+    "ListCoursesFunctionServiceRole90A4862D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/Resource",
+    "aws:asset:path": "asset.96f7c993717f8039c98d116ed55d1e93b7a9f195d9042d545b679a8c9dc27294",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListCoursesFunctionLogGroupA4AEE494": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListCoursesFunction9680EAAC"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/LogGroup/Resource"
+   }
+  },
+  "AddLessonFunctionServiceRole44ED74DC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole/Resource"
+   }
+  },
+  "AddLessonFunctionServiceRoleDefaultPolicy1B47B421": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AddLessonFunctionServiceRoleDefaultPolicy1B47B421",
+    "Roles": [
+     {
+      "Ref": "AddLessonFunctionServiceRole44ED74DC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "AddLessonFunctionF5486754": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "847abc24a8db1ab8dadd6055ae6c7d8efa11998322c23b96fb375ce26d403e26.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AddLessonFunctionServiceRole44ED74DC",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "AddLessonFunctionServiceRoleDefaultPolicy1B47B421",
+    "AddLessonFunctionServiceRole44ED74DC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/Resource",
+    "aws:asset:path": "asset.847abc24a8db1ab8dadd6055ae6c7d8efa11998322c23b96fb375ce26d403e26",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AddLessonFunctionLogGroup1C43E11D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "AddLessonFunctionF5486754"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/LogGroup/Resource"
+   }
+  },
+  "UpdateCourseStatsFunctionServiceRole88013A90": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateCourseStatsFunctionServiceRoleDefaultPolicy204EC1EC": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "UpdateCourseStatsFunctionServiceRoleDefaultPolicy204EC1EC",
+    "Roles": [
+     {
+      "Ref": "UpdateCourseStatsFunctionServiceRole88013A90"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "UpdateCourseStatsFunction18BA7C16": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "73b2dadf171fd8459c8973fe35757aa0af64947e23f3984d06f63f48b6de79a1.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.course-catalog"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateCourseStatsFunctionServiceRole88013A90",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateCourseStatsFunctionServiceRoleDefaultPolicy204EC1EC",
+    "UpdateCourseStatsFunctionServiceRole88013A90"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/Resource",
+    "aws:asset:path": "asset.73b2dadf171fd8459c8973fe35757aa0af64947e23f3984d06f63f48b6de79a1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateCourseStatsFunctionLogGroup16A9C066": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateCourseStatsFunction18BA7C16"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/LogGroup/Resource"
+   }
+  },
+  "EnrollmentCreatedRuleD6061055": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventBusName": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+    },
+    "EventPattern": {
+     "source": [
+      "course-platform.enrollment"
+     ],
+     "detail-type": [
+      "Enrollment.EnrollmentCreated"
+     ]
+    },
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "UpdateCourseStatsFunction18BA7C16",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/EnrollmentCreatedRule/Resource"
+   }
+  },
+  "EnrollmentCreatedRuleAllowEventRuleCoursePlatformdevCourseCatalogServiceUpdateCourseStatsFunctionDAD76AF7544CFFE3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UpdateCourseStatsFunction18BA7C16",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "EnrollmentCreatedRuleD6061055",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/EnrollmentCreatedRule/AllowEventRuleCoursePlatformdevCourseCatalogServiceUpdateCourseStatsFunctionDAD76AF7"
+   }
+  },
+  "CourseCatalogStreamPipeRoleC8923894": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "pipes.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "course-catalog"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole/Resource"
+   }
+  },
+  "CourseCatalogStreamPipeRoleDefaultPolicy8A406EBA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1StreamArn01A25CB0"
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CourseCatalogStreamPipeRoleDefaultPolicy8A406EBA",
+    "Roles": [
+     {
+      "Ref": "CourseCatalogStreamPipeRoleC8923894"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole/DefaultPolicy/Resource"
+   }
+  },
+  "CourseCatalogStreamPipe": {
+   "Type": "AWS::Pipes::Pipe",
+   "Properties": {
+    "Name": "CourseCatalogStreamPipe",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "CourseCatalogStreamPipeRoleC8923894",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Data:ExportsOutputFnGetAttCourseCatalogTable8F61C4E1StreamArn01A25CB0"
+    },
+    "SourceParameters": {
+     "DynamoDBStreamParameters": {
+      "BatchSize": 10,
+      "StartingPosition": "LATEST"
+     }
+    },
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "course-catalog",
+     "Project": "course-platform"
+    },
+    "Target": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+    },
+    "TargetParameters": {
+     "EventBridgeEventBusParameters": {
+      "DetailType": "CourseCatalogDataChanged",
+      "Source": "course-platform.course-catalog"
+     },
+     "InputTemplate": "{\"eventName\": <$.eventName>, \"keys\": <$.dynamodb.Keys>, \"newImage\": <$.dynamodb.NewImage>, \"oldImage\": <$.dynamodb.OldImage>}"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipe"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1YW2vbMBT+LdVjUbTi7ClvSdnGYC0hyVsI4dQ6cZXoYnRJlwn/9yFf0oWOrhtskMxgI+sc6Tvn+yzLB2Usez9kN1fw5AY53w2keGBx7iHfUXhy6yhBPXBYa8Nx69h93XwMOvfC6GUkNmgvFJIRuSaUoPb20D4nswm+7SlUxh7m4ls39CFoLoUuyCgSJbTYHMjI24CUOBNsjndQdoaNsQoSEDqVZoLWaLuIXz1aDfLO8CDR1dYqJbIX1miFuksgN7wL/QiayxahovHH61z4nFGqvfS99L30vfS99L30Zyf9igpQLM6MxGUk4FxQyCeHFL20QueiBDnOcxOOAjRj0oRxXSN10Ao0FMinRopcpIjLeGI7jG07dpUEAs4XZtqFaEakOa3Xe8gfP2spNB595Jq8wfk67uvenv5l0+8JnjvB/5z+HxN8xv49Rf8GkRW93eiUIG3Mac4RbmGS50WUl2bO5x48pl+ZO6HzZvOFhj13/MukVS/6Zr1X1A3X4Bx6x8apoW7IJiHfoZ+Aw/pz+Mm9os1RFYu3G92dUNWoaJVwThhdUWkKx+IXU3yyJpTLSGT7eA9tNZoS/DfGmnKXSkVxn+RgcRbqWrPuToLrCtbUnYJPZWva3Zpqt3Vy9CDk4lB24YgHW6B3x+jA+YcThOUvII6bVA10sjMFiRUtRYmOJXVFiRWt39PcQyF0UdF0WMi27t0+y1iWsZurrRNi0Nb8bNa03wHiqDP8eRQAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-CourseCatalog-Service/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetCourseFunctionF7CF980E",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+   }
+  },
+  "ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListCoursesFunction9680EAAC",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89"
+   }
+  },
+  "ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CreateCourseFunction226CB2FD",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6"
+   }
+  },
+  "ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UpdateCourseFunctionDF28DC34",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC"
+   }
+  },
+  "ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AddLessonFunctionF5486754",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

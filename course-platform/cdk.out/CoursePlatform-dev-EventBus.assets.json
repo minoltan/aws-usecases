@@ -1,0 +1,21 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "aca2c7c681824c4318210b88e0453c9e6278101397a2d2c038cf04d2a945a360": {
+      "displayName": "CoursePlatform-dev-EventBus Template",
+      "source": {
+        "path": "CoursePlatform-dev-EventBus.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-9b66c4c0": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "aca2c7c681824c4318210b88e0453c9e6278101397a2d2c038cf04d2a945a360.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

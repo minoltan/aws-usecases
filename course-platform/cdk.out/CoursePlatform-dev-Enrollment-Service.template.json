@@ -1,0 +1,1346 @@
+{
+ "Resources": {
+  "EnrollFunctionServiceRoleE9AC1EE2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole/Resource"
+   }
+  },
+  "EnrollFunctionServiceRoleDefaultPolicy43B21C6A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EnrollFunctionServiceRoleDefaultPolicy43B21C6A",
+    "Roles": [
+     {
+      "Ref": "EnrollFunctionServiceRoleE9AC1EE2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "EnrollFunctionD4C37084": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "8eeb33fe2c3b173d1395bed990336fac543b0f9727494d0a2bf7e3500cc7785a.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.enrollment"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "EnrollFunctionServiceRoleE9AC1EE2",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "EnrollFunctionServiceRoleDefaultPolicy43B21C6A",
+    "EnrollFunctionServiceRoleE9AC1EE2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollFunction/Resource",
+    "aws:asset:path": "asset.8eeb33fe2c3b173d1395bed990336fac543b0f9727494d0a2bf7e3500cc7785a",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "EnrollFunctionLogGroup876E8A77": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "EnrollFunctionD4C37084"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollFunction/LogGroup/Resource"
+   }
+  },
+  "GetEnrollmentFunctionServiceRoleB946624C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole/Resource"
+   }
+  },
+  "GetEnrollmentFunctionServiceRoleDefaultPolicy913FC264": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetEnrollmentFunctionServiceRoleDefaultPolicy913FC264",
+    "Roles": [
+     {
+      "Ref": "GetEnrollmentFunctionServiceRoleB946624C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetEnrollmentFunction83DEE968": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "344e7350778c7a75b4d36449a4715010f7cdfd67a5bed2334d1b9a16a314238c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.enrollment"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetEnrollmentFunctionServiceRoleB946624C",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetEnrollmentFunctionServiceRoleDefaultPolicy913FC264",
+    "GetEnrollmentFunctionServiceRoleB946624C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/Resource",
+    "aws:asset:path": "asset.344e7350778c7a75b4d36449a4715010f7cdfd67a5bed2334d1b9a16a314238c",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetEnrollmentFunctionLogGroup75AA61A0": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetEnrollmentFunction83DEE968"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/LogGroup/Resource"
+   }
+  },
+  "ListEnrollmentsForUserFunctionServiceRoleDC6EE7F9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole/Resource"
+   }
+  },
+  "ListEnrollmentsForUserFunctionServiceRoleDefaultPolicyDEEC370D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListEnrollmentsForUserFunctionServiceRoleDefaultPolicyDEEC370D",
+    "Roles": [
+     {
+      "Ref": "ListEnrollmentsForUserFunctionServiceRoleDC6EE7F9"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListEnrollmentsForUserFunction495DC0EA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "28cd4853b208b8aacca08b1f223ed986b943fc8451a65294b81825c362dbe32d.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.enrollment"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListEnrollmentsForUserFunctionServiceRoleDC6EE7F9",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListEnrollmentsForUserFunctionServiceRoleDefaultPolicyDEEC370D",
+    "ListEnrollmentsForUserFunctionServiceRoleDC6EE7F9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/Resource",
+    "aws:asset:path": "asset.28cd4853b208b8aacca08b1f223ed986b943fc8451a65294b81825c362dbe32d",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListEnrollmentsForUserFunctionLogGroupC7935DE7": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListEnrollmentsForUserFunction495DC0EA"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/LogGroup/Resource"
+   }
+  },
+  "CancelEnrollmentFunctionServiceRole06927052": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole/Resource"
+   }
+  },
+  "CancelEnrollmentFunctionServiceRoleDefaultPolicy7043F702": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CancelEnrollmentFunctionServiceRoleDefaultPolicy7043F702",
+    "Roles": [
+     {
+      "Ref": "CancelEnrollmentFunctionServiceRole06927052"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CancelEnrollmentFunction2951866A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "a17f9497140b443e9755a94cb8ab244216c5cf5d6440f80cfc8e9f9b5d1fa12c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.enrollment"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CancelEnrollmentFunctionServiceRole06927052",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CancelEnrollmentFunctionServiceRoleDefaultPolicy7043F702",
+    "CancelEnrollmentFunctionServiceRole06927052"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/Resource",
+    "aws:asset:path": "asset.a17f9497140b443e9755a94cb8ab244216c5cf5d6440f80cfc8e9f9b5d1fa12c",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CancelEnrollmentFunctionLogGroupB0C164C9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CancelEnrollmentFunction2951866A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/LogGroup/Resource"
+   }
+  },
+  "PaymentWebhookSecret3D7F8A8C": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "HMAC secret used to verify inbound payment webhook signatures",
+    "GenerateSecretString": {},
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookSecret/Resource"
+   }
+  },
+  "PaymentWebhookFunctionServiceRole1118A853": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole/Resource"
+   }
+  },
+  "PaymentWebhookFunctionServiceRoleDefaultPolicy9920FEC3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "PaymentWebhookSecret3D7F8A8C"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PaymentWebhookFunctionServiceRoleDefaultPolicy9920FEC3",
+    "Roles": [
+     {
+      "Ref": "PaymentWebhookFunctionServiceRole1118A853"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "PaymentWebhookFunction7DAEEF03": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "1e4000adce8143e31889e02a9a7396ecbbaa66faffa7ade1ae5c7afe985fac10.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.enrollment",
+      "WEBHOOK_SECRET_ARN": {
+       "Ref": "PaymentWebhookSecret3D7F8A8C"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "PaymentWebhookFunctionServiceRole1118A853",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "PaymentWebhookFunctionServiceRoleDefaultPolicy9920FEC3",
+    "PaymentWebhookFunctionServiceRole1118A853"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/Resource",
+    "aws:asset:path": "asset.1e4000adce8143e31889e02a9a7396ecbbaa66faffa7ade1ae5c7afe985fac10",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "PaymentWebhookFunctionLogGroup55332149": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "PaymentWebhookFunction7DAEEF03"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/LogGroup/Resource"
+   }
+  },
+  "PaymentWebhookApi161FA9C7": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "Description": "Public webhook receiver for payment provider callbacks",
+    "Name": "course-platform-dev-payment-webhook",
+    "ProtocolType": "HTTP",
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "enrollment",
+     "Project": "course-platform"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/Resource"
+   }
+  },
+  "PaymentWebhookApiDefaultStage8629D1FD": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "PaymentWebhookApi161FA9C7"
+    },
+    "AutoDeploy": true,
+    "StageName": "$default",
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "enrollment",
+     "Project": "course-platform"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/DefaultStage/Resource"
+   }
+  },
+  "PaymentWebhookApiPOSTwebhookspaymentPaymentWebhookIntegrationF5FB56F1": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "PaymentWebhookApi161FA9C7"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "PaymentWebhookFunction7DAEEF03",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/PaymentWebhookIntegration/Resource"
+   }
+  },
+  "PaymentWebhookApiPOSTwebhookspaymentPaymentWebhookIntegrationPermission363A18FF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "PaymentWebhookFunction7DAEEF03",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:ap-southeast-1:930877725354:",
+       {
+        "Ref": "PaymentWebhookApi161FA9C7"
+       },
+       "/*/*/webhooks/payment"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/PaymentWebhookIntegration-Permission"
+   }
+  },
+  "PaymentWebhookApiPOSTwebhookspaymentA6DA622E": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "PaymentWebhookApi161FA9C7"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "POST /webhooks/payment",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "PaymentWebhookApiPOSTwebhookspaymentPaymentWebhookIntegrationF5FB56F1"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/Resource"
+   }
+  },
+  "EnrollmentStreamPipeRoleBF4EB6FC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "pipes.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "enrollment"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole/Resource"
+   }
+  },
+  "EnrollmentStreamPipeRoleDefaultPolicyE84BFB0C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3StreamArnA004690B"
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EnrollmentStreamPipeRoleDefaultPolicyE84BFB0C",
+    "Roles": [
+     {
+      "Ref": "EnrollmentStreamPipeRoleBF4EB6FC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole/DefaultPolicy/Resource"
+   }
+  },
+  "EnrollmentStreamPipe": {
+   "Type": "AWS::Pipes::Pipe",
+   "Properties": {
+    "Name": "EnrollmentStreamPipe",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "EnrollmentStreamPipeRoleBF4EB6FC",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Data:ExportsOutputFnGetAttEnrollmentTableB364BED3StreamArnA004690B"
+    },
+    "SourceParameters": {
+     "DynamoDBStreamParameters": {
+      "BatchSize": 10,
+      "StartingPosition": "LATEST"
+     }
+    },
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "enrollment",
+     "Project": "course-platform"
+    },
+    "Target": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+    },
+    "TargetParameters": {
+     "EventBridgeEventBusParameters": {
+      "DetailType": "EnrollmentDataChanged",
+      "Source": "course-platform.enrollment"
+     },
+     "InputTemplate": "{\"eventName\": <$.eventName>, \"keys\": <$.dynamodb.Keys>, \"newImage\": <$.dynamodb.NewImage>, \"oldImage\": <$.dynamodb.OldImage>}"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipe"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1Y207cMBD9FvyIjItCn3hbkNoiFYpY3lYrNGvPhoHEtnyBbq38e2UnWaBIiEqlZauVEjk+czkzJ5YTuRLVxwOxvwP3fk+q272GFiJNA8hbDvf+KjXQLhRcaaPwxouzMnyKWgYyepaYizpQi+yQ7TLOUAe3Gp4zbGIYZi22xq2m9GN0XUStGtI1O0ysJU3LFTsMLiJn3kQn8RTsCCyNayEnQt/mSNAa3cj4PaDT0JwaFRv0Be1yIXfkjG5RjwVIo0bqa9CqGTJ0PD2+NqWfDSp1K/1W+q30W+nfnfQb1FI35wStSBemwVli4H1sUR2tMrt1pCVZaCZSmrjWoPfJAZPyrR5Tt6ChRnVuGpKUGWfpCbaauMF3ngUCpS7N+UjRe+SYwRoCyOsT3ZDGtY3tslcYX877svW/b3/b4KY3uG3/74vzkPv3CN9ChDk/XupcIO/hHLNOd2my5RnLc1ipaYCA+Tvgn7TzavitaTc9//ui/TfVlLXaL9OO+4Mr8B6DF5M8cH8gjqK8xXAEHssq/uWe8/6IQKTjpR5PBkpGdC15T0Z3vDG1F+mrqT87E+0ssWZ4PIPh7ysX98fB0tnI2nGP0mHw/XbpRJqW+SwxhV46sg9bSQnszR0HSzUEvIfVXSXSlxDsxNJs3f7xUk8s8YxPA9RFpD4+zwp+YWIY8Dw90QFrB+UIZXR+hPVbRwzYcUsWvchiksWOl1eS05Kus9e3GGwMHc+nM+LGf7irKlFVYn/nxhPtDT+34qIffwLyIjd96hEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Enrollment-Service/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "PaymentWebhookUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::GetAtt": [
+        "PaymentWebhookApi161FA9C7",
+        "ApiEndpoint"
+       ]
+      },
+      "/webhooks/payment"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "course-platform-dev-PaymentWebhookUrl"
+   }
+  },
+  "ExportsOutputFnGetAttPaymentWebhookApi161FA9C7ApiEndpoint7FD5ADFB": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PaymentWebhookApi161FA9C7",
+     "ApiEndpoint"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttPaymentWebhookApi161FA9C7ApiEndpoint7FD5ADFB"
+   }
+  },
+  "ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetEnrollmentFunction83DEE968",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+   }
+  },
+  "ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListEnrollmentsForUserFunction495DC0EA",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A"
+   }
+  },
+  "ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525": {
+   "Value": {
+    "Fn::GetAtt": [
+     "EnrollFunctionD4C37084",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525"
+   }
+  },
+  "ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CancelEnrollmentFunction2951866A",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,305 @@
+{
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "createService": [
+          "*",
+          {
+            "name": "*",
+            "description": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "createService": [
+          "*",
+          {
+            "name": "*",
+            "description": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "createService": [
+          "*",
+          {
+            "name": "*",
+            "description": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "createService": [
+          "*",
+          {
+            "name": "*",
+            "description": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "createService": [
+          "*",
+          {
+            "name": "*",
+            "description": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceBBD392CD"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "namespace": "*",
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "registerNonIpInstance": [
+          "*",
+          {
+            "customAttributes": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "namespace": "*",
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "registerNonIpInstance": [
+          "*",
+          {
+            "customAttributes": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "namespace": "*",
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "registerNonIpInstance": [
+          "*",
+          {
+            "customAttributes": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "namespace": "*",
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "registerNonIpInstance": [
+          "*",
+          {
+            "customAttributes": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "namespace": "*",
+        "name": "*",
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "registerNonIpInstance": [
+          "*",
+          {
+            "customAttributes": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceCourseCatalogRegistry9E4168A5"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry/Instance": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "service": "*",
+        "customAttributes": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceVideoRegistry3036957E"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry/Instance": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "service": "*",
+        "customAttributes": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceEnrollmentRegistry0E368110"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry/Instance": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "service": "*",
+        "customAttributes": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceDiscussionRegistryC9649353"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry/Instance": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "service": "*",
+        "customAttributes": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceAnalyticsRegistry76830B56"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry/Instance": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "service": "*",
+        "customAttributes": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry/Instance/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceCourseCatalogRegistryInstance9963B211"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry/Instance/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceVideoRegistryInstanceFFF2D0AD"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry/Instance/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceEnrollmentRegistryInstance7E686869"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry/Instance/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceDiscussionRegistryInstanceE64942D9"
+    }
+  ],
+  "/CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry/Instance/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformNamespaceAnalyticsRegistryInstance2C5A4652"
+    }
+  ]
+}

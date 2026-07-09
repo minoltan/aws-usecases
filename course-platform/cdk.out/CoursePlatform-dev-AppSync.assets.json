@@ -1,0 +1,51 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d": {
+      "displayName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
+      "source": {
+        "path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-8d83ffaf": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae": {
+      "displayName": "CoursePlatformGraphQL/getCourseResolver/Code",
+      "source": {
+        "path": "asset.d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-ab379c9a": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "54bb7959f6ef09cf302dc6dd7c77345453eef0720649c6ff7a66d6282a35a830": {
+      "displayName": "CoursePlatform-dev-AppSync Template",
+      "source": {
+        "path": "CoursePlatform-dev-AppSync.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-6d7c8cb5": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "54bb7959f6ef09cf302dc6dd7c77345453eef0720649c6ff7a66d6282a35a830.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

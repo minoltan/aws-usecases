@@ -1,0 +1,1193 @@
+{
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookSecret": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "description": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipe": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentStreamPipe"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookUrl"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollFunctionD4C37084"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetEnrollmentFunction83DEE968"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListEnrollmentsForUserFunction495DC0EA"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CancelEnrollmentFunction2951866A"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookSecret/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookSecret3D7F8A8C"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookFunction7DAEEF03"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookApi161FA9C7"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/DefaultStage": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentStreamPipeRoleBF4EB6FC"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/Exports/Output{\"Fn::GetAtt\":[\"PaymentWebhookApi161FA9C7\",\"ApiEndpoint\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttPaymentWebhookApi161FA9C7ApiEndpoint7FD5ADFB"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/Exports/Output{\"Fn::GetAtt\":[\"GetEnrollmentFunction83DEE968\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/Exports/Output{\"Fn::GetAtt\":[\"ListEnrollmentsForUserFunction495DC0EA\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/Exports/Output{\"Fn::GetAtt\":[\"EnrollFunctionD4C37084\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/Exports/Output{\"Fn::GetAtt\":[\"CancelEnrollmentFunction2951866A\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollFunctionServiceRoleE9AC1EE2"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollFunctionLogGroup876E8A77"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetEnrollmentFunctionServiceRoleB946624C"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetEnrollmentFunctionLogGroup75AA61A0"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListEnrollmentsForUserFunctionServiceRoleDC6EE7F9"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListEnrollmentsForUserFunctionLogGroupC7935DE7"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CancelEnrollmentFunctionServiceRole06927052"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CancelEnrollmentFunctionLogGroupB0C164C9"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookFunctionServiceRole1118A853"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookFunctionLogGroup55332149"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/DefaultStage/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookApiDefaultStage8629D1FD"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/PaymentWebhookIntegration": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/PaymentWebhookIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookApiPOSTwebhookspaymentPaymentWebhookIntegrationPermission363A18FF"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookApiPOSTwebhookspaymentA6DA622E"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollmentStreamPipeRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentStreamPipeRoleDefaultPolicyE84BFB0C"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/EnrollFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollFunctionServiceRoleDefaultPolicy43B21C6A"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/GetEnrollmentFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetEnrollmentFunctionServiceRoleDefaultPolicy913FC264"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/ListEnrollmentsForUserFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListEnrollmentsForUserFunctionServiceRoleDefaultPolicyDEEC370D"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/CancelEnrollmentFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CancelEnrollmentFunctionServiceRoleDefaultPolicy7043F702"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookFunctionServiceRoleDefaultPolicy9920FEC3"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Service/PaymentWebhookApi/POST--webhooks--payment/PaymentWebhookIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PaymentWebhookApiPOSTwebhookspaymentPaymentWebhookIntegrationF5FB56F1"
+    }
+  ]
+}

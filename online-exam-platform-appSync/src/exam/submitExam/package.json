@@ -1,0 +1,16 @@
+{
+  "name": "submit-exam",
+  "version": "1.0.0",
+  "description": "API entry point - saves answers and sends TaskSuccess to Step Functions",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.716.0",
+    "@aws-sdk/client-sfn": "^3.716.0",
+    "@aws-sdk/client-sqs": "^3.716.0"
+  }
+}

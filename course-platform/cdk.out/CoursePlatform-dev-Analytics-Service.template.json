@@ -1,0 +1,744 @@
+{
+ "Resources": {
+  "AnalyticsDatabase": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseInput": {
+     "Name": "course_platform_analytics_dev"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDatabase"
+   }
+  },
+  "RawEventsTable": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": {
+     "Ref": "AnalyticsDatabase"
+    },
+    "TableInput": {
+     "Name": "raw_events",
+     "Parameters": {
+      "classification": "json",
+      "projection.enabled": "true",
+      "projection.year.type": "integer",
+      "projection.year.range": "2024,2100",
+      "projection.month.type": "integer",
+      "projection.month.range": "1,12",
+      "projection.month.digits": "2",
+      "projection.day.type": "integer",
+      "projection.day.range": "1,31",
+      "projection.day.digits": "2",
+      "storage.location.template": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputRefAnalyticsDataLakeBucket14FCF063B0B4C3F4"
+         },
+         "/raw/${year}/${month}/${day}"
+        ]
+       ]
+      }
+     },
+     "PartitionKeys": [
+      {
+       "Name": "year",
+       "Type": "string"
+      },
+      {
+       "Name": "month",
+       "Type": "string"
+      },
+      {
+       "Name": "day",
+       "Type": "string"
+      }
+     ],
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "version",
+        "Type": "string"
+       },
+       {
+        "Name": "id",
+        "Type": "string"
+       },
+       {
+        "Name": "detail-type",
+        "Type": "string"
+       },
+       {
+        "Name": "source",
+        "Type": "string"
+       },
+       {
+        "Name": "account",
+        "Type": "string"
+       },
+       {
+        "Name": "time",
+        "Type": "string"
+       },
+       {
+        "Name": "region",
+        "Type": "string"
+       },
+       {
+        "Name": "resources",
+        "Type": "array<string>"
+       },
+       {
+        "Name": "detail",
+        "Type": "string"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.mapred.TextInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputRefAnalyticsDataLakeBucket14FCF063B0B4C3F4"
+         },
+         "/raw/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
+      "SerdeInfo": {
+       "SerializationLibrary": "org.openx.data.jsonserde.JsonSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "DependsOn": [
+    "AnalyticsDatabase"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/RawEventsTable"
+   }
+  },
+  "AnalyticsWorkgroup": {
+   "Type": "AWS::Athena::WorkGroup",
+   "Properties": {
+    "Name": "course-platform-dev-analytics",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "WorkGroupConfiguration": {
+     "ResultConfiguration": {
+      "OutputLocation": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputRefAnalyticsDataLakeBucket14FCF063B0B4C3F4"
+         },
+         "/athena-results/"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsWorkgroup"
+   }
+  },
+  "AnalyticsDeliveryStreamS3DestinationRole6F9DDC0F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "firehose.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/S3 Destination Role/Resource"
+   }
+  },
+  "AnalyticsDeliveryStreamS3DestinationRoleDefaultPolicy040A3538": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AnalyticsDeliveryStreamLogGroup5FB3B8B6",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AnalyticsDeliveryStreamS3DestinationRoleDefaultPolicy040A3538",
+    "Roles": [
+     {
+      "Ref": "AnalyticsDeliveryStreamS3DestinationRole6F9DDC0F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/S3 Destination Role/DefaultPolicy/Resource"
+   }
+  },
+  "AnalyticsDeliveryStreamLogGroup5FB3B8B6": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/LogGroup/Resource"
+   }
+  },
+  "AnalyticsDeliveryStreamLogGroupS3DestinationDBC73A85": {
+   "Type": "AWS::Logs::LogStream",
+   "Properties": {
+    "LogGroupName": {
+     "Ref": "AnalyticsDeliveryStreamLogGroup5FB3B8B6"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/LogGroup/S3Destination/Resource"
+   }
+  },
+  "AnalyticsDeliveryStream30445990": {
+   "Type": "AWS::KinesisFirehose::DeliveryStream",
+   "Properties": {
+    "DeliveryStreamName": "course-platform-dev-analytics",
+    "DeliveryStreamType": "DirectPut",
+    "ExtendedS3DestinationConfiguration": {
+     "BucketARN": {
+      "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+     },
+     "BufferingHints": {
+      "IntervalInSeconds": 300,
+      "SizeInMBs": 5
+     },
+     "CloudWatchLoggingOptions": {
+      "Enabled": true,
+      "LogGroupName": {
+       "Ref": "AnalyticsDeliveryStreamLogGroup5FB3B8B6"
+      },
+      "LogStreamName": {
+       "Ref": "AnalyticsDeliveryStreamLogGroupS3DestinationDBC73A85"
+      }
+     },
+     "CompressionFormat": "GZIP",
+     "ErrorOutputPrefix": "raw-errors/!{firehose:error-output-type}/",
+     "Prefix": "raw/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}/",
+     "RoleARN": {
+      "Fn::GetAtt": [
+       "AnalyticsDeliveryStreamS3DestinationRole6F9DDC0F",
+       "Arn"
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "DependsOn": [
+    "AnalyticsDeliveryStreamS3DestinationRoleDefaultPolicy040A3538"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/Resource"
+   }
+  },
+  "AnalyticsDeliveryStreamEventsRole03DE1AB8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/EventsRole/Resource"
+   }
+  },
+  "AnalyticsDeliveryStreamEventsRoleDefaultPolicy71DC4D29": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "firehose:PutRecord",
+        "firehose:PutRecordBatch"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AnalyticsDeliveryStream30445990",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AnalyticsDeliveryStreamEventsRoleDefaultPolicy71DC4D29",
+    "Roles": [
+     {
+      "Ref": "AnalyticsDeliveryStreamEventsRole03DE1AB8"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsDeliveryStream/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "AnalyticsIngestRule54A360DA": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventBusName": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+    },
+    "EventPattern": {
+     "source": [
+      "course-platform.course-catalog",
+      "course-platform.video",
+      "course-platform.enrollment",
+      "course-platform.discussion"
+     ]
+    },
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "AnalyticsDeliveryStream30445990",
+        "Arn"
+       ]
+      },
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "AnalyticsDeliveryStreamEventsRole03DE1AB8",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/AnalyticsIngestRule/Resource"
+   }
+  },
+  "GetCourseEnrollmentStatsFunctionServiceRole3B7439F2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/GetCourseEnrollmentStatsFunction/ServiceRole/Resource"
+   }
+  },
+  "GetCourseEnrollmentStatsFunctionServiceRoleDefaultPolicy108F9A1A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "athena:GetQueryExecution",
+        "athena:GetQueryResults",
+        "athena:StartQueryExecution",
+        "glue:GetDatabase",
+        "glue:GetPartitions",
+        "glue:GetTable"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetCourseEnrollmentStatsFunctionServiceRoleDefaultPolicy108F9A1A",
+    "Roles": [
+     {
+      "Ref": "GetCourseEnrollmentStatsFunctionServiceRole3B7439F2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/GetCourseEnrollmentStatsFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetCourseEnrollmentStatsFunction3525F852": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "a15ad0ceb6fcde6ddb28c8aed2828d0673765faf2dd66b46f4bfbf7488e79a35.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "GLUE_DATABASE": {
+       "Ref": "AnalyticsDatabase"
+      },
+      "ATHENA_WORKGROUP": "course-platform-dev-analytics",
+      "RESULTS_BUCKET_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Analytics-Data:ExportsOutputRefAnalyticsDataLakeBucket14FCF063B0B4C3F4"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetCourseEnrollmentStatsFunctionServiceRole3B7439F2",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetCourseEnrollmentStatsFunctionServiceRoleDefaultPolicy108F9A1A",
+    "GetCourseEnrollmentStatsFunctionServiceRole3B7439F2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/GetCourseEnrollmentStatsFunction/Resource",
+    "aws:asset:path": "asset.a15ad0ceb6fcde6ddb28c8aed2828d0673765faf2dd66b46f4bfbf7488e79a35",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetCourseEnrollmentStatsFunctionLogGroup7F5600D0": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetCourseEnrollmentStatsFunction3525F852"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "analytics"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/GetCourseEnrollmentStatsFunction/LogGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/9VVbWvbMBD+LdXHomol2ad8S9ptDJpSmsI+hFIu1sVRIp+CXtJ5wv99SLGymo4xxsY2MMh3uuden7NHYvR2LC7P4NldVHJ3odVKxIWHasfh2T3FWgcU8WpN1+BhBQ751ZoeYKWx4+A3SCCu1vTJ2N0Ha8Ke7xShU26tLG6MQxGvUasD2nbhLUKzjEwOFLfQIJuwc8aZROcVgVeGsqZ7TLGG+I4raES8NxqXkYFzoUE5a9kksr1VVKk96GlVmUC+93q0SYBp9c11xyMDKR/MXUHdGa2qlk2WsXvMt95DtflIWhGe7tg5+4nLH/q1RuOLov/REn45K84aIKhRZp8KXUpnoGuntsz3L00h8yolzo/qhDm5ezDp5lWU12opFx48NkjevUj4e+rf5v8PJ5obc+xJx7WpnYg3ps6L3fdI9+KJwUdMseI3pj4terEd2pU9xkMKLOJ9yKucxVlwPbmyeAfeYyJLZM4EW2GhmAdbo3e9mGt5NwAsh4gTITJuwIKQPmQampWEJzISt07c5uN9oEzrZWQ2kFenjUXytu3fk9qEshENNsa2C/WlmK4CSa2oThU0itS6ZRNvA/I+uznsi2JtbAPJEbomIYEIbYn4OVUFem5k0FjKZkgHZQ2lAfaGlZEl9AZI6t5Dx+PL53+pp3vkbvwEzqF3YpoO7sZiFqod+hk4zAzvZ5d+QmViXRrsHPZ7RTXPuIWHWlHd8TRhsXVvDqORGI3E5dnWKXXR90PcH8+vqXGWuRMHAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Analytics-Service/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefAnalyticsDatabase40137C7F": {
+   "Value": {
+    "Ref": "AnalyticsDatabase"
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Analytics-Service:ExportsOutputRefAnalyticsDatabase40137C7F"
+   }
+  },
+  "ExportsOutputFnGetAttGetCourseEnrollmentStatsFunction3525F852ArnB811ED75": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetCourseEnrollmentStatsFunction3525F852",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Analytics-Service:ExportsOutputFnGetAttGetCourseEnrollmentStatsFunction3525F852ArnB811ED75"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

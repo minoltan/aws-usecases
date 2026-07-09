@@ -1,0 +1,123 @@
+{
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucketName": "*",
+        "encryption": "S3_MANAGED",
+        "blockPublicAccess": "*",
+        "lifecycleRules": [
+          {
+            "transitions": "*"
+          }
+        ],
+        "removalPolicy": "destroy",
+        "autoDeleteObjects": true
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addLifecycleRule": [
+          {
+            "transitions": "*"
+          },
+          "*",
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalyticsDataLakeBucket14FCF063"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket/Policy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucket": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket/AutoDeleteObjectsCustomResource": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/Exports/Output{\"Ref\":\"AnalyticsDataLakeBucket14FCF063\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefAnalyticsDataLakeBucket14FCF063B0B4C3F4"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/Exports/Output{\"Fn::GetAtt\":[\"AnalyticsDataLakeBucket14FCF063\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttAnalyticsDataLakeBucket14FCF063Arn9E6D74F5"
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalyticsDataLakeBucketPolicy80A97FB8"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Analytics-Data/AnalyticsDataLakeBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalyticsDataLakeBucketAutoDeleteObjectsCustomResourceB5882A9E"
+    }
+  ]
+}

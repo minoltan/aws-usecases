@@ -1,0 +1,158 @@
+{
+ "Resources": {
+  "CoursePlatformUserPoolD548B097": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": false,
+      "RequireUppercase": true
+     }
+    },
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserPoolName": "course-platform-dev",
+    "UserPoolTags": {
+     "Environment": "dev",
+     "Project": "course-platform"
+    },
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Auth/CoursePlatformUserPool/Resource"
+   }
+  },
+  "CoursePlatformUserPoolCoursePlatformWebClient0203F076": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "implicit",
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "profile",
+     "phone",
+     "email",
+     "openid",
+     "aws.cognito.signin.user.admin"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "GenerateSecret": false,
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "CoursePlatformUserPoolD548B097"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Auth/CoursePlatformUserPool/CoursePlatformWebClient/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QT0vDQBDFP4t7lHQtq6fcpCoIRUtDvYjIdjNJp93sxJ3dhhDy3aVpIv47zfDewPvNU1LdXMv5hW54ZvLDzOJWdlnQ5pDoht8NlQ4DyW7D4FdE9rUTcVyfdAUiFZciEQy2yLB0m/re6a2FXKTBR0gEY+ke3a1FzcAi7QRUGu3Z7ROhY6AX8Fi0f71aMzfk8xVZNINfoVuCK8NuTPXwEdHDkhrwRjNMoaO+qet/9TssMfAvMWurLVkWaaEtD2jGUHRhDYaO4FuRqtNtRUdtJyKRAwdPrejfkkXhpoqSaVlYBBe+NTZy6xh2D5aaoZDBG1+dmE5a5uuvKkpw4HWADIyHMDH+CD1n9SfpOYY6hj5xlIPc89VRKamUnF/sGXHmowtYgVyf5yd4XQe/AAIAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Auth/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "UserPoolId": {
+   "Value": {
+    "Ref": "CoursePlatformUserPoolD548B097"
+   },
+   "Export": {
+    "Name": "course-platform-dev-UserPoolId"
+   }
+  },
+  "UserPoolClientId": {
+   "Value": {
+    "Ref": "CoursePlatformUserPoolCoursePlatformWebClient0203F076"
+   },
+   "Export": {
+    "Name": "course-platform-dev-UserPoolClientId"
+   }
+  },
+  "ExportsOutputRefCoursePlatformUserPoolD548B09719BFA1C2": {
+   "Value": {
+    "Ref": "CoursePlatformUserPoolD548B097"
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Auth:ExportsOutputRefCoursePlatformUserPoolD548B09719BFA1C2"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

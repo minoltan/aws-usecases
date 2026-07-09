@@ -1,0 +1,895 @@
+{
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/DiscussionStreamPipe": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DiscussionStreamPipe"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateThreadFunction8CFB0BDA"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostMessageFunction09D61B06"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListMessagesFunctionA8668969"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListThreadsFunctionF766D216"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DiscussionStreamPipeRoleBF0E7C39"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/Exports/Output{\"Fn::GetAtt\":[\"ListThreadsFunctionF766D216\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/Exports/Output{\"Fn::GetAtt\":[\"ListMessagesFunctionA8668969\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/Exports/Output{\"Fn::GetAtt\":[\"CreateThreadFunction8CFB0BDA\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/Exports/Output{\"Fn::GetAtt\":[\"PostMessageFunction09D61B06\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateThreadFunctionServiceRole89005F1F"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateThreadFunctionLogGroup56BEE777"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostMessageFunctionServiceRoleB1C6EC10"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostMessageFunctionLogGroup52637E86"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListMessagesFunctionServiceRole7CC01E0B"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListMessagesFunctionLogGroupD8EF20E6"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListThreadsFunctionServiceRole4C3377C2"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListThreadsFunctionLogGroupEA695673"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DiscussionStreamPipeRoleDefaultPolicy95E7431C"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateThreadFunctionServiceRoleDefaultPolicyEE8F7459"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostMessageFunctionServiceRoleDefaultPolicy58E9B41A"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListMessagesFunctionServiceRoleDefaultPolicy839E58CF"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListThreadsFunctionServiceRoleDefaultPolicy66139570"
+    }
+  ]
+}

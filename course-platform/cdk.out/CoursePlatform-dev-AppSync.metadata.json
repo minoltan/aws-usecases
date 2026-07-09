@@ -1,0 +1,2022 @@
+{
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "name": "*",
+        "definition": "*",
+        "authorizationConfig": {
+          "defaultAuthorization": {
+            "authorizationType": "*",
+            "userPoolConfig": {
+              "userPool": "*"
+            }
+          }
+        },
+        "xrayEnabled": true,
+        "logConfig": {
+          "fieldLogLevel": "ALL"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addSchemaDependency": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/InternalServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "description": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/GraphQLApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphQLApiUrl"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/GraphQLApiId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphQLApiId"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/ApiLogsRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQL3ED2DFE8"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/Schema": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLSchemaB4D08A09"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/InternalServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "InternalServiceRoleAC458EBE"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/InternalServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/Exports/Output{\"Fn::GetAtt\":[\"CoursePlatformGraphQL3ED2DFE8\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCoursePlatformGraphQL3ED2DFE8Arn225416E4"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/ApiLogsRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLApiLogsRoleCD571DCF"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/LogRetention/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLLogRetention88EEF73E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseDataSourceC837CF14"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseResolver12C9515E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistCoursesDataSourceE21B689A"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistCoursesResolver88B7ABAD"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateCourseDataSource8F0F04EC"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateCourseResolverB42E3CAA"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLupdateCourseDataSourceF271EA93"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLupdateCourseResolverD799A903"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLaddLessonDataSource710CAE67"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLaddLessonResolver33CCFDD7"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetVideoDataSource3AE5A1E6"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetVideoResolver13D22BB5"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistVideosForCourseDataSource97480BC4"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistVideosForCourseResolver0DD5D017"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLrequestVideoUploadDataSource56C7D08F"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLrequestVideoUploadResolver99D55A00"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetEnrollmentDataSource5F38DB38"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetEnrollmentResolver16266518"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceC488C79E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistEnrollmentsForUserResolverB25B1C6F"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLenrollDataSourceE2A2E443"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLenrollResolver52C98190"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcancelEnrollmentDataSource76CC3A5F"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcancelEnrollmentResolver528FD008"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistThreadsDataSource5CD7F83E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistThreadsResolver35E3DC5D"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistMessagesDataSource81EE1E79"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistMessagesResolver58F51F42"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateThreadDataSource8988885D"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateThreadResolver3DE487C9"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLpostMessageDataSource707F6A06"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLpostMessageResolver50DA32E9"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceA69CD901"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsResolver/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseEnrollmentStatsResolver57C06FE7"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/InternalServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "InternalServiceRoleDefaultPolicy3F06B7C7"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseDataSourceServiceRole63FC8277"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleCE0BFEAB"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleE329278E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleB6019493"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLaddLessonDataSourceServiceRoleFAA06175"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetVideoDataSourceServiceRole73A1658C"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRole6E253DE6"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRole6D1AC9E8"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleD8989762"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleD77BDC4A"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLenrollDataSourceServiceRoleAA4DA10D"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRole7A5A4FA1"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleEE43A08D"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistMessagesDataSourceServiceRole76EBB5D3"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateThreadDataSourceServiceRole9D2BFB6A"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLpostMessageDataSourceServiceRole0BD0B760"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRole740E2D33"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsResolver/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseDataSourceServiceRoleDefaultPolicy9429CB84"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleDefaultPolicy4BAB6B17"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleDefaultPolicy5F19A5C0"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleDefaultPolicyB6ED201E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLaddLessonDataSourceServiceRoleDefaultPolicy15CAEBB7"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetVideoDataSourceServiceRoleDefaultPolicy77891AE0"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRoleDefaultPolicy15B87112"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRoleDefaultPolicy261F3209"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleDefaultPolicy9C8982E3"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleDefaultPolicy1C63C164"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLenrollDataSourceServiceRoleDefaultPolicyBC52817E"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRoleDefaultPolicy888F6008"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleDefaultPolicy2FECEE9C"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLlistMessagesDataSourceServiceRoleDefaultPolicy51646367"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLcreateThreadDataSourceServiceRoleDefaultPolicyFE2929B2"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLpostMessageDataSourceServiceRoleDefaultPolicyB3B768C5"
+    }
+  ],
+  "/CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRoleDefaultPolicy4AEFF49A"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "start-exam",
+  "version": "1.0.0",
+  "description": "API entry point - starts the Step Functions exam session execution",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.716.0",
+    "@aws-sdk/client-sfn": "^3.716.0"
+  }
+}

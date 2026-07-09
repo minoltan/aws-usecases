@@ -1,0 +1,314 @@
+{
+ "Resources": {
+  "CoursePlatformNamespaceBBD392CD": {
+   "Type": "AWS::ServiceDiscovery::HttpNamespace",
+   "Properties": {
+    "Description": "Service registry for course-platform microservices (Sputnik replacement)",
+    "Name": "course-platform.local",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/Resource"
+   }
+  },
+  "CoursePlatformNamespaceCourseCatalogRegistry9E4168A5": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "Description": "Course Catalog microservice",
+    "Name": "course-catalog",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceBBD392CD",
+      "Id"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry/Resource"
+   }
+  },
+  "CoursePlatformNamespaceCourseCatalogRegistryInstance9963B211": {
+   "Type": "AWS::ServiceDiscovery::Instance",
+   "Properties": {
+    "InstanceAttributes": {
+     "LAMBDA_ENTRYPOINT_ARN": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+     },
+     "SCHEMA_VERSION": "1.0"
+    },
+    "InstanceId": "veryCoursePlatformNamespaceCourseCatalogRegistryInstance6881C33E",
+    "ServiceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceCourseCatalogRegistry9E4168A5",
+      "Id"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/CourseCatalogRegistry/Instance/Resource"
+   }
+  },
+  "CoursePlatformNamespaceVideoRegistry3036957E": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "Description": "Video Upload & Transcode microservice",
+    "Name": "video-upload-transcode",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceBBD392CD",
+      "Id"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry/Resource"
+   }
+  },
+  "CoursePlatformNamespaceVideoRegistryInstanceFFF2D0AD": {
+   "Type": "AWS::ServiceDiscovery::Instance",
+   "Properties": {
+    "InstanceAttributes": {
+     "STATE_MACHINE_ARN": {
+      "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputRefVideoTranscodeStateMachineAB800BCDE76AC47F"
+     },
+     "CLOUDFRONT_DOMAIN": {
+      "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoDistribution93465BBBDomainNameC6749CCD"
+     }
+    },
+    "InstanceId": "devDiscoveryCoursePlatformNamespaceVideoRegistryInstance9B255480",
+    "ServiceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceVideoRegistry3036957E",
+      "Id"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/VideoRegistry/Instance/Resource"
+   }
+  },
+  "CoursePlatformNamespaceEnrollmentRegistry0E368110": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "Description": "Enrollment & Payments microservice",
+    "Name": "enrollment-payments",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceBBD392CD",
+      "Id"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry/Resource"
+   }
+  },
+  "CoursePlatformNamespaceEnrollmentRegistryInstance7E686869": {
+   "Type": "AWS::ServiceDiscovery::Instance",
+   "Properties": {
+    "InstanceAttributes": {
+     "WEBHOOK_URL": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttPaymentWebhookApi161FA9C7ApiEndpoint7FD5ADFB"
+        },
+        "/webhooks/payment"
+       ]
+      ]
+     },
+     "LAMBDA_ENTRYPOINT_ARN": {
+      "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+     }
+    },
+    "InstanceId": "scoveryCoursePlatformNamespaceEnrollmentRegistryInstance2EEC4250",
+    "ServiceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceEnrollmentRegistry0E368110",
+      "Id"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/EnrollmentRegistry/Instance/Resource"
+   }
+  },
+  "CoursePlatformNamespaceDiscussionRegistryC9649353": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "Description": "Discussion Forum microservice",
+    "Name": "discussion-forum",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceBBD392CD",
+      "Id"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry/Resource"
+   }
+  },
+  "CoursePlatformNamespaceDiscussionRegistryInstanceE64942D9": {
+   "Type": "AWS::ServiceDiscovery::Instance",
+   "Properties": {
+    "InstanceAttributes": {
+     "LAMBDA_ENTRYPOINT_ARN": {
+      "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+     },
+     "SCHEMA_VERSION": "1.0"
+    },
+    "InstanceId": "scoveryCoursePlatformNamespaceDiscussionRegistryInstance2184B87E",
+    "ServiceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceDiscussionRegistryC9649353",
+      "Id"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/DiscussionRegistry/Instance/Resource"
+   }
+  },
+  "CoursePlatformNamespaceAnalyticsRegistry76830B56": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "Description": "Reporting & Analytics microservice",
+    "Name": "reporting-analytics",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceBBD392CD",
+      "Id"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry/Resource"
+   }
+  },
+  "CoursePlatformNamespaceAnalyticsRegistryInstance2C5A4652": {
+   "Type": "AWS::ServiceDiscovery::Instance",
+   "Properties": {
+    "InstanceAttributes": {
+     "GLUE_DATABASE": {
+      "Fn::ImportValue": "CoursePlatform-dev-Analytics-Service:ExportsOutputRefAnalyticsDatabase40137C7F"
+     },
+     "ATHENA_WORKGROUP": "course-platform-dev-analytics"
+    },
+    "InstanceId": "iscoveryCoursePlatformNamespaceAnalyticsRegistryInstance7DFC87DC",
+    "ServiceId": {
+     "Fn::GetAtt": [
+      "CoursePlatformNamespaceAnalyticsRegistry76830B56",
+      "Id"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CoursePlatformNamespace/AnalyticsRegistry/Instance/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1SsaoCMRD8FlNKLkqelZ3YaGOh5SGPmFtl1UuO7N7JI9y/P4wnKIi2IlYLy87MzjBa6dGPGvbMiTJbHLIjblRcsbEHaU70SxAatFAgWd9A+FNxxlwtTAlUGQt5FM6UIMaiL6QogGzAitG7tGllFDaAYVhdaMQ4Px8+B60/GraW0627y1B2BF2WadfhX2QbYIfEEBbezau5Izbu5g9bE/tywhxwUzPQzeNfnTfWSQ3pOiHvoHkUdC1bEn1MId/4LJm7+mlb6XwBak+DRmultRr29oSYhdoxlqCWl/kPJRKQ5KQEAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discovery/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

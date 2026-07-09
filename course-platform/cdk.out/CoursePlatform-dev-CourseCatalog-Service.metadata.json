@@ -1,0 +1,1317 @@
+{
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*",
+        "code": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {}
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "runtime": "*",
+        "entry": "*",
+        "timeout": "*",
+        "memorySize": "*",
+        "bundling": {
+          "minify": true,
+          "sourceMap": true,
+          "format": "esm",
+          "banner": "*",
+          "externalModules": "*"
+        },
+        "environment": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/EnrollmentCreatedRule": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "eventBus": "*",
+        "eventPattern": {
+          "source": "*",
+          "detailType": "*"
+        },
+        "targets": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addEventPattern": [
+          {
+            "source": "*",
+            "detailType": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addTarget": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipe": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CourseCatalogStreamPipe"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateCourseFunction226CB2FD"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseFunctionDF28DC34"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetCourseFunctionF7CF980E"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListCoursesFunction9680EAAC"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AddLessonFunctionF5486754"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseStatsFunction18BA7C16"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/EnrollmentCreatedRule/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentCreatedRuleD6061055"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/EnrollmentCreatedRule/AllowEventRuleCoursePlatformdevCourseCatalogServiceUpdateCourseStatsFunctionDAD76AF7": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentCreatedRuleAllowEventRuleCoursePlatformdevCourseCatalogServiceUpdateCourseStatsFunctionDAD76AF7544CFFE3"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CourseCatalogStreamPipeRoleC8923894"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/Exports/Output{\"Fn::GetAtt\":[\"GetCourseFunctionF7CF980E\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/Exports/Output{\"Fn::GetAtt\":[\"ListCoursesFunction9680EAAC\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/Exports/Output{\"Fn::GetAtt\":[\"CreateCourseFunction226CB2FD\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/Exports/Output{\"Fn::GetAtt\":[\"UpdateCourseFunctionDF28DC34\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/Exports/Output{\"Fn::GetAtt\":[\"AddLessonFunctionF5486754\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateCourseFunctionServiceRole45B6B5EE"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateCourseFunctionLogGroup8CCB6140"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseFunctionServiceRole786E7F9F"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseFunctionLogGroup2D1CF62C"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetCourseFunctionServiceRoleC26E70C4"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetCourseFunctionLogGroupBE64B0FD"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListCoursesFunctionServiceRole90A4862D"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListCoursesFunctionLogGroupA4AEE494"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AddLessonFunctionServiceRole44ED74DC"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AddLessonFunctionLogGroup1C43E11D"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseStatsFunctionServiceRole88013A90"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseStatsFunctionLogGroup16A9C066"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CourseCatalogStreamPipeRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CourseCatalogStreamPipeRoleDefaultPolicy8A406EBA"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/CreateCourseFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateCourseFunctionServiceRoleDefaultPolicy823E4215"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseFunctionServiceRoleDefaultPolicy3E23475F"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/GetCourseFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetCourseFunctionServiceRoleDefaultPolicy37C60820"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/ListCoursesFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListCoursesFunctionServiceRoleDefaultPolicy36AF71B2"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/AddLessonFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AddLessonFunctionServiceRoleDefaultPolicy1B47B421"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Service/UpdateCourseStatsFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UpdateCourseStatsFunctionServiceRoleDefaultPolicy204EC1EC"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "1fa642982f68cdedda88e424815178dd409426ec0466c4b35be0cfa6f6d2dbbf": {
+      "displayName": "CoursePlatform-dev-Waf Template",
+      "source": {
+        "path": "CoursePlatform-dev-Waf.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-562487e0": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "1fa642982f68cdedda88e424815178dd409426ec0466c4b35be0cfa6f6d2dbbf.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

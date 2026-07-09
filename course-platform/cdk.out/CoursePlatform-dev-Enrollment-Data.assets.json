@@ -1,0 +1,21 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "354aafe10cc9e166a176cef81c1c2e84d22477380f2e5c8614355d74e0312b51": {
+      "displayName": "CoursePlatform-dev-Enrollment-Data Template",
+      "source": {
+        "path": "CoursePlatform-dev-Enrollment-Data.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-4b3631d4": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "354aafe10cc9e166a176cef81c1c2e84d22477380f2e5c8614355d74e0312b51.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

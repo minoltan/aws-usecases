@@ -1,0 +1,85 @@
+{
+  "/CoursePlatform-dev-Enrollment-Data/EnrollmentTable": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "tableName": "*",
+        "partitionKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "sortKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "billingMode": "PAY_PER_REQUEST",
+        "stream": "NEW_AND_OLD_IMAGES",
+        "removalPolicy": "destroy"
+      }
+    },
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "EnrollmentTableB364BED3"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addGlobalSecondaryIndex": [
+          {
+            "indexName": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/EnrollmentTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EnrollmentTableB364BED3"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/EnrollmentTable/ScalingRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/Exports/Output{\"Fn::GetAtt\":[\"EnrollmentTableB364BED3\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttEnrollmentTableB364BED3Arn6EA68C3E"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/Exports/Output{\"Ref\":\"EnrollmentTableB364BED3\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefEnrollmentTableB364BED37CD4DBDC"
+    }
+  ],
+  "/CoursePlatform-dev-Enrollment-Data/Exports/Output{\"Fn::GetAtt\":[\"EnrollmentTableB364BED3\",\"StreamArn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttEnrollmentTableB364BED3StreamArnA004690B"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "/CoursePlatform-dev-Auth/CoursePlatformUserPool": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "userPoolName": "*",
+        "selfSignUpEnabled": true,
+        "signInAliases": {
+          "email": true
+        },
+        "autoVerify": {
+          "email": true
+        },
+        "passwordPolicy": {
+          "minLength": "*",
+          "requireLowercase": true,
+          "requireUppercase": true,
+          "requireDigits": true,
+          "requireSymbols": false
+        },
+        "accountRecovery": 2,
+        "removalPolicy": "destroy"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Auth/UserPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolId"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/UserPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClientId"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/CoursePlatformUserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformUserPoolD548B097"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/CoursePlatformUserPool/CoursePlatformWebClient": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "userPool": "*",
+        "authFlows": {
+          "userPassword": true,
+          "userSrp": true
+        },
+        "generateSecret": false
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Auth/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/Exports/Output{\"Ref\":\"CoursePlatformUserPoolD548B097\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefCoursePlatformUserPoolD548B09719BFA1C2"
+    }
+  ],
+  "/CoursePlatform-dev-Auth/CoursePlatformUserPool/CoursePlatformWebClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformUserPoolCoursePlatformWebClient0203F076"
+    }
+  ]
+}

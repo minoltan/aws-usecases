@@ -1,0 +1,38 @@
+{
+  "/CoursePlatform-dev-Waf/CoursePlatformWebAcl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformWebAcl"
+    }
+  ],
+  "/CoursePlatform-dev-Waf/GraphQLApiWebAclAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphQLApiWebAclAssociation"
+    }
+  ],
+  "/CoursePlatform-dev-Waf/WebAclArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WebAclArn"
+    }
+  ],
+  "/CoursePlatform-dev-Waf/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Waf/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Waf/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ]
+}

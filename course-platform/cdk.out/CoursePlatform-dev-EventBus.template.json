@@ -1,0 +1,95 @@
+{
+ "Resources": {
+  "CoursePlatformEventBus2362B4C4": {
+   "Type": "AWS::Events::EventBus",
+   "Properties": {
+    "Name": "course-platform-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-EventBus/CoursePlatformEventBus/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzIx1jNQTCwv1k1OydbNyUzSqw4uSUzO1kksL45PLUvNKynWq3YF0U6lxdHVtbE6zml5MH4tiONfWlJQWlKrk5efkqqXVaxfZmSkZ2SkZ6CYVZyZqVtUmleSmZuqFwShAV0rnw5xAAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-EventBus/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "EventBusName": {
+   "Value": {
+    "Ref": "CoursePlatformEventBus2362B4C4"
+   },
+   "Export": {
+    "Name": "course-platform-dev-EventBusName"
+   }
+  },
+  "ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CoursePlatformEventBus2362B4C4",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+   }
+  },
+  "ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC": {
+   "Value": {
+    "Ref": "CoursePlatformEventBus2362B4C4"
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

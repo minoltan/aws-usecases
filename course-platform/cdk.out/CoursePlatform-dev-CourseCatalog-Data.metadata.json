@@ -1,0 +1,85 @@
+{
+  "/CoursePlatform-dev-CourseCatalog-Data/CourseCatalogTable": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "tableName": "*",
+        "partitionKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "sortKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "billingMode": "PAY_PER_REQUEST",
+        "stream": "NEW_AND_OLD_IMAGES",
+        "removalPolicy": "destroy"
+      }
+    },
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "CourseCatalogTable8F61C4E1"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addGlobalSecondaryIndex": [
+          {
+            "indexName": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/CourseCatalogTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CourseCatalogTable8F61C4E1"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/CourseCatalogTable/ScalingRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/Exports/Output{\"Fn::GetAtt\":[\"CourseCatalogTable8F61C4E1\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCourseCatalogTable8F61C4E1Arn4ADA253A"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/Exports/Output{\"Ref\":\"CourseCatalogTable8F61C4E1\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefCourseCatalogTable8F61C4E14113BDFF"
+    }
+  ],
+  "/CoursePlatform-dev-CourseCatalog-Data/Exports/Output{\"Fn::GetAtt\":[\"CourseCatalogTable8F61C4E1\",\"StreamArn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCourseCatalogTable8F61C4E1StreamArn01A25CB0"
+    }
+  ]
+}

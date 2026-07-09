@@ -1,0 +1,21 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "704b3f85bdd46b9db0aeb4c2cbb2fa91b668fe8e5cea7ca75a60b1770b435eb6": {
+      "displayName": "CoursePlatform-dev-Discovery Template",
+      "source": {
+        "path": "CoursePlatform-dev-Discovery.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-a469c2d1": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "704b3f85bdd46b9db0aeb4c2cbb2fa91b668fe8e5cea7ca75a60b1770b435eb6.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

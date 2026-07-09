@@ -1,0 +1,85 @@
+{
+  "/CoursePlatform-dev-Discussion-Data/DiscussionTable": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "tableName": "*",
+        "partitionKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "sortKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "billingMode": "PAY_PER_REQUEST",
+        "stream": "NEW_AND_OLD_IMAGES",
+        "removalPolicy": "destroy"
+      }
+    },
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "DiscussionTable95DF432D"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addGlobalSecondaryIndex": [
+          {
+            "indexName": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/DiscussionTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DiscussionTable95DF432D"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/DiscussionTable/ScalingRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/Exports/Output{\"Fn::GetAtt\":[\"DiscussionTable95DF432D\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/Exports/Output{\"Ref\":\"DiscussionTable95DF432D\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefDiscussionTable95DF432D8C119C0C"
+    }
+  ],
+  "/CoursePlatform-dev-Discussion-Data/Exports/Output{\"Fn::GetAtt\":[\"DiscussionTable95DF432D\",\"StreamArn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttDiscussionTable95DF432DStreamArnA9F0167E"
+    }
+  ]
+}

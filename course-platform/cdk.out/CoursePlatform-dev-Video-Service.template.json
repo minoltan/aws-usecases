@@ -1,0 +1,1687 @@
+{
+ "Resources": {
+  "RequestVideoUploadFunctionServiceRole1F6F2ABC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/RequestVideoUploadFunction/ServiceRole/Resource"
+   }
+  },
+  "RequestVideoUploadFunctionServiceRoleDefaultPolicy896A0CB6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttRawUploadsBucket0630969EArnFBF02F4E"
+          },
+          "/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "RequestVideoUploadFunctionServiceRoleDefaultPolicy896A0CB6",
+    "Roles": [
+     {
+      "Ref": "RequestVideoUploadFunctionServiceRole1F6F2ABC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/RequestVideoUploadFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "RequestVideoUploadFunctionD46805A6": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "3740eb57385c50a784fd03f6885e6e82f8c937af41704436a24788345f3deda1.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+      },
+      "RAW_BUCKET_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefRawUploadsBucket0630969E11CE7C69"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.video"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "RequestVideoUploadFunctionServiceRole1F6F2ABC",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "RequestVideoUploadFunctionServiceRoleDefaultPolicy896A0CB6",
+    "RequestVideoUploadFunctionServiceRole1F6F2ABC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/RequestVideoUploadFunction/Resource",
+    "aws:asset:path": "asset.3740eb57385c50a784fd03f6885e6e82f8c937af41704436a24788345f3deda1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RequestVideoUploadFunctionLogGroupA11D8B34": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "RequestVideoUploadFunctionD46805A6"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/RequestVideoUploadFunction/LogGroup/Resource"
+   }
+  },
+  "GetVideoFunctionServiceRole7E50B751": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/GetVideoFunction/ServiceRole/Resource"
+   }
+  },
+  "GetVideoFunctionServiceRoleDefaultPolicy6A1D727C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetVideoFunctionServiceRoleDefaultPolicy6A1D727C",
+    "Roles": [
+     {
+      "Ref": "GetVideoFunctionServiceRole7E50B751"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/GetVideoFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetVideoFunctionE844CD93": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "64ef076efd85dc0e75871f770d8e3f448307eb632207c8e38648d617ec2e989e.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+      },
+      "RAW_BUCKET_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefRawUploadsBucket0630969E11CE7C69"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.video"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetVideoFunctionServiceRole7E50B751",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetVideoFunctionServiceRoleDefaultPolicy6A1D727C",
+    "GetVideoFunctionServiceRole7E50B751"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/GetVideoFunction/Resource",
+    "aws:asset:path": "asset.64ef076efd85dc0e75871f770d8e3f448307eb632207c8e38648d617ec2e989e",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetVideoFunctionLogGroup807D6A08": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetVideoFunctionE844CD93"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/GetVideoFunction/LogGroup/Resource"
+   }
+  },
+  "ListVideosForCourseFunctionServiceRoleD8E645B8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/ListVideosForCourseFunction/ServiceRole/Resource"
+   }
+  },
+  "ListVideosForCourseFunctionServiceRoleDefaultPolicyF910A776": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListVideosForCourseFunctionServiceRoleDefaultPolicyF910A776",
+    "Roles": [
+     {
+      "Ref": "ListVideosForCourseFunctionServiceRoleD8E645B8"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/ListVideosForCourseFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListVideosForCourseFunction8518C11A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "09bc0c5db4d8491d66a949555ae308793e27458871adea79ed7cdae66b27bd8e.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+      },
+      "RAW_BUCKET_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefRawUploadsBucket0630969E11CE7C69"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.video"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListVideosForCourseFunctionServiceRoleD8E645B8",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListVideosForCourseFunctionServiceRoleDefaultPolicyF910A776",
+    "ListVideosForCourseFunctionServiceRoleD8E645B8"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/ListVideosForCourseFunction/Resource",
+    "aws:asset:path": "asset.09bc0c5db4d8491d66a949555ae308793e27458871adea79ed7cdae66b27bd8e",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListVideosForCourseFunctionLogGroup9590FBE9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListVideosForCourseFunction8518C11A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/ListVideosForCourseFunction/LogGroup/Resource"
+   }
+  },
+  "MediaConvertServiceRole08F94F4A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "mediaconvert.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Assumed by MediaConvert to read raw uploads and write transcoded output",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/MediaConvertServiceRole/Resource"
+   }
+  },
+  "MediaConvertServiceRoleDefaultPolicy88F23844": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttRawUploadsBucket0630969EArnFBF02F4E"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttRawUploadsBucket0630969EArnFBF02F4E"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttTranscodedOutputBucket1FD4A989ArnADD0CA8A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttTranscodedOutputBucket1FD4A989ArnADD0CA8A"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MediaConvertServiceRoleDefaultPolicy88F23844",
+    "Roles": [
+     {
+      "Ref": "MediaConvertServiceRole08F94F4A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/MediaConvertServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SubmitMediaConvertJobFunctionServiceRole62759747": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/SubmitMediaConvertJobFunction/ServiceRole/Resource"
+   }
+  },
+  "SubmitMediaConvertJobFunctionServiceRoleDefaultPolicyB97DD038": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "mediaconvert:CreateJob",
+        "mediaconvert:DescribeEndpoints"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MediaConvertServiceRole08F94F4A",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SubmitMediaConvertJobFunctionServiceRoleDefaultPolicyB97DD038",
+    "Roles": [
+     {
+      "Ref": "SubmitMediaConvertJobFunctionServiceRole62759747"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/SubmitMediaConvertJobFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SubmitMediaConvertJobFunctionD51973D3": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "e6f33598d527f080a2ebc1ab8baabb7fc7f0b50ca6619d685c7fa5e3f994c3e1.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "MEDIACONVERT_ROLE_ARN": {
+       "Fn::GetAtt": [
+        "MediaConvertServiceRole08F94F4A",
+        "Arn"
+       ]
+      },
+      "OUTPUT_BUCKET_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefTranscodedOutputBucket1FD4A989FCCC3ECD"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "SubmitMediaConvertJobFunctionServiceRole62759747",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "SubmitMediaConvertJobFunctionServiceRoleDefaultPolicyB97DD038",
+    "SubmitMediaConvertJobFunctionServiceRole62759747"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/SubmitMediaConvertJobFunction/Resource",
+    "aws:asset:path": "asset.e6f33598d527f080a2ebc1ab8baabb7fc7f0b50ca6619d685c7fa5e3f994c3e1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SubmitMediaConvertJobFunctionLogGroupE020217D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SubmitMediaConvertJobFunctionD51973D3"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/SubmitMediaConvertJobFunction/LogGroup/Resource"
+   }
+  },
+  "CompleteTranscodeJobFunctionServiceRole0BD2D2A3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/CompleteTranscodeJobFunction/ServiceRole/Resource"
+   }
+  },
+  "CompleteTranscodeJobFunctionServiceRoleDefaultPolicy2F657B18": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "states:SendTaskFailure",
+        "states:SendTaskHeartbeat",
+        "states:SendTaskSuccess"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "VideoTranscodeStateMachineAB800BCD"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CompleteTranscodeJobFunctionServiceRoleDefaultPolicy2F657B18",
+    "Roles": [
+     {
+      "Ref": "CompleteTranscodeJobFunctionServiceRole0BD2D2A3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/CompleteTranscodeJobFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CompleteTranscodeJobFunctionD52673CA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "67969c712fd3707da06bbc2b79fb9445494571b420fbddec4d118f074d7fe734.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "CLOUDFRONT_DOMAIN": {
+       "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoDistribution93465BBBDomainNameC6749CCD"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CompleteTranscodeJobFunctionServiceRole0BD2D2A3",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CompleteTranscodeJobFunctionServiceRoleDefaultPolicy2F657B18",
+    "CompleteTranscodeJobFunctionServiceRole0BD2D2A3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/CompleteTranscodeJobFunction/Resource",
+    "aws:asset:path": "asset.67969c712fd3707da06bbc2b79fb9445494571b420fbddec4d118f074d7fe734",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CompleteTranscodeJobFunctionLogGroup5812AE3D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CompleteTranscodeJobFunctionD52673CA"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/CompleteTranscodeJobFunction/LogGroup/Resource"
+   }
+  },
+  "TranscodeStateMachineLogGroup4B4BCDDA": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/course-platform/dev/video-transcode",
+    "RetentionInDays": 14,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/TranscodeStateMachineLogGroup/Resource"
+   }
+  },
+  "VideoTranscodeStateMachineRoleABF43509": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "states.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoTranscodeStateMachine/Role/Resource"
+   }
+  },
+  "VideoTranscodeStateMachineRoleDefaultPolicy84A9A7C0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SubmitMediaConvertJobFunctionD51973D3",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SubmitMediaConvertJobFunctionD51973D3",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "dynamodb:UpdateItem",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:dynamodb:ap-southeast-1:930877725354:table/",
+          {
+           "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      },
+      {
+       "Action": [
+        "logs:CreateLogDelivery",
+        "logs:DeleteLogDelivery",
+        "logs:DescribeLogGroups",
+        "logs:DescribeResourcePolicies",
+        "logs:GetLogDelivery",
+        "logs:ListLogDeliveries",
+        "logs:PutResourcePolicy",
+        "logs:UpdateLogDelivery"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "VideoTranscodeStateMachineRoleDefaultPolicy84A9A7C0",
+    "Roles": [
+     {
+      "Ref": "VideoTranscodeStateMachineRoleABF43509"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoTranscodeStateMachine/Role/DefaultPolicy/Resource"
+   }
+  },
+  "VideoTranscodeStateMachineAB800BCD": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "DefinitionString": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"StartAt\":\"SubmitMediaConvertJob\",\"States\":{\"SubmitMediaConvertJob\":{\"Next\":\"TranscodeStatusChoice\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"ResultPath\":\"$.error\",\"Next\":\"EmitTranscodeFailedEventGeneric\"}],\"Type\":\"Task\",\"TimeoutSeconds\":7200,\"ResultPath\":\"$.transcodeResult\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke.waitForTaskToken\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "SubmitMediaConvertJobFunctionD51973D3",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"taskToken.$\":\"$$.Task.Token\",\"bucket.$\":\"$.detail.bucket.name\",\"key.$\":\"$.detail.object.key\"}}},\"TranscodeStatusChoice\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.transcodeResult.status\",\"StringEquals\":\"READY\",\"Next\":\"UpdateVideoRecordReady\"}],\"Default\":\"UpdateVideoRecordFailed\"},\"UpdateVideoRecordFailed\":{\"Next\":\"EmitTranscodeFailedEvent\",\"Type\":\"Task\",\"ResultPath\":null,\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::dynamodb:updateItem\",\"Parameters\":{\"Key\":{\"PK\":{\"S.$\":\"$.transcodeResult.pk\"},\"SK\":{\"S.$\":\"$.transcodeResult.sk\"}},\"TableName\":\"",
+       {
+        "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+       },
+       "\",\"ExpressionAttributeNames\":{\"#status\":\"status\"},\"ExpressionAttributeValues\":{\":status\":{\"S\":\"FAILED\"}},\"UpdateExpression\":\"SET #status = :status\"}},\"EmitTranscodeFailedEvent\":{\"Next\":\"TranscodeJobFailed\",\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::events:putEvents\",\"Parameters\":{\"Entries\":[{\"Detail\":{\"videoId.$\":\"$.transcodeResult.videoId\"},\"DetailType\":\"Video.TranscodeFailed\",\"EventBusName\":\"",
+       {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       },
+       "\",\"Source\":\"course-platform.video\"}]}},\"TranscodeJobFailed\":{\"Type\":\"Fail\",\"Error\":\"TranscodeJobFailed\"},\"UpdateVideoRecordReady\":{\"Next\":\"EmitTranscodeCompletedEvent\",\"Type\":\"Task\",\"ResultPath\":null,\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::dynamodb:updateItem\",\"Parameters\":{\"Key\":{\"PK\":{\"S.$\":\"$.transcodeResult.pk\"},\"SK\":{\"S.$\":\"$.transcodeResult.sk\"}},\"TableName\":\"",
+       {
+        "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+       },
+       "\",\"ExpressionAttributeNames\":{\"#status\":\"status\"},\"ExpressionAttributeValues\":{\":status\":{\"S\":\"READY\"},\":url\":{\"S.$\":\"$.transcodeResult.cloudFrontUrl\"},\":now\":{\"S.$\":\"$$.State.EnteredTime\"}},\"UpdateExpression\":\"SET #status = :status, cloudFrontUrl = :url, updatedAt = :now\"}},\"EmitTranscodeCompletedEvent\":{\"End\":true,\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::events:putEvents\",\"Parameters\":{\"Entries\":[{\"Detail\":{\"videoId.$\":\"$.transcodeResult.videoId\",\"cloudFrontUrl.$\":\"$.transcodeResult.cloudFrontUrl\"},\"DetailType\":\"Video.TranscodeCompleted\",\"EventBusName\":\"",
+       {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       },
+       "\",\"Source\":\"course-platform.video\"}]}},\"EmitTranscodeFailedEventGeneric\":{\"Next\":\"TranscodeSubmissionFailed\",\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::events:putEvents\",\"Parameters\":{\"Entries\":[{\"Detail\":{\"bucket.$\":\"$.detail.bucket.name\",\"key.$\":\"$.detail.object.key\",\"error.$\":\"$.error.Error\"},\"DetailType\":\"Video.TranscodeFailed\",\"EventBusName\":\"",
+       {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       },
+       "\",\"Source\":\"course-platform.video\"}]}},\"TranscodeSubmissionFailed\":{\"Type\":\"Fail\",\"Error\":\"TranscodeSubmissionFailed\"}}}"
+      ]
+     ]
+    },
+    "LoggingConfiguration": {
+     "Destinations": [
+      {
+       "CloudWatchLogsLogGroup": {
+        "LogGroupArn": {
+         "Fn::GetAtt": [
+          "TranscodeStateMachineLogGroup4B4BCDDA",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "Level": "ALL"
+    },
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "VideoTranscodeStateMachineRoleABF43509",
+      "Arn"
+     ]
+    },
+    "StateMachineName": "course-platform-dev-video-transcode",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "DependsOn": [
+    "VideoTranscodeStateMachineRoleDefaultPolicy84A9A7C0",
+    "VideoTranscodeStateMachineRoleABF43509"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoTranscodeStateMachine/Resource"
+   }
+  },
+  "VideoTranscodeStateMachineEventsRoleB0EE0E3D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoTranscodeStateMachine/EventsRole/Resource"
+   }
+  },
+  "VideoTranscodeStateMachineEventsRoleDefaultPolicy6D5658E3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "states:StartExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "VideoTranscodeStateMachineAB800BCD"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "VideoTranscodeStateMachineEventsRoleDefaultPolicy6D5658E3",
+    "Roles": [
+     {
+      "Ref": "VideoTranscodeStateMachineEventsRoleB0EE0E3D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoTranscodeStateMachine/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "RawUploadRule4E05A2E7": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "source": [
+      "aws.s3"
+     ],
+     "detail-type": [
+      "Object Created"
+     ],
+     "detail": {
+      "bucket": {
+       "name": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputRefRawUploadsBucket0630969E11CE7C69"
+        }
+       ]
+      }
+     }
+    },
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Ref": "VideoTranscodeStateMachineAB800BCD"
+      },
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "VideoTranscodeStateMachineEventsRoleB0EE0E3D",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/RawUploadRule/Resource"
+   }
+  },
+  "MediaConvertJobStateChangeRule91849DCD": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "source": [
+      "aws.mediaconvert"
+     ],
+     "detail-type": [
+      "MediaConvert Job State Change"
+     ],
+     "detail": {
+      "status": [
+       "COMPLETE",
+       "ERROR"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "CompleteTranscodeJobFunctionD52673CA",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/MediaConvertJobStateChangeRule/Resource"
+   }
+  },
+  "MediaConvertJobStateChangeRuleAllowEventRuleCoursePlatformdevVideoServiceCompleteTranscodeJobFunctionA3674A2C92AE4E1F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "CompleteTranscodeJobFunctionD52673CA",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "MediaConvertJobStateChangeRule91849DCD",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/MediaConvertJobStateChangeRule/AllowEventRuleCoursePlatformdevVideoServiceCompleteTranscodeJobFunctionA3674A2C"
+   }
+  },
+  "VideoStreamPipeRole1DF47362": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "pipes.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "video"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoStreamPipeRole/Resource"
+   }
+  },
+  "VideoStreamPipeRoleDefaultPolicy9F84B912": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BStreamArn940EEEDC"
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "VideoStreamPipeRoleDefaultPolicy9F84B912",
+    "Roles": [
+     {
+      "Ref": "VideoStreamPipeRole1DF47362"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoStreamPipeRole/DefaultPolicy/Resource"
+   }
+  },
+  "VideoStreamPipe": {
+   "Type": "AWS::Pipes::Pipe",
+   "Properties": {
+    "Name": "VideoStreamPipe",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "VideoStreamPipeRole1DF47362",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "Fn::ImportValue": "CoursePlatform-dev-Video-Data:ExportsOutputFnGetAttVideoTableE38FEE4BStreamArn940EEEDC"
+    },
+    "SourceParameters": {
+     "DynamoDBStreamParameters": {
+      "BatchSize": 10,
+      "StartingPosition": "LATEST"
+     }
+    },
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "video",
+     "Project": "course-platform"
+    },
+    "Target": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+    },
+    "TargetParameters": {
+     "EventBridgeEventBusParameters": {
+      "DetailType": "VideoDataChanged",
+      "Source": "course-platform.video"
+     },
+     "InputTemplate": "{\"eventName\": <$.eventName>, \"keys\": <$.dynamodb.Keys>, \"newImage\": <$.dynamodb.NewImage>, \"oldImage\": <$.dynamodb.OldImage>}"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/VideoStreamPipe"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1Y204bMRD9FvyIjEsDT3lLKFRIAUWEPkVRNKwnGxOvvbK9odvV/ntl74UEWlpKgxIUKZHXM/bMnOPL2O6wzukJOz6AB3sU8cWRFHesGDmIFhQe7LSQkNxxmCrN8d6y61BcZCpyQqtxQUymnEiQdMkhoQSVM3n97cU6c3UtwUSbfCR+NE3vMsWlUDHpFiQRSsxy0nUmQ0qszkyEV5A2gpk2CXhDaBPfE5RC03j87tAokFeaZxJtkJY+kKUwWiWomgAizRvXc1Bc1hZKWjz57QqkHQp1z/6e/T37L7C/K2B2KNQ/874rSMoJFZCw4kZLHBcErM0S5P3ce0+NUJFIQfaiSGct9KqN79ALiboxnYCCGPlQSxEJ73FcrMnynqnbTjxBwPmtHjYuqha+T611DqL5pZJCYasjh+QvlC/bfYv2w5OzB/h7gBxtZES6ItpFFB9+mLYF4D9D2NG9cWNaoyVeQ5tJt5TY/xDV6zjbxByY0LOZ8gHSSuz7tOZutdc88/JczPnIgUN/xLBrcN4q3nQ0e/vvZH+7ptV2zc0NcxOWeLW6S2pPpmAtOst6vqD2hPWzaIGuDxbD4n/yn9DqxY4VZzPVPNQFi2gSYa3QqqRSx5YVAx1/NTpLxwWR9We7i/vg3kVIiUGHqtptP5/6aqKXj7ueP9Q5o3NS8dLEXFLrMJ3V+OzUgV1YVpwvUbm+ETzGYeZCzdJBIORSLfUC6ZdcQaK/pRwcXjpMnhhixQUISc/mWkRIw9hcQTQXyl+97Ep1BQDHmVDCd+9r3lwhPcU+0/jwhYI2m1AicYmSdElvMFjJLX6+/DK/bJciDMIqLSXFwDIrbrJwPw3VITh/t/UEVFfilioHQt7m6bqgORk6MDE6u3p4P18zN36NvRZGsPqIbMsjrFJ8JrGkqUjRMr94RYolDVvAyEEsVFxS/yTP7u2nZafDOh12fHBvhTiqHzXYTVX+BFjxP+bfFwAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Video-Service/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefVideoTranscodeStateMachineAB800BCDE76AC47F": {
+   "Value": {
+    "Ref": "VideoTranscodeStateMachineAB800BCD"
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Video-Service:ExportsOutputRefVideoTranscodeStateMachineAB800BCDE76AC47F"
+   }
+  },
+  "ExportsOutputFnGetAttGetVideoFunctionE844CD93ArnB1338EE7": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetVideoFunctionE844CD93",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttGetVideoFunctionE844CD93ArnB1338EE7"
+   }
+  },
+  "ExportsOutputFnGetAttListVideosForCourseFunction8518C11AArn76D0795A": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListVideosForCourseFunction8518C11A",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttListVideosForCourseFunction8518C11AArn76D0795A"
+   }
+  },
+  "ExportsOutputFnGetAttRequestVideoUploadFunctionD46805A6Arn69E73AE5": {
+   "Value": {
+    "Fn::GetAtt": [
+     "RequestVideoUploadFunctionD46805A6",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttRequestVideoUploadFunctionD46805A6Arn69E73AE5"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

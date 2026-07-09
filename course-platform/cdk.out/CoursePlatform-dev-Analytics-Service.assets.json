@@ -1,0 +1,36 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "a15ad0ceb6fcde6ddb28c8aed2828d0673765faf2dd66b46f4bfbf7488e79a35": {
+      "displayName": "GetCourseEnrollmentStatsFunction/Code",
+      "source": {
+        "path": "asset.a15ad0ceb6fcde6ddb28c8aed2828d0673765faf2dd66b46f4bfbf7488e79a35",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-ad4fa20d": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "a15ad0ceb6fcde6ddb28c8aed2828d0673765faf2dd66b46f4bfbf7488e79a35.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "e480a07b24d827b12918e8312dbc596a6854535f84853dcdb392d0306d7f23d5": {
+      "displayName": "CoursePlatform-dev-Analytics-Service Template",
+      "source": {
+        "path": "CoursePlatform-dev-Analytics-Service.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-1e54f099": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "e480a07b24d827b12918e8312dbc596a6854535f84853dcdb392d0306d7f23d5.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

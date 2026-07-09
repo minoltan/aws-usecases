@@ -1,0 +1,36 @@
+type ExamResult {
+  examId: String!
+  studentId: String!
+  score: Int!
+  status: String!
+  totalQuestions: Int
+  correctAnswers: Int
+  completedAt: String
+}
+
+type Mutation {
+  publishExamResult(
+    examId: String!
+    studentId: String!
+    score: Int!
+    status: String!
+    totalQuestions: Int
+    correctAnswers: Int
+    completedAt: String
+  ): ExamResult
+}
+
+type Subscription {
+  onExamCompleted(studentId: String!): ExamResult
+    @aws_subscribe(mutations: ["publishExamResult"])
+}
+
+type Query {
+  getExamResult(examId: String!, studentId: String!): ExamResult
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

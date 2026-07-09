@@ -1,0 +1,96 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "3740eb57385c50a784fd03f6885e6e82f8c937af41704436a24788345f3deda1": {
+      "displayName": "RequestVideoUploadFunction/Code",
+      "source": {
+        "path": "asset.3740eb57385c50a784fd03f6885e6e82f8c937af41704436a24788345f3deda1",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-889ff748": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "3740eb57385c50a784fd03f6885e6e82f8c937af41704436a24788345f3deda1.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "64ef076efd85dc0e75871f770d8e3f448307eb632207c8e38648d617ec2e989e": {
+      "displayName": "GetVideoFunction/Code",
+      "source": {
+        "path": "asset.64ef076efd85dc0e75871f770d8e3f448307eb632207c8e38648d617ec2e989e",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-d864a895": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "64ef076efd85dc0e75871f770d8e3f448307eb632207c8e38648d617ec2e989e.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "09bc0c5db4d8491d66a949555ae308793e27458871adea79ed7cdae66b27bd8e": {
+      "displayName": "ListVideosForCourseFunction/Code",
+      "source": {
+        "path": "asset.09bc0c5db4d8491d66a949555ae308793e27458871adea79ed7cdae66b27bd8e",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-8ea90e4f": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "09bc0c5db4d8491d66a949555ae308793e27458871adea79ed7cdae66b27bd8e.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "e6f33598d527f080a2ebc1ab8baabb7fc7f0b50ca6619d685c7fa5e3f994c3e1": {
+      "displayName": "SubmitMediaConvertJobFunction/Code",
+      "source": {
+        "path": "asset.e6f33598d527f080a2ebc1ab8baabb7fc7f0b50ca6619d685c7fa5e3f994c3e1",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-8c127e18": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "e6f33598d527f080a2ebc1ab8baabb7fc7f0b50ca6619d685c7fa5e3f994c3e1.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "67969c712fd3707da06bbc2b79fb9445494571b420fbddec4d118f074d7fe734": {
+      "displayName": "CompleteTranscodeJobFunction/Code",
+      "source": {
+        "path": "asset.67969c712fd3707da06bbc2b79fb9445494571b420fbddec4d118f074d7fe734",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-d25efa21": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "67969c712fd3707da06bbc2b79fb9445494571b420fbddec4d118f074d7fe734.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "80934edf37cbf8219101a75c3d85b3b8f26333edc7931be1f388013db5b0d709": {
+      "displayName": "CoursePlatform-dev-Video-Service Template",
+      "source": {
+        "path": "CoursePlatform-dev-Video-Service.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-ea5963f7": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "80934edf37cbf8219101a75c3d85b3b8f26333edc7931be1f388013db5b0d709.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

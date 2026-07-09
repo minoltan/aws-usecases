@@ -1,0 +1,414 @@
+{
+  "/CoursePlatform-dev-Video-Data/VideoTable": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "tableName": "*",
+        "partitionKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "sortKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "billingMode": "PAY_PER_REQUEST",
+        "stream": "NEW_AND_OLD_IMAGES",
+        "removalPolicy": "destroy"
+      }
+    },
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "VideoTableE38FEE4B"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addGlobalSecondaryIndex": [
+          {
+            "indexName": "*"
+          }
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucketName": "*",
+        "eventBridgeEnabled": true,
+        "encryption": "S3_MANAGED",
+        "blockPublicAccess": "*",
+        "cors": [
+          {
+            "allowedMethods": [
+              "PUT"
+            ],
+            "allowedOrigins": "*",
+            "allowedHeaders": "*"
+          }
+        ],
+        "lifecycleRules": [
+          {}
+        ],
+        "removalPolicy": "destroy",
+        "autoDeleteObjects": true
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addCorsRule": [
+          {
+            "allowedMethods": [
+              "PUT"
+            ],
+            "allowedOrigins": "*",
+            "allowedHeaders": "*"
+          },
+          "*",
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addLifecycleRule": [
+          {},
+          "*",
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucketName": "*",
+        "encryption": "S3_MANAGED",
+        "blockPublicAccess": "*",
+        "removalPolicy": "destroy",
+        "autoDeleteObjects": true
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoDistribution": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "comment": "*",
+        "defaultBehavior": {
+          "origin": "*",
+          "viewerProtocolPolicy": "redirect-to-https",
+          "cachePolicy": "*"
+        }
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VideoTableE38FEE4B"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoTable/ScalingRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RawUploadsBucket0630969E"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/Policy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucket": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/AutoDeleteObjectsCustomResource": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        }
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addManagedPolicy": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TranscodedOutputBucket1FD4A989"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket/Policy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucket": "*"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket/AutoDeleteObjectsCustomResource": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VideoDistribution93465BBB"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Fn::GetAtt\":[\"VideoDistribution93465BBB\",\"DomainName\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttVideoDistribution93465BBBDomainNameC6749CCD"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Fn::GetAtt\":[\"VideoTableE38FEE4B\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttVideoTableE38FEE4BArnA860BB8F"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Fn::GetAtt\":[\"RawUploadsBucket0630969E\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttRawUploadsBucket0630969EArnFBF02F4E"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Ref\":\"VideoTableE38FEE4B\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefVideoTableE38FEE4B770FD9EC"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Ref\":\"RawUploadsBucket0630969E\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefRawUploadsBucket0630969E11CE7C69"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Fn::GetAtt\":[\"TranscodedOutputBucket1FD4A989\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttTranscodedOutputBucket1FD4A989ArnADD0CA8A"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Ref\":\"TranscodedOutputBucket1FD4A989\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefTranscodedOutputBucket1FD4A989FCCC3ECD"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/Exports/Output{\"Fn::GetAtt\":[\"VideoTableE38FEE4B\",\"StreamArn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttVideoTableE38FEE4BStreamArn940EEEDC"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RawUploadsBucketPolicyA5A79860"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RawUploadsBucketAutoDeleteObjectsCustomResourceDEF82284"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/RawUploadsBucket/Notifications/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RawUploadsBucketNotifications3D753AF9"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TranscodedOutputBucketPolicyDFB48537"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/TranscodedOutputBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TranscodedOutputBucketAutoDeleteObjectsCustomResource49B1BF67"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoDistribution/Origin1/S3OriginAccessControl": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+    }
+  ],
+  "/CoursePlatform-dev-Video-Data/VideoDistribution/Origin1/S3OriginAccessControl/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VideoDistributionOrigin1S3OriginAccessControlCCD41F00"
+    }
+  ]
+}

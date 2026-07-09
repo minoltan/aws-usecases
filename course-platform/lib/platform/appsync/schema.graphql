@@ -1,0 +1,108 @@
+type Course {
+  courseId: ID!
+  title: String!
+  description: String
+  category: String
+  instructorId: String!
+  enrollmentCount: Int
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Lesson {
+  lessonId: ID!
+  courseId: ID!
+  title: String!
+  order: Int
+}
+
+type Video {
+  videoId: ID!
+  courseId: ID!
+  lessonId: ID
+  status: String!
+  cloudFrontUrl: String
+}
+
+type UploadUrlResult {
+  videoId: ID!
+  uploadUrl: String!
+  s3Key: String!
+}
+
+type Enrollment {
+  userId: ID!
+  courseId: ID!
+  status: String!
+  paymentStatus: String
+  enrolledAt: AWSDateTime
+}
+
+type Thread {
+  threadId: ID!
+  courseId: ID!
+  title: String!
+  createdBy: String!
+  createdAt: AWSDateTime
+}
+
+type Message {
+  postId: ID!
+  threadId: ID!
+  authorId: String!
+  body: String!
+  createdAt: AWSDateTime
+}
+
+type CourseStats {
+  courseId: ID!
+  totalEnrollments: Int
+  completionRate: Float
+}
+
+input CreateCourseInput {
+  title: String!
+  description: String
+  category: String
+  instructorId: String!
+}
+
+input AddLessonInput {
+  courseId: ID!
+  title: String!
+  order: Int
+}
+
+type Query {
+  getCourse(courseId: ID!): Course
+  listCourses(category: String): [Course]
+  getVideo(videoId: ID!): Video
+  listVideosForCourse(courseId: ID!): [Video]
+  getEnrollment(userId: ID!, courseId: ID!): Enrollment
+  listEnrollmentsForUser(userId: ID!): [Enrollment]
+  listThreads(courseId: ID!): [Thread]
+  listMessages(threadId: ID!): [Message]
+  getCourseEnrollmentStats(courseId: ID!): CourseStats
+}
+
+type Mutation {
+  createCourse(input: CreateCourseInput!): Course
+  updateCourse(courseId: ID!, title: String, description: String): Course
+  addLesson(input: AddLessonInput!): Lesson
+  requestVideoUpload(courseId: ID!, lessonId: ID, fileName: String!): UploadUrlResult
+  enroll(courseId: ID!): Enrollment
+  cancelEnrollment(courseId: ID!): Enrollment
+  createThread(courseId: ID!, title: String!): Thread
+  postMessage(threadId: ID!, body: String!): Message
+}
+
+type Subscription {
+  onMessagePosted(threadId: ID!): Message
+    @aws_subscribe(mutations: ["postMessage"])
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

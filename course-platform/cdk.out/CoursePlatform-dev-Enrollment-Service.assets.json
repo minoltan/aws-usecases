@@ -1,0 +1,96 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "8eeb33fe2c3b173d1395bed990336fac543b0f9727494d0a2bf7e3500cc7785a": {
+      "displayName": "EnrollFunction/Code",
+      "source": {
+        "path": "asset.8eeb33fe2c3b173d1395bed990336fac543b0f9727494d0a2bf7e3500cc7785a",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-a230c813": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "8eeb33fe2c3b173d1395bed990336fac543b0f9727494d0a2bf7e3500cc7785a.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "344e7350778c7a75b4d36449a4715010f7cdfd67a5bed2334d1b9a16a314238c": {
+      "displayName": "GetEnrollmentFunction/Code",
+      "source": {
+        "path": "asset.344e7350778c7a75b4d36449a4715010f7cdfd67a5bed2334d1b9a16a314238c",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-899fe537": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "344e7350778c7a75b4d36449a4715010f7cdfd67a5bed2334d1b9a16a314238c.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "28cd4853b208b8aacca08b1f223ed986b943fc8451a65294b81825c362dbe32d": {
+      "displayName": "ListEnrollmentsForUserFunction/Code",
+      "source": {
+        "path": "asset.28cd4853b208b8aacca08b1f223ed986b943fc8451a65294b81825c362dbe32d",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-1d2272a8": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "28cd4853b208b8aacca08b1f223ed986b943fc8451a65294b81825c362dbe32d.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "a17f9497140b443e9755a94cb8ab244216c5cf5d6440f80cfc8e9f9b5d1fa12c": {
+      "displayName": "CancelEnrollmentFunction/Code",
+      "source": {
+        "path": "asset.a17f9497140b443e9755a94cb8ab244216c5cf5d6440f80cfc8e9f9b5d1fa12c",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-8ab306d9": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "a17f9497140b443e9755a94cb8ab244216c5cf5d6440f80cfc8e9f9b5d1fa12c.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "1e4000adce8143e31889e02a9a7396ecbbaa66faffa7ade1ae5c7afe985fac10": {
+      "displayName": "PaymentWebhookFunction/Code",
+      "source": {
+        "path": "asset.1e4000adce8143e31889e02a9a7396ecbbaa66faffa7ade1ae5c7afe985fac10",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-368b2e27": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "1e4000adce8143e31889e02a9a7396ecbbaa66faffa7ade1ae5c7afe985fac10.zip",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    },
+    "e912be0b5cdf43538cf46c3034c3e16e66a18424817f9b1ab8576a63ec93ec05": {
+      "displayName": "CoursePlatform-dev-Enrollment-Service Template",
+      "source": {
+        "path": "CoursePlatform-dev-Enrollment-Service.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "930877725354-ap-southeast-1-b34fd2d6": {
+          "bucketName": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+          "objectKey": "e912be0b5cdf43538cf46c3034c3e16e66a18424817f9b1ab8576a63ec93ec05.json",
+          "region": "ap-southeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::930877725354:role/cdk-hnb659fds-file-publishing-role-930877725354-ap-southeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

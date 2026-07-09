@@ -1,0 +1,974 @@
+{
+ "Resources": {
+  "CreateThreadFunctionServiceRole89005F1F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole/Resource"
+   }
+  },
+  "CreateThreadFunctionServiceRoleDefaultPolicyEE8F7459": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CreateThreadFunctionServiceRoleDefaultPolicyEE8F7459",
+    "Roles": [
+     {
+      "Ref": "CreateThreadFunctionServiceRole89005F1F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/CreateThreadFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CreateThreadFunction8CFB0BDA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "01dd9b66f62b5029a42b69edf62f3b624e373c848506d68ee077785d51659b64.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputRefDiscussionTable95DF432D8C119C0C"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.discussion"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateThreadFunctionServiceRole89005F1F",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateThreadFunctionServiceRoleDefaultPolicyEE8F7459",
+    "CreateThreadFunctionServiceRole89005F1F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/CreateThreadFunction/Resource",
+    "aws:asset:path": "asset.01dd9b66f62b5029a42b69edf62f3b624e373c848506d68ee077785d51659b64",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CreateThreadFunctionLogGroup56BEE777": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CreateThreadFunction8CFB0BDA"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/CreateThreadFunction/LogGroup/Resource"
+   }
+  },
+  "PostMessageFunctionServiceRoleB1C6EC10": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole/Resource"
+   }
+  },
+  "PostMessageFunctionServiceRoleDefaultPolicy58E9B41A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PostMessageFunctionServiceRoleDefaultPolicy58E9B41A",
+    "Roles": [
+     {
+      "Ref": "PostMessageFunctionServiceRoleB1C6EC10"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/PostMessageFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "PostMessageFunction09D61B06": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "392cda0803b7c3564452f44668c1e38a4b2b22cdc990124a652d9a541b0d0747.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputRefDiscussionTable95DF432D8C119C0C"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.discussion"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "PostMessageFunctionServiceRoleB1C6EC10",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "PostMessageFunctionServiceRoleDefaultPolicy58E9B41A",
+    "PostMessageFunctionServiceRoleB1C6EC10"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/PostMessageFunction/Resource",
+    "aws:asset:path": "asset.392cda0803b7c3564452f44668c1e38a4b2b22cdc990124a652d9a541b0d0747",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "PostMessageFunctionLogGroup52637E86": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "PostMessageFunction09D61B06"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/PostMessageFunction/LogGroup/Resource"
+   }
+  },
+  "ListMessagesFunctionServiceRole7CC01E0B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole/Resource"
+   }
+  },
+  "ListMessagesFunctionServiceRoleDefaultPolicy839E58CF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListMessagesFunctionServiceRoleDefaultPolicy839E58CF",
+    "Roles": [
+     {
+      "Ref": "ListMessagesFunctionServiceRole7CC01E0B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListMessagesFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListMessagesFunctionA8668969": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "9dd4328c7033736fb8cce6863b4ae235881642439d7855d1166e9a45905b02be.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputRefDiscussionTable95DF432D8C119C0C"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.discussion"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListMessagesFunctionServiceRole7CC01E0B",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListMessagesFunctionServiceRoleDefaultPolicy839E58CF",
+    "ListMessagesFunctionServiceRole7CC01E0B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListMessagesFunction/Resource",
+    "aws:asset:path": "asset.9dd4328c7033736fb8cce6863b4ae235881642439d7855d1166e9a45905b02be",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListMessagesFunctionLogGroupD8EF20E6": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListMessagesFunctionA8668969"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListMessagesFunction/LogGroup/Resource"
+   }
+  },
+  "ListThreadsFunctionServiceRole4C3377C2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole/Resource"
+   }
+  },
+  "ListThreadsFunctionServiceRoleDefaultPolicy66139570": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DArnE17A84DF"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListThreadsFunctionServiceRoleDefaultPolicy66139570",
+    "Roles": [
+     {
+      "Ref": "ListThreadsFunctionServiceRole4C3377C2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListThreadsFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListThreadsFunctionF766D216": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "46f61cbcbb59ee85110c7bfdc37f666dd51a8087614fb87085ddad9b6da44d96.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_OPTIONS": "--enable-source-maps",
+      "TABLE_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputRefDiscussionTable95DF432D8C119C0C"
+      },
+      "EVENT_BUS_NAME": {
+       "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+      },
+      "EVENT_SOURCE": "course-platform.discussion"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListThreadsFunctionServiceRole4C3377C2",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListThreadsFunctionServiceRoleDefaultPolicy66139570",
+    "ListThreadsFunctionServiceRole4C3377C2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListThreadsFunction/Resource",
+    "aws:asset:path": "asset.46f61cbcbb59ee85110c7bfdc37f666dd51a8087614fb87085ddad9b6da44d96",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListThreadsFunctionLogGroupEA695673": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListThreadsFunctionF766D216"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/ListThreadsFunction/LogGroup/Resource"
+   }
+  },
+  "DiscussionStreamPipeRoleBF0E7C39": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "pipes.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Microservice",
+      "Value": "discussion"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole/Resource"
+   }
+  },
+  "DiscussionStreamPipeRoleDefaultPolicy95E7431C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DStreamArnA9F0167E"
+       }
+      },
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DiscussionStreamPipeRoleDefaultPolicy95E7431C",
+    "Roles": [
+     {
+      "Ref": "DiscussionStreamPipeRoleBF0E7C39"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/DiscussionStreamPipeRole/DefaultPolicy/Resource"
+   }
+  },
+  "DiscussionStreamPipe": {
+   "Type": "AWS::Pipes::Pipe",
+   "Properties": {
+    "Name": "DiscussionStreamPipe",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "DiscussionStreamPipeRoleBF0E7C39",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "Fn::ImportValue": "CoursePlatform-dev-Discussion-Data:ExportsOutputFnGetAttDiscussionTable95DF432DStreamArnA9F0167E"
+    },
+    "SourceParameters": {
+     "DynamoDBStreamParameters": {
+      "BatchSize": 10,
+      "StartingPosition": "LATEST"
+     }
+    },
+    "Tags": {
+     "Environment": "dev",
+     "Microservice": "discussion",
+     "Project": "course-platform"
+    },
+    "Target": {
+     "Fn::ImportValue": "CoursePlatform-dev-EventBus:ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+    },
+    "TargetParameters": {
+     "EventBridgeEventBusParameters": {
+      "DetailType": "DiscussionDataChanged",
+      "Source": "course-platform.discussion"
+     },
+     "InputTemplate": "{\"eventName\": <$.eventName>, \"keys\": <$.dynamodb.Keys>, \"newImage\": <$.dynamodb.NewImage>, \"oldImage\": <$.dynamodb.OldImage>}"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/DiscussionStreamPipe"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1X22obMRD9lugxyGpY98lvdqCl0AQT580YM5bGG9nSaNElqbvsvxftxU0IDSmlDw6GXbR75nLODMNqVYji81hcXcBTGEm1Hxm9EfUigtxzeArr2oDdKFiTU7gL4rZdviSSUTta1swnitoim7BLxhlS9If+OcMuxf7NonX+sNA/B9dNImU0lWxSM6tJbw9sEn1CzoJLXuINVAOwdd5CToTB5kggQj8w/ojoCcyNU8lgaNEmC3nU3pFFGgRIpwbqByBl+gwNr59fp1LPCUk9t/7c+nPrT771K67BivrOGVzWDEJIFtXskNkrr0nqCsxUSpeODeh8csC03S2G1BYISlRzZ7TUmXFZv8AOU9/7rnKDQKl7Nx8oOo8c01tjBPnwjYwmPNrYJXuH8e28b1vP5X/s8s8F/qnA37n/bmT+RyErfr2lLJB3cI45prt32fKK5TWs1CJCxPypCy/KeTf8QWlPPH87Hd1gNDyM1xACxiCmeeFhLGZJ7jHOIGA7N8/uFe9OPeJ6S8NZhxtXBlF/d+VX71K1rJnpH2+h376zkH8BW8EDQcMrXWHIEua6woa3uhcRSk1lw/N5TOzCp8eiEEUhri52QetR/zMh7rr1F8OV9vTcDQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-Discussion-Service/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListThreadsFunctionF766D216",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+   }
+  },
+  "ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListMessagesFunctionA8668969",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03"
+   }
+  },
+  "ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CreateThreadFunction8CFB0BDA",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973"
+   }
+  },
+  "ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PostMessageFunction09D61B06",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

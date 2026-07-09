@@ -1,0 +1,50 @@
+{
+  "/CoursePlatform-dev-EventBus/CoursePlatformEventBus": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {}
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/EventBusName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EventBusName"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/CoursePlatformEventBus/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CoursePlatformEventBus2362B4C4"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/Exports/Output{\"Fn::GetAtt\":[\"CoursePlatformEventBus2362B4C4\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttCoursePlatformEventBus2362B4C4Arn0719AC10"
+    }
+  ],
+  "/CoursePlatform-dev-EventBus/Exports/Output{\"Ref\":\"CoursePlatformEventBus2362B4C4\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefCoursePlatformEventBus2362B4C43D49B7FC"
+    }
+  ]
+}

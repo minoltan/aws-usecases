@@ -1,0 +1,9 @@
+{
+  "name": "analytics-get-course-enrollment-stats",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.873.0"
+  }
+}

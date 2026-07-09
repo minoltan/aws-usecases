@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.testEnvConfig = void 0;
+exports.testEnvConfig = {
+    envName: 'dev',
+    account: '123456789012',
+    region: 'us-east-1',
+    domainPrefix: 'course-platform-test',
+    alarmEmail: 'ops-test@example.com',
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZml4dHVyZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaXh0dXJlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFFYSxRQUFBLGFBQWEsR0FBc0I7SUFDOUMsT0FBTyxFQUFFLEtBQUs7SUFDZCxPQUFPLEVBQUUsY0FBYztJQUN2QixNQUFNLEVBQUUsV0FBVztJQUNuQixZQUFZLEVBQUUsc0JBQXNCO0lBQ3BDLFVBQVUsRUFBRSxzQkFBc0I7Q0FDbkMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEVudmlyb25tZW50Q29uZmlnIH0gZnJvbSAnLi4vbGliL2NvbmZpZy9lbnZpcm9ubWVudCc7XG5cbmV4cG9ydCBjb25zdCB0ZXN0RW52Q29uZmlnOiBFbnZpcm9ubWVudENvbmZpZyA9IHtcbiAgZW52TmFtZTogJ2RldicsXG4gIGFjY291bnQ6ICcxMjM0NTY3ODkwMTInLFxuICByZWdpb246ICd1cy1lYXN0LTEnLFxuICBkb21haW5QcmVmaXg6ICdjb3Vyc2UtcGxhdGZvcm0tdGVzdCcsXG4gIGFsYXJtRW1haWw6ICdvcHMtdGVzdEBleGFtcGxlLmNvbScsXG59O1xuIl19

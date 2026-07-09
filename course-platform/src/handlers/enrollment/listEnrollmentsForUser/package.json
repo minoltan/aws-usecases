@@ -1,0 +1,10 @@
+{
+  "name": "enrollment-list-enrollments-for-user",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.873.0",
+    "@aws-sdk/util-dynamodb": "^3.873.0"
+  }
+}

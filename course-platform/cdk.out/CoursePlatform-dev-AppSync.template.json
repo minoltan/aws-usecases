@@ -1,0 +1,2480 @@
+{
+ "Resources": {
+  "CoursePlatformGraphQLApiLogsRoleCD571DCF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/ApiLogsRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQL3ED2DFE8": {
+   "Type": "AWS::AppSync::GraphQLApi",
+   "Properties": {
+    "AdditionalAuthenticationProviders": [
+     {
+      "AuthenticationType": "AWS_IAM"
+     }
+    ],
+    "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "LogConfig": {
+     "CloudWatchLogsRoleArn": {
+      "Fn::GetAtt": [
+       "CoursePlatformGraphQLApiLogsRoleCD571DCF",
+       "Arn"
+      ]
+     },
+     "FieldLogLevel": "ALL"
+    },
+    "Name": "course-platform-dev",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ],
+    "UserPoolConfig": {
+     "AwsRegion": "ap-southeast-1",
+     "DefaultAction": "ALLOW",
+     "UserPoolId": {
+      "Fn::ImportValue": "CoursePlatform-dev-Auth:ExportsOutputRefCoursePlatformUserPoolD548B09719BFA1C2"
+     }
+    },
+    "XrayEnabled": true
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/Resource"
+   }
+  },
+  "CoursePlatformGraphQLSchemaB4D08A09": {
+   "Type": "AWS::AppSync::GraphQLSchema",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "Definition": "type Course {\n  courseId: ID!\n  title: String!\n  description: String\n  category: String\n  instructorId: String!\n  enrollmentCount: Int\n  createdAt: AWSDateTime\n  updatedAt: AWSDateTime\n}\n\ntype Lesson {\n  lessonId: ID!\n  courseId: ID!\n  title: String!\n  order: Int\n}\n\ntype Video {\n  videoId: ID!\n  courseId: ID!\n  lessonId: ID\n  status: String!\n  cloudFrontUrl: String\n}\n\ntype UploadUrlResult {\n  videoId: ID!\n  uploadUrl: String!\n  s3Key: String!\n}\n\ntype Enrollment {\n  userId: ID!\n  courseId: ID!\n  status: String!\n  paymentStatus: String\n  enrolledAt: AWSDateTime\n}\n\ntype Thread {\n  threadId: ID!\n  courseId: ID!\n  title: String!\n  createdBy: String!\n  createdAt: AWSDateTime\n}\n\ntype Message {\n  postId: ID!\n  threadId: ID!\n  authorId: String!\n  body: String!\n  createdAt: AWSDateTime\n}\n\ntype CourseStats {\n  courseId: ID!\n  totalEnrollments: Int\n  completionRate: Float\n}\n\ninput CreateCourseInput {\n  title: String!\n  description: String\n  category: String\n  instructorId: String!\n}\n\ninput AddLessonInput {\n  courseId: ID!\n  title: String!\n  order: Int\n}\n\ntype Query {\n  getCourse(courseId: ID!): Course\n  listCourses(category: String): [Course]\n  getVideo(videoId: ID!): Video\n  listVideosForCourse(courseId: ID!): [Video]\n  getEnrollment(userId: ID!, courseId: ID!): Enrollment\n  listEnrollmentsForUser(userId: ID!): [Enrollment]\n  listThreads(courseId: ID!): [Thread]\n  listMessages(threadId: ID!): [Message]\n  getCourseEnrollmentStats(courseId: ID!): CourseStats\n}\n\ntype Mutation {\n  createCourse(input: CreateCourseInput!): Course\n  updateCourse(courseId: ID!, title: String, description: String): Course\n  addLesson(input: AddLessonInput!): Lesson\n  requestVideoUpload(courseId: ID!, lessonId: ID, fileName: String!): UploadUrlResult\n  enroll(courseId: ID!): Enrollment\n  cancelEnrollment(courseId: ID!): Enrollment\n  createThread(courseId: ID!, title: String!): Thread\n  postMessage(threadId: ID!, body: String!): Message\n}\n\ntype Subscription {\n  onMessagePosted(threadId: ID!): Message\n    @aws_subscribe(mutations: [\"postMessage\"])\n}\n\nschema {\n  query: Query\n  mutation: Mutation\n  subscription: Subscription\n}\n"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/Schema"
+   }
+  },
+  "CoursePlatformGraphQLLogRetention88EEF73E": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/appsync/apis/",
+       {
+        "Fn::GetAtt": [
+         "CoursePlatformGraphQL3ED2DFE8",
+         "ApiId"
+        ]
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/LogRetention/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseDataSourceServiceRole63FC8277": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseDataSourceServiceRoleDefaultPolicy9429CB84": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLgetCourseDataSourceServiceRoleDefaultPolicy9429CB84",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLgetCourseDataSourceServiceRole63FC8277"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseDataSourceC837CF14": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttGetCourseFunctionF7CF980EArnCD551D92"
+     }
+    },
+    "Name": "getCourseDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLgetCourseDataSourceServiceRole63FC8277",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseResolver12C9515E": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "getCourseDataSource",
+    "FieldName": "getCourse",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLgetCourseDataSourceC837CF14",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleCE0BFEAB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleDefaultPolicy4BAB6B17": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleDefaultPolicy4BAB6B17",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleCE0BFEAB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistCoursesDataSourceE21B689A": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttListCoursesFunction9680EAACArnA2C1DB89"
+     }
+    },
+    "Name": "listCoursesDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLlistCoursesDataSourceServiceRoleCE0BFEAB",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistCoursesResolver88B7ABAD": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "listCoursesDataSource",
+    "FieldName": "listCourses",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLlistCoursesDataSourceE21B689A",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listCoursesResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleE329278E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleDefaultPolicy5F19A5C0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleDefaultPolicy5F19A5C0",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleE329278E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateCourseDataSource8F0F04EC": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttCreateCourseFunction226CB2FDArn5E6578F6"
+     }
+    },
+    "Name": "createCourseDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLcreateCourseDataSourceServiceRoleE329278E",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateCourseResolverB42E3CAA": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "createCourseDataSource",
+    "FieldName": "createCourse",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLcreateCourseDataSource8F0F04EC",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createCourseResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleB6019493": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleDefaultPolicyB6ED201E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleDefaultPolicyB6ED201E",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleB6019493"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLupdateCourseDataSourceF271EA93": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttUpdateCourseFunctionDF28DC34Arn39CC7AAC"
+     }
+    },
+    "Name": "updateCourseDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLupdateCourseDataSourceServiceRoleB6019493",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLupdateCourseResolverD799A903": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "updateCourseDataSource",
+    "FieldName": "updateCourse",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLSchemaB4D08A09",
+    "CoursePlatformGraphQLupdateCourseDataSourceF271EA93"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/updateCourseResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLaddLessonDataSourceServiceRoleFAA06175": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLaddLessonDataSourceServiceRoleDefaultPolicy15CAEBB7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLaddLessonDataSourceServiceRoleDefaultPolicy15CAEBB7",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLaddLessonDataSourceServiceRoleFAA06175"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLaddLessonDataSource710CAE67": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-CourseCatalog-Service:ExportsOutputFnGetAttAddLessonFunctionF5486754Arn3D003B17"
+     }
+    },
+    "Name": "addLessonDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLaddLessonDataSourceServiceRoleFAA06175",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLaddLessonResolver33CCFDD7": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "addLessonDataSource",
+    "FieldName": "addLesson",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLaddLessonDataSource710CAE67",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/addLessonResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetVideoDataSourceServiceRole73A1658C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetVideoDataSourceServiceRoleDefaultPolicy77891AE0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttGetVideoFunctionE844CD93ArnB1338EE7"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttGetVideoFunctionE844CD93ArnB1338EE7"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLgetVideoDataSourceServiceRoleDefaultPolicy77891AE0",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLgetVideoDataSourceServiceRole73A1658C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetVideoDataSource3AE5A1E6": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttGetVideoFunctionE844CD93ArnB1338EE7"
+     }
+    },
+    "Name": "getVideoDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLgetVideoDataSourceServiceRole73A1658C",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetVideoResolver13D22BB5": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "getVideoDataSource",
+    "FieldName": "getVideo",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLgetVideoDataSource3AE5A1E6",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getVideoResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRole6E253DE6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRoleDefaultPolicy15B87112": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttListVideosForCourseFunction8518C11AArn76D0795A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttListVideosForCourseFunction8518C11AArn76D0795A"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRoleDefaultPolicy15B87112",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRole6E253DE6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistVideosForCourseDataSource97480BC4": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttListVideosForCourseFunction8518C11AArn76D0795A"
+     }
+    },
+    "Name": "listVideosForCourseDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLlistVideosForCourseDataSourceServiceRole6E253DE6",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistVideosForCourseResolver0DD5D017": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "listVideosForCourseDataSource",
+    "FieldName": "listVideosForCourse",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLlistVideosForCourseDataSource97480BC4",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listVideosForCourseResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRole6D1AC9E8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRoleDefaultPolicy261F3209": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttRequestVideoUploadFunctionD46805A6Arn69E73AE5"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttRequestVideoUploadFunctionD46805A6Arn69E73AE5"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRoleDefaultPolicy261F3209",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRole6D1AC9E8"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLrequestVideoUploadDataSource56C7D08F": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Video-Service:ExportsOutputFnGetAttRequestVideoUploadFunctionD46805A6Arn69E73AE5"
+     }
+    },
+    "Name": "requestVideoUploadDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLrequestVideoUploadDataSourceServiceRole6D1AC9E8",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLrequestVideoUploadResolver99D55A00": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "requestVideoUploadDataSource",
+    "FieldName": "requestVideoUpload",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLrequestVideoUploadDataSource56C7D08F",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/requestVideoUploadResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleD8989762": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleDefaultPolicy9C8982E3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleDefaultPolicy9C8982E3",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleD8989762"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetEnrollmentDataSource5F38DB38": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttGetEnrollmentFunction83DEE968Arn24B86F79"
+     }
+    },
+    "Name": "getEnrollmentDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLgetEnrollmentDataSourceServiceRoleD8989762",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetEnrollmentResolver16266518": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "getEnrollmentDataSource",
+    "FieldName": "getEnrollment",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLgetEnrollmentDataSource5F38DB38",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getEnrollmentResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleD77BDC4A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleDefaultPolicy1C63C164": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleDefaultPolicy1C63C164",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleD77BDC4A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceC488C79E": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttListEnrollmentsForUserFunction495DC0EAArnA3913A4A"
+     }
+    },
+    "Name": "listEnrollmentsForUserDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceServiceRoleD77BDC4A",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistEnrollmentsForUserResolverB25B1C6F": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "listEnrollmentsForUserDataSource",
+    "FieldName": "listEnrollmentsForUser",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLlistEnrollmentsForUserDataSourceC488C79E",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listEnrollmentsForUserResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLenrollDataSourceServiceRoleAA4DA10D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLenrollDataSourceServiceRoleDefaultPolicyBC52817E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLenrollDataSourceServiceRoleDefaultPolicyBC52817E",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLenrollDataSourceServiceRoleAA4DA10D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLenrollDataSourceE2A2E443": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttEnrollFunctionD4C37084ArnA1699525"
+     }
+    },
+    "Name": "enrollDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLenrollDataSourceServiceRoleAA4DA10D",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLenrollResolver52C98190": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "enrollDataSource",
+    "FieldName": "enroll",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLenrollDataSourceE2A2E443",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/enrollResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRole7A5A4FA1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRoleDefaultPolicy888F6008": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRoleDefaultPolicy888F6008",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRole7A5A4FA1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcancelEnrollmentDataSource76CC3A5F": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Enrollment-Service:ExportsOutputFnGetAttCancelEnrollmentFunction2951866AArn959EA9B1"
+     }
+    },
+    "Name": "cancelEnrollmentDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLcancelEnrollmentDataSourceServiceRole7A5A4FA1",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcancelEnrollmentResolver528FD008": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "cancelEnrollmentDataSource",
+    "FieldName": "cancelEnrollment",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLcancelEnrollmentDataSource76CC3A5F",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/cancelEnrollmentResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleEE43A08D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleDefaultPolicy2FECEE9C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleDefaultPolicy2FECEE9C",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleEE43A08D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistThreadsDataSource5CD7F83E": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListThreadsFunctionF766D216ArnAF4FA020"
+     }
+    },
+    "Name": "listThreadsDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLlistThreadsDataSourceServiceRoleEE43A08D",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistThreadsResolver35E3DC5D": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "listThreadsDataSource",
+    "FieldName": "listThreads",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLlistThreadsDataSource5CD7F83E",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listThreadsResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistMessagesDataSourceServiceRole76EBB5D3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistMessagesDataSourceServiceRoleDefaultPolicy51646367": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLlistMessagesDataSourceServiceRoleDefaultPolicy51646367",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLlistMessagesDataSourceServiceRole76EBB5D3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistMessagesDataSource81EE1E79": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttListMessagesFunctionA8668969ArnDC49AF03"
+     }
+    },
+    "Name": "listMessagesDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLlistMessagesDataSourceServiceRole76EBB5D3",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLlistMessagesResolver58F51F42": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "listMessagesDataSource",
+    "FieldName": "listMessages",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLlistMessagesDataSource81EE1E79",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/listMessagesResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateThreadDataSourceServiceRole9D2BFB6A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateThreadDataSourceServiceRoleDefaultPolicyFE2929B2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLcreateThreadDataSourceServiceRoleDefaultPolicyFE2929B2",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLcreateThreadDataSourceServiceRole9D2BFB6A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateThreadDataSource8988885D": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttCreateThreadFunction8CFB0BDAArnE0E3A973"
+     }
+    },
+    "Name": "createThreadDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLcreateThreadDataSourceServiceRole9D2BFB6A",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLcreateThreadResolver3DE487C9": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "createThreadDataSource",
+    "FieldName": "createThread",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLcreateThreadDataSource8988885D",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/createThreadResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLpostMessageDataSourceServiceRole0BD0B760": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLpostMessageDataSourceServiceRoleDefaultPolicyB3B768C5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLpostMessageDataSourceServiceRoleDefaultPolicyB3B768C5",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLpostMessageDataSourceServiceRole0BD0B760"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLpostMessageDataSource707F6A06": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Discussion-Service:ExportsOutputFnGetAttPostMessageFunction09D61B06ArnB61986EA"
+     }
+    },
+    "Name": "postMessageDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLpostMessageDataSourceServiceRole0BD0B760",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLpostMessageResolver50DA32E9": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "postMessageDataSource",
+    "FieldName": "postMessage",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLpostMessageDataSource707F6A06",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/postMessageResolver/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRole740E2D33": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRoleDefaultPolicy4AEFF49A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "CoursePlatform-dev-Analytics-Service:ExportsOutputFnGetAttGetCourseEnrollmentStatsFunction3525F852ArnB811ED75"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "CoursePlatform-dev-Analytics-Service:ExportsOutputFnGetAttGetCourseEnrollmentStatsFunction3525F852ArnB811ED75"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRoleDefaultPolicy4AEFF49A",
+    "Roles": [
+     {
+      "Ref": "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRole740E2D33"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceA69CD901": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "LambdaConfig": {
+     "LambdaFunctionArn": {
+      "Fn::ImportValue": "CoursePlatform-dev-Analytics-Service:ExportsOutputFnGetAttGetCourseEnrollmentStatsFunction3525F852ArnB811ED75"
+     }
+    },
+    "Name": "getCourseEnrollmentStatsDataSource",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceServiceRole740E2D33",
+      "Arn"
+     ]
+    },
+    "Type": "AWS_LAMBDA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsDataSource/Resource"
+   }
+  },
+  "CoursePlatformGraphQLgetCourseEnrollmentStatsResolver57C06FE7": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "CoursePlatformGraphQL3ED2DFE8",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-930877725354-ap-southeast-1/d1f848f9536f758c3e364f4cf3483d9715cd62399f54d249a88b4b6c7ff684ae.js",
+    "DataSourceName": "getCourseEnrollmentStatsDataSource",
+    "FieldName": "getCourseEnrollmentStats",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "CoursePlatformGraphQLgetCourseEnrollmentStatsDataSourceA69CD901",
+    "CoursePlatformGraphQLSchemaB4D08A09"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CoursePlatformGraphQL/getCourseEnrollmentStatsResolver/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:DeleteRetentionPolicy",
+        "logs:PutRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs22.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-930877725354-ap-southeast-1",
+     "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+    "aws:asset:path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "InternalServiceRoleAC458EBE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Assumed by internal microservice Lambdas that need to call AppSync via AWS_IAM auth",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "course-platform"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/InternalServiceRole/Resource"
+   }
+  },
+  "InternalServiceRoleDefaultPolicy3F06B7C7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "appsync:GraphQL",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:appsync:ap-southeast-1:930877725354:apis/",
+          {
+           "Fn::GetAtt": [
+            "CoursePlatformGraphQL3ED2DFE8",
+            "ApiId"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "InternalServiceRoleDefaultPolicy3F06B7C7",
+    "Roles": [
+     {
+      "Ref": "InternalServiceRoleAC458EBE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/InternalServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1YUWvbMBD+LdVjUbTi7ClvTjvGwLAsyVsI5SpdHDWypElyOs/4vw/ZcZpSNtjYoAw9GEnf3X33SUiHrIxl76fs5gqe/ISLw0TJB9auAvADhSd/34K1vtGctR8d2P1XlVu5aYmGCsmMXBNKBO6klkEafQKgDnvj5HeI2K3RO1mSWRv9oFYhv7RG/IX7urEjb+3RLYxRzwwj0jt0XUfJNwfNBw0PCgWZBVcjJcqUzxE7iUoUpizwiDEsLwrSdbQlIMSK77GCO7SoBWrekNmGXJNtsv7n1i293el+M38pcisvRkMELaB6EHAHAVamdhyjx8Void6oI7oIj/2OSqhYuzQKNy0B7+sKxbyJW9A6qbm0oHLOTa3DeEh6nxiQ8/PZ6SipQEOJYmGU5BI9mW3aF1iTu5PvMM8/TnVapbVZjFEDf8x44g4B+P6TVlLj2XZe4F8ak6qkKqlKqpKqpCqpSqqSqjei6vcvmG9wCgI9d9JeQP9IZ/+rEPPTAY/oOWBtouUVz2tYiFWAgBXq4EdJiSgRJaJElIh+QtSX3qHqdlSZ0rPClEsMqGPZp356D95j8CyPDfVTNq/5AcMcPPZl+i9822584zk//PSdPuUqQCl1GT0+18HWoaPaCGSP/t0xy1iWsZurRy/lxNU6yArZcmh/AJGaHTBwFQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CoursePlatform-dev-AppSync/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "GraphQLApiUrl": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CoursePlatformGraphQL3ED2DFE8",
+     "GraphQLUrl"
+    ]
+   },
+   "Export": {
+    "Name": "course-platform-dev-GraphQLApiUrl"
+   }
+  },
+  "GraphQLApiId": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CoursePlatformGraphQL3ED2DFE8",
+     "ApiId"
+    ]
+   },
+   "Export": {
+    "Name": "course-platform-dev-GraphQLApiId"
+   }
+  },
+  "ExportsOutputFnGetAttCoursePlatformGraphQL3ED2DFE8Arn225416E4": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CoursePlatformGraphQL3ED2DFE8",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "CoursePlatform-dev-AppSync:ExportsOutputFnGetAttCoursePlatformGraphQL3ED2DFE8Arn225416E4"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

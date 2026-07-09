@@ -1,0 +1,9 @@
+{
+  "name": "video-submit-mediaconvert-job",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-mediaconvert": "^3.873.0"
+  }
+}
