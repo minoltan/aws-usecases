@@ -117,13 +117,7 @@ cdk-exam-platform/
 - Memory: start at 512MB, tune after CloudWatch metrics
 - Timeout: set explicitly — never rely on default (3s is too short for most tasks)
 - Always attach a DLQ to every Lambda triggered by SQS
-- Reserved concurrency intended on Result Lambda to prevent runaway costs — **currently removed**,
-  not by choice: AWS always reserves a 10-unit unreserved floor per account/region, so a
-  reservation of `N` needs total account concurrency quota ≥ `N + 10`. New/free-tier accounts can
-  start at a quota of 10, leaving zero headroom for any positive reservation. Re-add
-  `reservedConcurrentExecutions` on `ResultProcessorFunction` (`async-stack.ts`) once the
-  account's Lambda concurrency quota is raised (Service Quotas, code `L-B99A9384`) — see
-  `docs/async-stack.md`.
+- Reserved concurrency required on Result Lambda to prevent runaway costs — `reservedConcurrentExecutions: 100` is set on `ResultProcessorFunction` (`async-stack.ts`)
 
 ### ECS Fargate
 - Use `ApplicationLoadBalancedFargateService` construct for Exam Service and Submission Service

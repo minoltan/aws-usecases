@@ -63,15 +63,7 @@ export class AsyncStack extends cdk.Stack {
       entry: join(__dirname, '../../lambda/result-processor/index.js'),
       timeout: cdk.Duration.minutes(5),
       memorySize: 512,
-      // No reservedConcurrentExecutions here: AWS always keeps a minimum of
-      // 10 unreserved concurrency free per account/region, so this requires
-      // the account's total concurrent-executions quota to be at least
-      // ~110 (100 reserved + that 10 floor). New/free-tier accounts often
-      // start at a quota of 10 — with no headroom above the floor, any
-      // positive reservation fails to deploy. Re-add
-      // `reservedConcurrentExecutions: 100` once the account quota is
-      // raised (Service Quotas console, Lambda "Concurrent executions",
-      // code L-B99A9384) — see docs/async-stack.md.
+      reservedConcurrentExecutions: 100,
       logGroup: new logs.LogGroup(this, 'ResultProcessorLogGroup', {
         logGroupName: '/exam-platform/result-processor',
         retention: logs.RetentionDays.TWO_WEEKS,

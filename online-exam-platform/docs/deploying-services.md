@@ -17,12 +17,19 @@ Docker for these images. That means:
    It looks up both repo URIs from the `ExamPlatform-<env>-Exam` stack's outputs, builds each
    service's Dockerfile, and pushes `:latest`. Re-run it after every app code change — there's
    no CI pipeline wired up yet (see `CLAUDE.md`'s CI/CD section).
+
+   The script always passes `--region ap-southeast-1` explicitly (override with `REGION=...` if
+   you've changed `lib/config/environment.ts`'s region) — without that, the AWS CLI falls back
+   to your shell's *default* region, which may not be where this stack actually lives. When that
+   happens, `aws cloudformation describe-stacks --output text` doesn't error, it just prints the
+   literal string `"None"` for the missing output, which then cascades into a confusing
+   `docker login` failure (`password is empty`) several steps later.
 3. If the ECS service is already running (0 healthy tasks), force it to pick up the
-   newly-pushed image:
+   newly-pushed image (the script prints both commands, with the right `--region`, at the end):
 
    ```bash
-   aws ecs update-service --cluster ExamPlatformCluster --service exam-service --force-new-deployment
-   aws ecs update-service --cluster ExamPlatformCluster --service submission-service --force-new-deployment
+   aws ecs update-service --cluster ExamPlatformCluster --service exam-service --force-new-deployment --region ap-southeast-1
+   aws ecs update-service --cluster ExamPlatformCluster --service submission-service --force-new-deployment --region ap-southeast-1
    ```
 
 ## Building/testing locally without Docker
